@@ -1,0 +1,49 @@
+# project.txt is a pip requirements file which describes the distributions
+# required by your project to run. 
+
+# Put project-specific requirements here.
+# To install all these run the following from terminal: pip install -r project.txt
+
+
+--requirement=base.txt
+
+# http://www.freewisdom.org/projects/python-markdown
+Markdown
+# http://code.google.com/p/typogrify/
+typogrify
+html5lib
+
+# http://fi.am/entry/code-highlighting-in-django/
+# http://freewisdom.org/projects/python-markdown/CodeHilite
+Pygments
+
+# NOTA BENE: libjpeg needs to be installed manually, BEFORE PIL! 
+	# http://blaolao.com/setting-up-django-mysql-mysql-python-pil-etc
+	# http://freecode.com/projects/libjpeg
+
+	# sudo ./configure
+	# sudo make
+	# sudo make install
+
+# NOTA BENE: on some hosts PIL's setup.py needs to be fixed before installation: http://community.webfaction.com/questions/7340/how-to-install-pil-with-truetype-support
+PIL
+
+South
+
+psycopg2
+
+# https://github.com/pinax/pinax-theme-bootstrap
+pinax-theme-bootstrap==2.0.4
+django_forms_bootstrap
+
+# NECESSARY?
+# django-misc
+# django-generic-aggregation
+
+django-voting
+easy-thumbnails
+django-relationships
+BeautifulSoup
+
+# https://github.com/john-kurkowski/tldextract
+# tldextract

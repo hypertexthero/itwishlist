@@ -1,0 +1,39 @@
+{% load i18n %}
+{% load bootstrap_tags %}
+{% load url from future %}
+
+{% if profile_form.is_multipart %}
+    {# <form class="customform" method="POST" enctype="multipart/form-data" action="{% url "profile_edit" %}"> #}
+    <form class="customform" method="POST" enctype="multipart/form-data" action="/profiles/edit/{{profile.user.username}}">
+{% else %}
+    <form class="customform" method="POST" enctype="multipart/form-data" action="/profiles/edit/{{profile.user.username}}">
+{% endif %}
+    <legend>Edit Profile</legend>  
+    {% csrf_token %}
+    {{ profile_form|as_bootstrap }}
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{% trans "Update" %}</button> or <a href="{% url "profile_detail" profile.user.username %}">{% trans "Cancel" %}</a>
+    </div>
+</form>
+
+{# Help to find player id #}
+{% comment %}
+
+<div class="modal hide" id="help">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">×</button>
+    <h3>Help</h3>
+  </div>
+<div class="modal-body">
+<h4>How to Find Your Rome In-Game Player ID</h4>
+ <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+<h4>How to Find Your Rome In-Game Player Username</h4>
+
+ <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a>
+    {# <a href="#" class="btn btn-primary">Save changes</a> #}
+  </div>
+</div>
+{% endcomment %}

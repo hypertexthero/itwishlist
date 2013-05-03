@@ -1,0 +1,107 @@
+{# https://github.com/samwillis/pagedown-bootstrap #}
+{# http://stackoverflow.com/a/5930179 #}
+
+{% load blog_tags %}
+
+{{ post_form.non_field_errors }}
+
+<label for="id_title">{{ post_form.title.label }}</label>
+<div class="input{% if post_form.title.errors %} alert alert-error{% endif %}">
+    {% if u and t %}
+    	<input id="id_title" type="text" name="title" tabindex="1" maxlength="500" value="{{t}}">
+    {% else %}
+    	{{ post_form.title|tabindex:1 }}
+    {% endif %}   
+
+    {% if post_form.title.errors %}
+	    {% for error in post_form.title.errors %}
+	        {{ error|escape }}
+	    {% endfor %}
+	{% endif %}
+</div>
+<br>
+
+<label for="id_kind">Bug or New Feature?</label>
+{{ post_form.kind|tabindex:1 }}
+
+<div class="url">
+<label for="id_url">{{ post_form.url.label }} <span class="small quiet">{{ post_form.url.help_text }}</span></label>
+<div class="input{% if post_form.url.errors %} alert alert-error{% endif %}">
+
+    {% if u and t %}
+    	<input id="id_url" maxlength="500" type="text" name="url" tabindex="2" value="{{u}}" />
+    {% else %}
+    	{{ post_form.url|tabindex:1 }}
+    {% endif %}
+
+    {% if post_form.url.errors %}
+	    {% for error in post_form.url.errors %}
+	        {{ error|escape }}
+	    {% endfor %}
+	{% endif %}
+</div>
+</div>
+<br>
+
+
+<div class="wmd-panel">
+    <label for="wmd-input">{{ post_form.content_markdown.label }} <span class="quiet small"><a data-toggle='modal' href='#markdownhelp'>markdown syntax</a> · <a href="#" class="toggles">show/hide preview{# <i class="icon-chevron-left"></i> #}</a></span></label>
+    <div id="wmd-button-bar"></div>
+
+	{% if post_form.content_markdown.errors %}<div class="alert alert-error">{% endif %}
+
+	    {{ post_form.content_markdown|tabindex:3 }}
+
+	{# <textarea class="wmd-input" rows="10" id="wmd-input" name="content_markdown" cols="40" tabindex="2">{{post_form.content_markdown.value}}</textarea> #}
+
+	{% if post_form.content_markdown.errors %}
+		{% for error in post_form.content_markdown.errors %}
+		    {{ error|escape }}
+		{% endfor %}
+		</div>
+	{% endif %}
+	
+</div>
+
+{# <label for="wmd-preview"></label> #}
+<div id="wmd-preview" class="wmd-panel wmd-preview"></div>
+
+
+<div style="display:none;">
+<label for="id_category">{{ post_form.category.label }}</label>
+
+    {{ post_form.category|tabindex:4 }}
+
+    {% if post_form.category.errors %}
+	    <div class="alert alert-error">
+	    {% for error in post_form.category.errors %}
+	        {{ error|escape }}
+	    {% endfor %}
+	    </div>
+	{% endif %}
+{# <br> #}
+{# <br> #}
+</div>
+
+<label for="id_status">{{ post_form.status.label }}</label>
+
+    {{ post_form.status|tabindex:5 }}
+
+    {% if post_form.status.errors %}
+	    <div class="alert alert-error">
+	    {% for error in post_form.status.errors %}
+	        {{ error|escape }}
+	    {% endfor %}
+	    </div>
+	{% endif %}
+<br>
+<br>
+
+<label for="id_allow_comments">{{ post_form.allow_comments|tabindex:6 }} {{ post_form.allow_comments.label }}</label>
+    {% if post_form.allow_comments.errors %}
+	    <div class="alert alert-error">
+	    {% for error in post_form.allow_comments.errors %}
+	        {{ error|escape }}
+	    {% endfor %}
+	    </div>
+	{% endif %}

@@ -1,0 +1,32 @@
+{% extends "blog/blog_base.html" %}
+
+{% load i18n %}
+
+{% block head_title %}Deleting {{post.title }} - {{ user.username }}'s IT Wish List{% endblock %}
+
+{% block external_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{{ STATIC_URL }}redactor/css/editor.css" type="text/css" />
+{% endblock %}
+
+{% block external_js %}
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}redactor/editor.js" language="JavaScript" type="text/javascript"></script>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}js/blog.js" language="JavaScript" type="text/javascript"></script>
+{% endblock %}
+
+{% block body %}
+
+{# {% url blog_edit post.id %} #}
+    <form method="POST" action="">
+        {% csrf_token %}
+        <legend>Deleting entry titled</span> &ldquo;{{ post.title }}&rdquo;</legend>  
+        <p>Are you sure want to <strong class="warning">delete</strong> the entry titled "<em>{{ post.title }}</em>"?</p>
+        
+        <p><input class="btn btn-danger" type="submit" value="Yes, Delete" /> or <a href="javascript:history.go(-1)">Cancel</a></p>
+    </form>
+{% endblock %}

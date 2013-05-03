@@ -1,0 +1,247 @@
+{% extends "blog/blog_base.html" %}
+
+{% load i18n %}
+{% load blog_tags %}
+
+{% block head_title %}{{ post.title }} - {% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{ user.username }}{% endif %}'s IT Wish List{% endblock %}
+
+{% block body_id %}postdetail{% endblock body_id %}
+
+{% block body %}
+
+    {# <p class="breadcrumb"><a href="/">Home</a> / <a href="/posts/">Logs</a> / <a href="/posts/{{ post.author.username }}/">{{ post.author.username }}</a> / {{ post.slug }}</p> #}
+
+    {% check_post_status request.user post %}
+    
+    {% if show_post %}
+    <div class="row">
+        <div class="span7">
+            <div class="post">
+
+            {# get ready for voting #}
+            {% load voting_tags %}
+            {% vote_by_user user on post as vote %}
+            {% score_for_object post as score %}
+
+                {% load markup %}
+                {# {{ post.content_markdown|markdown:"safe" }} #}
+                {# http://michelf.ca/blog/2010/markdown-and-xss/ #}
+                <h1>{{ post.title|capfirst }}</h1>
+
+                    <div class="vote pull-right">
+                            <form class="postvote pull-left" id="postup{{post.id}}" action="/posts/{{ post.slug }}/{% if vote and vote.is_upvote %}clear{% else %}up{% endif %}vote/?next={% firstof request.path '/' %}" method="POST">
+                                {% csrf_token %}
+                                {% if vote and vote.is_upvote %}
+                                   <input type="submit" value="&and;" id="postuparrow{{ post.id }}" title="clear your vote">
+                                {% else %}
+                                    <input class="quiet" type="submit" value="&and;" id="postuparrow{{ post.id }}" title="upvote this story">
+                                {% endif %}
+                            </form>
+
+                        <p class="votes pull-right subdued">
+                            {% comment %}
+                            {% if score.num_votes %}
+                                {{ score.num_votes|default:0 }} vote{{ score.num_votes|default:0|pluralize }}
+                                {% else %}
+                                <span class="small quiet">0</span>
+                            {% endif %}<br>
+                            {% endcomment %}
+                            {% if score.score %}
+                                {{ score.score|default:0 }} point{{ score.score|default:0|pluralize }}
+                                {# {{ score.score|default:0 }} #}
+                            {% else %}
+                            {% endif %}
+                        </p>
+
+
+                        {# down ========================= #}
+                                {% comment %}
+                                <form class="postvote" id="postdown{{post.id}}" action="/posts/{{ post.slug }}/{% if vote and vote.is_downvote %}clear{% else %}down{% endif %}vote/?next={% firstof request.path '/' %}" method="POST">
+                                    {% csrf_token %}
+                                    {% if vote and vote.is_downvote %}
+                                        <input type="submit" value="&or;" id="postdownarrow{{ post.id }}" title="clear your vote">
+                                    {% else %}
+                                        <input class="quiet" type="submit" value="&or;" id="postdownarrow{{ post.id }}" title="downvote this story">
+                                    {% endif %}
+                                    {# <input type="submit" value="{% if vote and vote.is_downvote %}&nabla;{% else %}&dArr;{% endif %}" id="postdownarrow{{ post.id }}" title="{% if vote and vote.is_downvote %}clear your vote{% else %}downvote this story{% endif %}"> #}
+                                    {# src="/static/img/adown{% if vote and vote.is_downvote %}mod{% else %}grey{% endif %}.png" #}
+                                    {# onclick="vote('{{ post.slug }}', 'down');" #}
+                                </form>
+                                {% endcomment %}
+
+
+                        {% comment %}
+                        <form class="postvote" id="postdown{{post.id}}" action="/posts/{{ post.slug }}/{% if vote and vote.is_downvote %}clear{% else %}down{% endif %}vote/?next={% firstof request.path '/' %}" method="POST">
+                            {% csrf_token %}
+                            <input type="image" id="postdownarrow{{ post.id }}" src="/static/img/adown{% if vote and vote.is_downvote %}mod{% else %}grey{% endif %}.png" title="{% if vote and vote.is_downvote %}clear your vote{% else %}downvote this story{% endif %}">
+                        </form>
+                        {% endcomment %}
+                    </div>
+
+                <p class="subdued">
+                    By <strong><a href="/posts/{{ post.author.username }}/">{% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}</a></strong> 
+                    <br><a href="{{ post.get_absolute_url }}" class="post_link" title="Permanent link to this entry.">{{ post.updated_at|date:"D, d M Y, H:i"}} <small># permalink</small></a>
+                </p>
+
+                {% if post.kind == "B" %} {# if a bug show bug url: #}
+                    <p><b>URL:</b> <a href="{{ post.url }}">{{ post.url }}</a> {# <span class="smaller quiet">({{post.url|rootdomain}})</span> #}</p>
+                {% endif %} {# / if.note.kind == "A" #}
+
+                {{ post.content_html|safe }}
+            
+            </div>
+            
+            
+            
+            {# disqus #}
+            {% load comments %}
+            {% if post.allow_comments %}
+            <div id="commentsbox">
+                {% get_comment_count for post as comment_count %}
+                <h3 id="comments">Comments ({{ comment_count }})</h3>
+
+                
+                {% render_comment_list for post %}
+                
+                {% render_comment_form for post %}
+                {# {% get_comment_form for entry as form %} #}
+            
+                
+            </div> {# end commentsbox #}            
+            {#  #}
+            {# <ul> #}
+            {#  {% for post in post_list %} #}
+            {#      {% get_comment_count for blog.post post.id as comment_count %} #}
+            {#      <li> #}
+            {#          <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2> #}
+            {#             <p class="description">{{ post.body}}</p> #}
+            {#          <p class="details"><a href="{{ object.get_absolute_url }}">{{ comment_count }} Comments</a></p> #}
+            {#      </li> #}
+            {#  {% endfor %} #}
+            {# </ul> #}
+            {% comment %}
+                <div id="disqus_thread"></div>
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = 'itwishlist'; // required: replace example with your forum shortname
+
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                       dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            {# <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a> #}
+            {% endcomment %}
+            {% endif %}
+            
+            
+            
+            {# =todo: links to previous, next, all - only from current user #}
+            {# https://docs.djangoproject.com/en/dev/topics/pagination/ #}
+            
+            {# {% for post in post_list %} #}
+            {# <div class="pagination"> #}
+            {# {% if post.get_prev %} #}
+            {#     <a href="../{{ post.get_prev.slug }}">before: {{post.get_prev.title }}</a> #}
+            {# {% endif %} #}
+            {# {% if post.get_next %} #}
+            {#     <a href="../{{ post.get_next.slug }}">after: {{post.get_next.title }}</a> #}
+            {# {% endif %} #}
+            {# </div> #}
+            
+            
+            {# {% endfor %} #}
+            
+            {# {% for post in post_list %}     #}
+            {#        <div class="pagination"> #}
+            {#            <span class="step-links"> #}
+            {#                {% if post_list.has_previous %} #}
+            {#                    <a href="?page={{ post_list.previous_page_number }}">previous</a> #}
+            {#                {% endif %} #}
+            {#  #}
+            {#                <span class="current"> #}
+            {#                    Page {{ post_list.number }} of {{ post_list.paginator.num_pages }}. #}
+            {#                </span> #}
+            {#  #}
+            {#                {% if posts.has_next %} #}
+            {#                    <a href="?page={{ post_list.next_page_number }}">next</a> #}
+            {#                {% endif %} #}
+            {#            </span> #}
+            {#        </div> #}
+            {#        {% endfor %} #}
+            
+        </div>
+
+       <div class="span4">
+            {% ifnotequal post.author request.user %}
+                    {% if post.author.get_profile.user_photo %}
+                    {% load thumbnail %}
+                    <p><a href="/profiles/{{post.author.username}}"><img class="player-img" src="{% thumbnail post.author.get_profile.user_photo 260x180 crop %}" /></a></p>{% endif %}
+
+                    <p class="lead subdued">
+                        {# http://stackoverflow.com/a/9667189/412329 #}
+                        {% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}
+                    </p>
+                    <p class="subdued">
+                    {% if post.author.get_profile.date_joined %}Member since: {{post.author.get_profile.date_joined|date:"j F Y"}}{% endif %}    
+                    <br>
+                    <a href="/profiles/{{post.author.username}}" title="Profile."><i class="icon-user"></i> Profile</a> <a href="/posts/{{post.author.username}}"><i class="icon-list"></i> Posts</a>
+                    </p>
+            {% endifnotequal %}
+
+            {% ifequal post.author request.user %}
+                <p class="meta well">
+                    <span class="caps"><a href="/desk/">Desk Actions</a></span>
+                    <br>
+                    <a href="{% url blog_edit post.id %}"><i class="icon-edit"></i> edit</a>
+                     {% if post.status == 1 %}
+                        <br>
+                        {# <b class="tip">{% trans "This post is an unpublished draft." %}</b> #}
+                        <a href="{% url blog_change_status 'public' post.id %}"><i class="icon-ok"></i> {% trans "publish" %}</a>
+                        {# {% else %} #}
+                        {# <a href="{% url blog_change_status 'draft' post.id %}" class="inline_action btn tip">{% trans "make draft?" %}</a> #}
+                        {% else %}
+                        <br>
+                        {# {% trans "This post is currently Live." %} #}
+                        <a href="{% url blog_change_status 'draft' post.id %}"><i class="icon-inbox"></i> {% trans "move to drafts" %}</a>
+                    {% endif %}
+                    <br>
+                    <a href="{% url blog_delete post.id %}"><i class="icon-remove"></i> delete</a> 
+                </p>
+            {% endifequal %}
+
+
+
+
+    
+
+            
+
+
+        
+        {# http://django-relationships.readthedocs.org/en/latest/getting_started.html #}
+        {% comment %}
+        {% ifnotequal post.author request.user %}
+        {% load relationship_tags %}         
+        <p style="margin-top:2em;">
+        {# decide whether or not the current user is following this user #}
+        {% if_relationship request.user post.author.get_profile.user "following" %}
+            {# they are following them, so show a "remove" url #}
+            <a class="btn btn-smaller" href="{{ post.author.get_profile.user|remove_relationship_url:"following" }}">Unfollow</a>
+        {% else %}
+            {# they are not following them, so show a link to start following #}
+            <a class="btn btn-smaller" href="{{ post.author.get_profile.user|add_relationship_url:"following" }}">Follow</a>
+        {% endif_relationship %}
+        </p>
+        {% endifnotequal %}
+        {% endcomment %}
+    
+
+
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

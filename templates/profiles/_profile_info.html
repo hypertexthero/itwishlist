@@ -1,0 +1,111 @@
+{% load i18n %}
+
+{# <p class="breadcrumb"><a href="/">Home</a> / <a href="/profiles/">Profiles</a> /  #}
+{#     {% ifequal request.user other_user %}{{ profile.name }}{% else %}{{ profile.user.username }}{% endifequal %} #}
+{# </p> #}
+
+
+<div class="hero-unit">
+    <div class="pull-right">
+        {% if profile.user_photo %}
+            {% load thumbnail %}
+            {# <p><a href="/posts/{{profile.user.username}}"><img src="/uploads/{{ profile.user_photo }}" /></a></p> #}
+            <p><a href="/posts/{{profile.user.username}}"><img class="player-img" src="{% thumbnail profile.user_photo 260x180 crop %}" /></a></p>
+        {% endif %}
+            {# https://docs.djangoproject.com/en/dev/topics/db/queries/#related-objects #}
+            {# {% for photo in object.photo_set.all %} #}
+            {# {{ photos }} #}
+                {# <li> #}
+                    {# <a href="/uploads/{{ profile.user_photo }}"><img src="{% thumbnail profile.user_photo 150x150 %}" /></a> #}
+                    
+                {# </li>                 #}
+            {# {% endfor %} #}
+
+        {# <p>itwishlist.com Username: {{profile.user.username}}</p> #}
+            {# <small> #}
+                {% if profile.date_joined %}Member since: {{profile.date_joined|date:"j F Y"}}{% endif %}<br><a href="/posts/{{profile.user.username}}"><i class="icon-list"></i> Posts</a>
+            {# </small> #}
+    </div>
+    {# <br class="clearfix"> #}
+    {% if profile.name %} 
+        {% ifequal request.user other_user %}
+            <h1 style="margin-bottom:0.25em;">{{ profile.user.username }}</h1>
+            <p>No profile information entered yet.</p>
+        {% else %}
+            {# <p class="nomp"><b>{% trans "Name" %}:</b></p> #}
+             {# <span class="normal">({{ profile.user.username }})</span></b> #}
+            <h1 style="margin-bottom:0.25em;">{{ profile.name }}</h1>
+        {% endifequal %}
+    {% else %}
+        <p style="max-width:60%;">No profile information entered yet. <br>{% if is_me %}<a href="/profiles/edit/{{profile.user.username}}">Edit your profile</a>.{% endif %}</p>
+        {# <p>No profile information entered yet. <a href="/profiles/edit/{{profile.user.username}}">Edit your profile</a> to generate a URL you can add to your Rome in-game profile so your information appears inside Rome.</p> #}
+    {% endif %}
+    <div class="profile_info">
+        <p>
+        {% if profile.email %}<b>{% trans "Email" %}</b>: {{ profile.email }}<br>{% endif %}
+        {% if profile.url %}<b>{% trans "URL" %}</b>: <a href="{{ profile.url }}">{{ profile.url }}</a><br>{% endif %}
+        {% if profile.im %}<b>{% trans "IM" %}</b>: {{ profile.im }}<br>{% endif %}
+        {% if profile.remark %}<b>{% trans "Remark" %}</b>: {{ profile.remark }}<br>{% endif %}
+        {# {% if profile.website %}<p><b>{% trans "Website" %}</b>: <a href="{{ profile.website }}">{{ profile.website }}</a></p>{% endif %} #}
+        </p>
+    </div>
+
+    {% load account_tags %}
+    {% load url from future %}
+    {% if is_me %}
+        {# <p class="pull-right"><a class="btn btn-primary btn-large" href="{% url "profile_edit" %}" class="btn">{% trans "Edit my profile" %}</a></p> #}
+        <div class="form-actions">
+            <p><a class="btn btn-primary btn-large" href="/profiles/edit/{{profile.user.username}}" class="btn">{% trans "Edit profile" %}</a></p>
+        </div>
+    {% endif %}
+
+</div>
+
+
+
+
+
+{# http://django-relationships.readthedocs.org/en/latest/getting_started.html #}
+{% if user.is_authenticated %}
+{% load relationship_tags %}         
+{% if is_me %}
+
+    {% else %}
+
+    {# decide whether or not the current user is following this user #}
+    {% if_relationship request.user profile.user "following" %}
+        {# they are following them, so show a "remove" url #}
+        <a class="btn btn-smaller" href="{{ profile.user|remove_relationship_url:"following" }}">Unfollow</a>
+    {% else %}
+        {# they are not following them, so show a link to start following #}
+        <a class="btn btn-smaller" href="{{ profile.user|add_relationship_url:"following" }}">Follow</a>
+    {% endif_relationship %}
+
+{% endif %}
+{% endif %}
+
+
+
+
+
+
+
+
+{% comment %}
+{# show only to authenticated user who is also the owner of the profile #}
+{% if user.is_authenticated %}
+{% if profile.name %}
+{% ifequal user.username profile.user.username %}
+{# or {% if is_me %} #}
+        <p class="lead">
+        Add this URL to your Rome in-game profile to display the above information in-game <span class="small normal"><a data-toggle="modal" href="#help">(how?)</a></span>:
+        </p>
+        <div class="well alert alert-info">
+                {# =todo: Find out if spaces in the URL profile name get resolved by Arma2/Rome properly #}
+                <h2><strong>http://{{SITE_NAME}}/profiles/{{profile.user.username|lower|slugify}}/squad.xml</strong></h2>
+        </div>
+{% endifequal %}
+{% endif %}
+{% endif %}
+{% endcomment %}
+{% include "profiles/help.html" %}

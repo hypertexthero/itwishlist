@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load ifsetting_tag %}
+{% load staticfiles %}
+{% load url from future %}
+
+{% block head_title %}{% trans "FAQ" %}{% endblock %}
+{% block extra_head %}
+	<style type="text/css">
+		h3 {cursor:pointer; margin-top:1em;}
+		.showhideanswers a {cursor:pointer;}
+		h3.darkheadings a {color:#2e2a1f;}
+	</style>
+	<noscript>
+        <style type="text/css" media="screen">
+            .showhideanswers {display:none;}
+            h3 a {text-decoration:none;}
+        </style>
+    </noscript>
+{% endblock extra_head %}
+
+{% block body %}
+<h1 class="normal">{% trans "Frequently Asked Questions" %}</h1>
+
+<div class="row">
+
+	<ul class="showhideanswers pull-right unstyled">
+			<!-- this will be hidden when JavaScript is disabled -->
+			<li><a class="showall">Show all answers</a></li>
+			<li><a class="hideall">Hide all answers</a></li>
+		</ul>
+
+	<div class="span7">
+{% comment %}	    
+		<h3 id="dayz">
+			<a href="#dayz" title="Click this link and copy the URL from the web browser address bar for a direct link to this particular FAQ.">Rome?</a>
+		</h3>
+		<div class="answer">
+			<p><a href="http://www.dayzmod.com">Rome</a> is a modification (mod) of a men-with-guns simulation called <a href="http://www.arma2.com">Arma 2</a>. It is arguably the game that the relatively tedious simulation was missing. Arma 2 provides large maps with forests and urban areas, accurate ballistic physics, realistic sound, day, night and weather cycles, lots of guns and vehicles. Rome provides survival gameplay (hide, scavenge, hunt), player location, inventory and condition persistence, flares, chemlights, axes, firewood, beans, multiple human-controlled players and a computer-controlled zombie horde.</p>
+
+			<p>To play Rome you need (currently Windows-only):</p>
+
+			<ol>
+				<li>A copy of the imaginatively-named <a href="http://store.steampowered.com/agecheck/sub/4639">Arma 2: Combined Ops</a>.</li>
+				<li><a href="http://dayzmod.com/?Download">The Rome mod</a>. There are <a href="http://www.dayzwiki.com/wiki/How_to_install_DayZ">installation instructions at Rome Wiki</a>.</li>
+			</ol>
+		</div>
+
+		<h3 id="itwishlist">
+			<a href="#itwishlist" title="Click this link and copy the URL from the web browser address bar for a direct link to this particular FAQ.">IT Wish List?</a>
+		</h3>
+		<div class="answer">
+			<p>itwishlist.com is a website for people who have experienced Rome&rsquo;s human-zombie apocalypse — also known as &lsquo;survivors&rsquo; — to share their stories on the web and in-game. After <a href="/account/signup/">signing up for an account</a>, survivors can:</p> 
+
+			<ol>
+				<li>Write log entries.</li>
+				<li>Display profile information on the in-game Rome player roster. Survivors do this by editing their profile on itwishlist.com and <a href="#profileingame">pasting a generated URL to their in-game Rome settings</a>.</li>
+				<li>Follow other survivor&rsquo;s logs&rsquo;, comment and vote on their entries. The homepage shows the top 30.</li>
+			</ol>
+		</div>
+
+		<h3 id="profileingame">
+			<a href="#profileingame" title="Click this link and copy the URL from the web browser address bar for a direct link to this particular FAQ.">How do I display my itwishlist.com profile information in-game?</a>
+		</h3>
+		<div class="answer">
+			<ol>
+				<li><a href="/account/signup/">Sign up for an account</a> at itwishlist.com</li>
+				<li>{% if user.is_authenticated %}<a href="/profiles/edit/{{user.username}}">Edit your profile</a>{% else %}Edit your profile{% endif %} at itwishlist.com, <b>making sure to add your in-game Player ID</b>, which you can find by doing the following:
+					<ol style="list-style-type:lower-alpha;">
+						<li>Start Rome, go to the main menu and click on <b>&lsquo;Player profile&rsquo;</b>.</li>
+						<li>Select your player name and click <b>&lsquo;Edit&rsquo;</b>.</li>
+						<li>Write down the number displayed in the <b>Player ID</b> field. <b>You must add your Player ID in order to correctly display your itwishlist.com profile information within Rome</b>.</li>
+					</ol>
+				</li>
+				<li>Back in Rome, insert the generated URL found in {% if user.is_authenticated %}<a href="/profiles/{{user.username}}">your itwishlist.com profile page</a>{% else %}your itwishlist.com profile page{% endif %} 
+
+
+				{% if user.is_authenticated %}
+					— yours is <strong>http://{{SITE_NAME}}/profiles/{{user.username|lower|slugify}}/squad.xml</strong> —
+					{% else %}
+				{% endif %}
+				
+
+					 into your in-game Rome settings by doing the following:
+					<ol style="list-style-type:lower-alpha;">
+						<li>Start Rome, go to the main menu and click on <b>&lsquo;Player profile&rsquo;</b>.</li>
+						<li>Select your player name and click <b>&lsquo;Edit&rsquo;</b>.</li>
+						<li>Add your generated URL to the <b>&lsquo;Squad URL:&rsquo;</b> field and click <b>&lsquo;Okay&rsquo;</b>.</li>
+					</ol>	
+				</li>
+			</ol>
+
+			<p>Your itwishlist.com profile information will now be visible in-game by pressing <kbd>&lsquo;p&rsquo;</kbd> to open the player roster and clicking on your player name. Remember that <i>your itwishlist.com profile name is the extended name that appears in-game in the brown box furthest to the right</i>. If you want this extended name to match the in-game player name that appears in the roster <i>(the middle brown box)</i>, either write that same name in your profile here at itwishlist.com or create another in-game player with the same name:</p>
+
+
+			<img src="{% static "img/player-roster.jpg" %}" alt="An in-game screenshot of the player roster. Notice that the player has found a map, watch and compass!" />
+
+		</div>
+
+		<h3 id="playerid">
+	    	<a href="#playerid" title="Click this link and copy the URL from the web browser address bar for a direct link to this particular FAQ.">My Rome in-game player id: how do I find it?</a>
+	   	</h3>
+		<div class="answer">
+			<ol>
+				<li>Start Rome, go to the main menu and click on <b>&lsquo;Player profile&rsquo;</b>.</li>
+				<li>Select your player name and click <b>&lsquo;Edit&rsquo;</b>.</li>
+				<li>Write down the number displayed in the <b>Player ID</b> field. <b>Remember to {% if user.is_authenticated %}<a href="/profiles/edit/{{user.username}}">update your profile</a>{% else %}update your itwishlist.com profile{% endif %} with this exact Player ID in order to correctly display your profile information within Rome.</b>.</li>
+			</ol>
+		</div>
+
+
+		<h3 id="how">
+	    	<a href="#how" title="Click this link and copy the URL from the web browser address bar for a direct link to this particular FAQ.">How can the Rome in-game roster access my itwishlist.com profile?</a>
+	   	</h3>
+		<div class="answer">
+			<p>When you create a itwishlist.com profile, a squad.xml file and URL are generated for you. You can learn more about squad.xml <a href="http://community.bistudio.com/wiki/squad.xml">here</a>.</p>
+		</div>
+{% endcomment %}
+		<h3 id="images">
+	    	<a href="#images" title="Click this link and copy the URL from the web browser address bar for a direct link to this particular FAQ.">How do I insert an image in an article?</a>
+	   	</h3>
+		<div class="answer">
+			<ol>
+				<li>Upload your image to <a href="http://imgur.com">imgur.com</a> or another image hosting service</li>
+				<li>Use the following <a data-toggle="modal" href="#markdownhelp">Markdown syntax</a> to insert the image into your post:</li>
+			</ol>
+
+<pre>![My photo description](http://i.imgur.com/j7QY7.jpg)</pre>
+		</div>
+
+		
+
+ 	</div>
+ </div>
+
+ {% include "includes/markdown_cheatsheet.html" %}
+
+{% endblock %}
+
+{% block extra_body %}
+	<script src="{% static "js/fafaq.js" %}"></script>
+{% endblock %}

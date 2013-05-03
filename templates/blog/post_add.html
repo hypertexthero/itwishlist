@@ -1,0 +1,161 @@
+{% extends "blog/blog_base.html" %}
+{% load staticfiles %}
+
+{% block head_title %}New Post - {{user.username}}{% endblock %}
+
+{% block extra_style %}
+    <link href="{% static "css/Markdown.Editor.css" %}" rel="stylesheet">
+{% endblock extra_style %}
+
+{% block body_class %}entryform{% endblock %}
+
+{% block body %}
+
+{% load bootstrap_tags %}
+<form class="customform" id="add_post" method="POST" action="{% url blog_add %}">
+    {% csrf_token %}
+    <fieldset>
+        {# <legend>New Post</legend>   #}
+        {# {{ post_form|as_bootstrap }} #}
+        {% include "blog/entry_form.html" %}
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary btn-large" tabindex="7">Submit</button> or <a href="javascript:history.go(-1)">Cancel</a>
+        </div>
+    </fieldset>
+</form>
+
+{% include "includes/markdown_cheatsheet.html" %}
+{% comment %}
+
+        <h2>1. This is the basic editor</h2>
+        <div class="wmd-panel">
+            <div id="wmd-button-bar"></div>
+<textarea class="wmd-input" id="wmd-input">
+This is the *first* editor.
+------------------------------
+
+Just plain **Markdown**, except that the input is sanitized:
+
+<marquee>I'm the ghost from the past!</marquee>
+</textarea>
+        </div>
+        <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
+
+
+{% endcomment %}
+
+{% comment %}
+    
+
+        <h2>2. This is a custom editor</h2>
+        
+        <div class="wmd-panel">
+            <div id="wmd-button-bar-second"></div>
+<textarea class="wmd-input" id="wmd-input-second">
+This is the *second* editor.
+------------------------------
+
+It has a plugin hook registered that surrounds all words starting with the
+letter A with asterisks before doing the Markdown conversion. Another one gives bare links
+a nicer link text. User input isn't sanitized here:
+
+<marquee>I'm the ghost from the past!</marquee>
+
+http://google.com
+
+http://stackoverflow.com
+
+It also includes a help button.
+</textarea>
+        </div>
+        <div id="wmd-preview-second" class="wmd-panel wmd-preview"></div>
+{% endcomment %}
+
+{% endblock %}
+
+{% block extra_script %}
+    <script src="{% static "js/Markdown.Converter.js" %}"></script>
+    <script src="{% static "js/Markdown.Sanitizer.js" %}"></script>
+    <script src="{% static "js/Markdown.Editor.js" %}"></script>
+
+    <script type="text/javascript">
+    (function () {
+        var converter1 = Markdown.getSanitizingConverter();
+        var editor1 = new Markdown.Editor(converter1);
+        editor1.run();
+        
+        // var converter2 = new Markdown.Converter();
+
+        // converter2.hooks.chain("preConversion", function (text) {
+        //     return text.replace(/\b(a\w*)/gi, "*$1*");
+        // });
+
+        // converter2.hooks.chain("plainLinkText", function (url) {
+        //     return "This is a link to " + url.replace(/^https?:\/\//, "");
+        // });
+        
+        var help = function () { alert("Do you need help?"); }
+        
+        // var editor2 = new Markdown.Editor(converter2, "-second", { handler: help });
+        
+        // editor2.run();
+    })();
+
+
+// toggle preview =todo: get this working in an include
+// http://stackoverflow.com/a/9380998
+// http://jsfiddle.net/andresilich/dQ5b7/1/
+$('a.toggles').click(function() {
+    // $('a.toggles i').toggleClass('icon-chevron-left icon-chevron-right');
+
+    $('#wmd-preview').animate({
+        height: 'toggle'
+    }, 200);
+    // $('#content').toggleClass('span12 span9');
+});
+
+$('#wmd-preview').toggle(
+
+function() {
+    $(this).css({
+        'display': 'block'
+    });
+}, function() {
+    $(this).css({
+        'display': 'none'
+    });
+});
+
+
+
+
+
+// Disable link url field if note kind is Article
+// http://stackoverflow.com/a/4597170/412329
+// http://jsfiddle.net/gnarf/GpmSs/2/        
+// TODO?: alternative - http://stackoverflow.com/a/2171606/412329        
+
+$(document).ready(function(){            
+    
+    var $kind = $('#id_kind'),
+        $url = $('.url');
+        $wmdpanel = $('.wmd-panel');
+
+    $kind.change(function() {
+        if ($kind.val() == 'B') {
+            $url.removeAttr('disabled').show();
+            // $wmdpanel.attr('disabled', 'disabled').val('').hide();
+
+        } else {
+            $url.attr('disabled', 'disabled').val('').hide();
+            $wmdpanel.removeAttr('disabled').show();
+        }
+    }).trigger('change'); // added trigger to calculate initial state
+    // 
+    // $("input[type=text]").click(function() { // automatically select text on click - http://stackoverflow.com/a/3150370/412329
+    //    $(this).select();
+    // });
+});
+</script>
+{% endblock extra_script %}

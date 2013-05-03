@@ -1,0 +1,77 @@
+{% load i18n %}
+{% load ifsetting_tag %}
+{% load url from future %}
+{% load blog_tags %}
+
+        {% if user.is_authenticated %}
+            <div class="btn-group pull-right">
+                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                    {{ user }}
+                    <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    {% block user_links %}
+                    <li {% active request "^/account/email/$" %}><a href="{% url "acct_email" %}"><i class="icon-wrench"></i> {% trans "Account" %}</a></li> 
+                    {# <li><a href="{% url "profile_detail" user.username %}"><i class="icon-user"></i> {% trans "Profile" %}</a></li> #}
+                    <li {% active request "^/posts/" %}><a href="/posts/{{ user.username }}" title="Your public homepage at itwishlist.com"><i class="icon-list"></i> Posts</a></li>
+                <li{% active request "^/following/$" %}><a href="/following/" title="Posts by users you are following on itwishlist.com"><i class="icon-hand-left"></i> Following</a></li>
+                <li{% active request "^/followers/$" %}><a href="/followers/" title="Posts by users who are following your itwishlist.com posts"><i class="icon-hand-right"></i> Followers</a></li>
+                    {% if user.is_staff %}
+                    <li><a href="{% url "admin:index" %}"><i class="icon-cog"></i> {% trans "Admin" %}</a></li>
+                    {% endif %}
+                    <li class="divider"></li>
+                    <li><a href="{% url "acct_logout" %}"><i class="icon-off"></i> {% trans "Log out" %}</a></li>
+                    {% endblock %}
+                </ul>
+            </div>
+        {% else %}
+            <ul class="nav pull-right">
+                <li><a href="{% url "acct_login" %}">{% trans "Log in" %}</a></li>
+                {% ifsetting ACCOUNT_OPEN_SIGNUP %}
+                <li class="navbar-text">{% trans "or" %}</li>
+                <li><a href="{% url "acct_signup" %}">{% trans "Sign up" %}</a></li>
+                {% endifsetting %}
+            </ul>
+        {% endif %}
+        
+ 
+
+    {% if user.is_authenticated %}
+        {# <p class="navbar-text pull-left">{% trans "Logged in as:" %}</p> #}
+            <ul class="nav pull-right">
+                <li{% active request "^/post/$" %}><a href="/post/" title="Post a link or article.">Post</a></li> {# <i class="icon-pencil icon-white"></i>  #}
+                <li{% active request "^/desk/$" %}><a href="/desk/" title="Your links and entries, draft and public.">Desk</a></li>    
+                <li id="nav-profile"><a href="/profiles/{{ user.username }}" title="Your profile.">Profile</a></li>
+                
+                {# <li{% active request "^/relationships/(?P<username>[\w\._\-]+)/$" %}><a href="/relationships/">Relationships</a></li> #}
+            </ul>
+    {% endif %}
+
+    {# <ul class="nav pull-right"> #}
+    {#         {% if user.is_authenticated %} #}
+    {#             <li class="dropdown"> #}
+    {#                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> #}
+    {#                     {{ user }} #}
+    {#                     <b class="caret"></b> #}
+    {#                 </a> #}
+    {#                 <ul class="dropdown-menu"> #}
+    {#                     {% block user_links %} #}
+    {#                         <li><a href="{% url "acct_email" %}"><i class="icon-wrench"></i> {% trans "Account" %}</a></li>  #}
+    {#                         <li><a href="{% url "profile_detail" user.username %}"><i class="icon-user"></i> {% trans "Profile" %}</a></li> #}
+    {#                         {% if user.is_staff %} #}
+    {#                             <li><a href="{% url "admin:index" %}"><i class="icon-cog"></i> {% trans "Admin" %}</a></li> #}
+    {#                         {% endif %} #}
+    {#                         <li class="divider"></li> #}
+    {#                         <li><a href="{% url "acct_logout" %}"><i class="icon-off"></i> {% trans "Log out" %}</a></li> #}
+    {#                     {% endblock %} #}
+    {#                 </ul> #}
+    {#             </li> #}
+    {#         {% else %} #}
+    {#             <li><a href="{% url "acct_login" %}">{% trans "Log in" %}</a></li> #}
+    {#             {% ifsetting ACCOUNT_OPEN_SIGNUP %} #}
+    {#                 <li class="navbar-text">{% trans "or" %}</li> #}
+    {#                 <li><a href="{% url "acct_signup" %}">{% trans "Sign up" %}</a></li> #}
+    {#             {% endifsetting %} #}
+    {#         {% endif %} #}
+    {#     </ul> #}
+

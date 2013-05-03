@@ -1,0 +1,87 @@
+{% extends "blog/blog_base.html" %}
+
+{# {% block title %}Categories - {% endblock %} #}
+
+{# {% block bodyid %}{{ slug }}{% endblock %} #}
+
+{% comment %}
+{% block extrahead %}
+    <style type="text/css" media="screen">
+        body#{{ category.slug }} ul.globalnav li a.{{ category.slug }}-nav {background:transparent url(/static/img/globalnav-current-resources.gif) no-repeat 50% bottom !important; color:#000 !important; font-weight:bold;}
+    </style>
+{% endblock %}
+{% endcomment %}
+
+{# {% block bodyid %}{{ category.slug }}{% endblock %} #}
+{% block head_title %}{{ category.title }}{% endblock %}
+
+{% block body %}
+
+{# todo: show only featured objects #}
+
+{% comment %}
+{% for object in object_list %}
+    {% if object.featured %}
+        <div class="featured">
+            <p class="quiet">Featured Resources:</p>
+                <h1 style="margin-top:0;"><a href="{{ object.get_absolute_url }}">{{ object.title }}</a> <span class="quiet normal smaller">{{ object.pub_date|date:"F j, Y" }}</span></h1>
+                {# {% if object.excerpt_html %} #}
+                {#     {{ object.excerpt_html|safe }} #}
+                {# {% else %} #}
+                    {{ object.body_html|truncatewords_html:"50"|safe }}
+                {# {% endif %}       #}
+        </div>
+    {% endif %}      
+{% endfor %}
+{% endcomment %}
+
+    <h1 class="first">{{ object.title }}</h1>
+    {# {% if user.is_staff %}  #}
+        {# <a class="pull-right" href="/admin/blog/category/{{ category.id }}">edit category title</a> #}
+        {# TODO: this URL is hackish - make it better #}
+    {# {% endif %} #}
+    {# {{ category.description_html|safe }} #}
+    
+
+    
+{% if object_list %}
+    
+            <table class="tablesorter {sortlist: [[1,1]]}" border="1" cellspacing="0" cellpadding="1"> 
+                {# <caption>My Latest Changes</caption> #}
+                <thead>
+                    <tr>
+                        {# <th>Tags</th> #}
+                        <th>Title <span class="small normal quiet">click titles to go to the post</span></th>
+                        <th>Date <span class="small normal"><acronym title="ISO Date Format: YEAR-MONTH-DAY">Y-M-D</acronym></span></th>    
+                    </tr>
+                </thead>
+                <tbody>
+    
+    {% for object in object_list %}
+       <tr>
+           {# <td class="typetd">{{ post.tag }}</td> #}
+           <td>
+               <a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
+    
+               
+               {% if user.is_staff %} 
+                   <a class="edit" href="/admin/blog/post/{{ object.id }}">edit</a>{# TODO: this URL is hackish - make it better #}
+               {% endif %}
+               
+               {# {% load thumbnail %} #}
+               {# https://docs.djangoproject.com/en/dev/topics/db/queries/#related-objects #}
+               {# {% for photo in object.photo_set.all %}                        #}
+                           {# <img src="{% thumbnail photo.image 15x15 %}" /> #}
+               {# {% endfor %} #}
+               
+               
+               </td>
+           <td class="datetd">{{ post.created_at|date:"Y-m-j" }}</td>
+       </tr>
+       {% endfor %}
+    </tbody>
+    </table>
+
+{% endif %}
+
+{% endblock %}
