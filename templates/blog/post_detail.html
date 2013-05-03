@@ -80,7 +80,7 @@
 
                 <p class="subdued">
                     By <strong><a href="/posts/{{ post.author.username }}/">{% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}</a></strong> 
-                    <br><a href="{{ post.get_absolute_url }}" class="post_link" title="Permanent link to this entry.">{{ post.updated_at|date:"D, d M Y, H:i"}} <small># permalink</small></a>
+                    on <a href="{{ post.get_absolute_url }}" class="post_link" title="Permanent link to this entry.">{{ post.updated_at|date:"D, d M Y, H:i"}} <small># permalink</small></a>
                 </p>
 
                 {% if post.kind == "B" %} {# if a bug show bug url: #}

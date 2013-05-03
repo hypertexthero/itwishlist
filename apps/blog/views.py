@@ -240,6 +240,28 @@ def user_post_list(request, *kargs, **kwargs):
     # return category
 
 # =todo: These should probably be a Categories model, but need to move on in the simplest possible way for now
+def feature(request): 
+    """Features"""
+    return object_list(request, 
+        # Display Eat OR Everything
+        # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
+        queryset=Post.hot.most_loved().filter(status=IS_PUBLIC, kind='F').order_by('-created_at')[:300], 
+        template_name='new.html',
+        template_object_name='post',
+        extra_context= {"profile": get_profiles}
+    )
+    
+def bug(request): 
+    """Bugs"""
+    return object_list(request, 
+        # Display Eat OR Everything
+        # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
+        queryset=Post.hot.most_loved().filter(status=IS_PUBLIC, kind='B').order_by('-created_at')[:300], 
+        template_name='new.html',
+        template_object_name='post',
+        extra_context= {"profile": get_profiles}
+    )
+    
 def eat(request): 
     """Eat category"""
     return object_list(request, 

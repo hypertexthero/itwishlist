@@ -72,6 +72,8 @@
                                             <li><a class="brand" href="{% url "home" %}" title="IT Wish List - top posts">IT Wish List (HOT)</a></li>
                                             {# <li{% active request "^/$" %}><a href="/" title="Most popular entries - the IT Wish List homepage">Hot</a></li> #}
                                             <li{% active request "^/new/$" %}><a href="/new/" title="Latest Posts">New</a></li>
+                                            <li{% active request "^/bug/$" %}><a href="/bug/" title="Bug Reports with most votes">Bugs</a></li>
+                                            <li{% active request "^/feature/$" %}><a href="/feature/" title="Feature Requests with most votes">Features</a></li>
                                             
                                             {% comment %}
 

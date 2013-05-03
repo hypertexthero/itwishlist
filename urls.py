@@ -31,6 +31,9 @@ urlpatterns = patterns("",
     url(r"^$", "itwishlist.apps.blog.views.homepage", name="home"),
     url(r"^new/$", "itwishlist.apps.blog.views.new", name="new"),
 
+    url(r"^bug/$", "itwishlist.apps.blog.views.bug", name="bug"),
+    url(r"^feature/$", "itwishlist.apps.blog.views.feature", name="feature"),
+    
     url(r"^eat/$", "itwishlist.apps.blog.views.eat", name="eat"),
     url(r"^sleep/$", "itwishlist.apps.blog.views.sleep", name="sleep"),
     url(r"^socialize/$", "itwishlist.apps.blog.views.socialize", name="socialize"),
