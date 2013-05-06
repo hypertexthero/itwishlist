@@ -6,7 +6,8 @@
         {% if next %}<input name="next" type="hidden" value="{{ next }}" />{% endif %}
         {% for field in form %}
             {% if field.name = "name" %}
-                <input id="id_name" name="name" type="hidden" value="{{ user.username }}">
+            {# =todo: make username populate name field by default instead of using hidden value #}
+                {# <input id="id_name" name="name" type="hidden" value="{{ user.username }}">  #}
             {% endif %}
             {% if field.is_hidden %}
                 {{ field }}

@@ -331,11 +331,13 @@ def art(request):
 # http://stackoverflow.com/a/2167434/412329
 from django.http import HttpResponseRedirect
 from django.contrib.comments import Comment
+from django.contrib.auth.models import User
 
 def comment_posted(request):
     if request.GET['c']:
         comment_id = request.GET['c'] #B
         comment = Comment.objects.get( pk=comment_id )
+        # name = request.user
         post = Post.objects.get(id=comment.object_pk) #C
         if post:
             return HttpResponseRedirect( post.get_absolute_url() ) #D
