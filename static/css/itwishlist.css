@@ -26,7 +26,7 @@ legend {border-color:#e7e6db;}
 hr {color:#d7d5c6; border-color:#d7d5c6; }
 a:link {color:#060;}
 a:visited {color:#030;}
-div.post a, div#content a, div#wmd-preview {text-decoration:underline;}
+div.post a, div#content a, div#wmd-preview a {text-decoration:underline;}
 /*a:hover, a:active {text-decoration:none; color:#000; outline:none;}*/
 /*.btn {padding-bottom:0.45em;}*/
 a.btn {color:#fff;}
