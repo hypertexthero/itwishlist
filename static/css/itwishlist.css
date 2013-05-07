@@ -1,4 +1,4 @@
-body {padding-top: 0; background:#fff; color:#2e2a1f; font-family:verdana, sans-serif;}
+body {padding-top: 0; background:#fff; color:#000; font-family:verdana, sans-serif;}
  /*url(/static/img/background.jpg) repeat 0 0;*/
 a.brand {font-size:1.2em !important; vertical-align:middle; color:#c00; font-family:georgia, serif; letter-spacing:0.1em; color:#bbb !important; background:url(/static/img/ippc-logo-small.png) no-repeat 0 10px; margin-left:0 !important; padding-left:36px !important;}
 body.home a.brand {color:#fff !important;}
@@ -76,8 +76,9 @@ input#user_photo-clear_id {display:block;}
 div.post {margin-bottom:5em;}
 .post-title a {color:#000; text-decoration:none;}
 
-td.number {width:0.5em;font-weight:normal; color:#c3c0b3; text-align:right;}
-td.vote {width:0.5em;text-align:center; font-weight:normal;}
+td.number {width:0.5em;font-weight:normal; color:#999; text-align:right;}
+td.vote {width:0.5em;text-align:center;}
+form.postvote input {font-weight:bold;}
 div.vote {font-weight:bold; vertical-align:middle;}
 p.votes {font-size:0.9em; text-align:right; margin:0 !important; padding:0 0 0 1em !important;}
 body#postdetail p.votes {text-align:left; padding-left:0.15em !important;}
@@ -85,7 +86,7 @@ td.entry {vertical-align:middle;}
 
 form.postvote, form.postvote input {margin:0 !important; padding:0 !important;}
 .postvote input {border:0; background:none; font-size:1em; color:#930; font-family:"courier new", courier, monospace;}
-.postvote input.quiet {color:#aeaba0;}
+.postvote input.quiet {color:#ccc;}
 
 /*body#log form.postvote, */
 body#log form.postvote {display:inline;} 
@@ -95,16 +96,16 @@ body#log form.postvote {display:inline;}
 .block {display:block;}
 .alignright {text-align:right !important;}
 .alignleft {text-align:left !important;}
-.quiet, input[placeholder] {color:#aeaba0;}
-.subdued {color:#9c998f;}
-a.quiet {color:#aeaba0;}
-a.subdued {color:#9c998f;}
+.quiet, input[placeholder] {color:#999;}
+.subdued {color:#999;}
+a.quiet {color:#999;}
+a.subdued {color:#999;}
 .normal {font-weight:normal;}
 .bold {font-weight:bold;}
 /*.tip {background:#ffc;}*/
-.breadcrumb {color:#9c998f;}
+.breadcrumb {color:#999;}
 .center {text-align:center;}
-.help-block {font-size:0.9em; color:#9c998f; margin-bottom:1.5em;}
+.help-block {font-size:0.9em; color:#999; margin-bottom:1.5em;}
 .error {color:#c00;}
 .small {font-size:0.9em;}
 .large {font-size:1.1em;}
