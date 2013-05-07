@@ -6,9 +6,9 @@
     <form id="postup{{post.id}}" action="/posts/{{ post.slug }}/{% if vote and vote.is_upvote %}clear{% else %}up{% endif %}vote/" method="POST">
         {% csrf_token %}
         {% if vote and vote.is_upvote %}
-           <input type="submit" value="&and; clear your vote" id="postuparrow{{ post.id }}" title="clear your vote">
+           <input type="submit" value="&and; clear your vote" id="postuparrow{{ post.id }}" title="Clear your vote.">
         {% else %}
-            <input class="btn" type="submit" value="&and; upvote this entry" id="postuparrow{{ post.id }}" title="upvote this entry">
+            <input class="btn" type="submit" value="&and; upvote this entry" id="postuparrow{{ post.id }}" title="Upvote this post.">
         {% endif %}
         {# <input type="submit" value="{% if vote and vote.is_upvote %}&Delta;{% else %}&uArr;{% endif %}" id="postuparrow{{ post.id }}" title="{% if vote and vote.is_upvote %}clear your vote{% else %}upvote this story{% endif %}"> #}
          {# src="/static/img/aup{% if vote and vote.is_downvote %}mod{% else %}grey{% endif %}.png" #}

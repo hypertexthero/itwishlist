@@ -53,9 +53,9 @@
                                 <form class="postvote" id="postup{{post.id}}" action="/posts/{{ post.slug }}/{% if vote and vote.is_upvote %}clear{% else %}up{% endif %}vote/?next={% firstof request.path '/' %}" method="POST">
                                     {% csrf_token %}
                                     {% if vote and vote.is_upvote %}
-                                       <input type="submit" value="&and;" id="postuparrow{{ post.id }}" title="clear your vote">
+                                       <input type="submit" value="&and;" id="postuparrow{{ post.id }}" title="Clear your vote.">
                                     {% else %}
-                                        <input class="quiet" type="submit" value="&and;" id="postuparrow{{ post.id }}" title="upvote this story">
+                                        <input class="quiet" type="submit" value="&and;" id="postuparrow{{ post.id }}" title="Upvote this post.">
                                     {% endif %}
                                     {# <input type="submit" value="{% if vote and vote.is_upvote %}&Delta;{% else %}&uArr;{% endif %}" id="postuparrow{{ post.id }}" title="{% if vote and vote.is_upvote %}clear your vote{% else %}upvote this story{% endif %}"> #}
                                      {# src="/static/img/aup{% if vote and vote.is_downvote %}mod{% else %}grey{% endif %}.png" #}
@@ -165,7 +165,7 @@
 
                 <h1 style="margin-bottom:0.5em;" class="normal">What would you like from the IPPC IT Team to help accomplish IPPC’s vision?</h1>
                 {# <p class="lead">Share links, original articles.</p>         #}
-                <p class="lead"><a href="/post/" class="btn btn-primary"><i class="icon-pencil icon-white"></i> Post a feature request or bug report</a></p>
+                <p class="lead"><a href="/post/" class="btn btn-primary"><i class="icon-pencil icon-white"></i> Post a Feature Request or Bug Report</a></p>
                 <p class="lead subdued">Recent posts with most <strong class="subdued" style="font-family:'courier new', courier, monospace;">&and;</strong>upvotes are on the <a href="/">homepage</a>. Latest posts are in <a href="/new/">new</a>.</p>
                 {% comment %}
                 <p>{% url acct_login as login_url %}
