@@ -79,6 +79,7 @@ TEMPLATE_LOADERS = [
 
 MIDDLEWARE_CLASSES = [
     "django.middleware.common.CommonMiddleware",
+    "django.contrib.redirects.middleware.RedirectFallbackMiddleware", # enabling redirects app
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -87,6 +88,7 @@ MIDDLEWARE_CLASSES = [
     "pinax.apps.account.middleware.LocaleMiddleware",
     "pagination.middleware.PaginationMiddleware",
     "pinax.middleware.security.HideSensistiveFieldsMiddleware",
+    "django.contrib.flatpages.middleware.FlatpageFallbackMiddleware", # enabling middleware for flatpages app
     # "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
@@ -125,6 +127,8 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "django.contrib.markup",
     "django.contrib.comments",
+    "django.contrib.flatpages", # enabling flatpages app
+    "django.contrib.redirects", # enabling redirects app
     
     "pinax.templatetags",
     
@@ -172,6 +176,8 @@ INSTALLED_APPS = [
     # First install south, then syncdb, then uncomment apps under Project above and migrate
     # "south",
 ]
+
+APPEND_SLASH = True
 
 FIXTURE_DIRS = [
     os.path.join(PROJECT_ROOT, "fixtures"),

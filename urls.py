@@ -65,6 +65,11 @@ urlpatterns = patterns("",
     url(r'^search/$', 'itwishlist.apps.blog.views.search', name="search"),
     )
 
+urlpatterns += patterns('django.views.generic.simple',
+    url(r'^about/$', 'direct_to_template', {'template': 'about.html'}, name='about'),
+)
+
+
 # if settings.SERVE_MEDIA:
 #     urlpatterns += patterns("",
 #         url(r"", include("staticfiles.urls")),

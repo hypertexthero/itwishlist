@@ -69,11 +69,11 @@
                                 {% block nav %}
                                         {% load blog_tags %}
                                         <ul class="nav">
-                                            <li><a class="brand" href="{% url "home" %}" title="IT Wish List - top posts">IT Wish List (HOT)</a></li>
+                                            <li><a class="brand" href="{% url "home" %}" title="IT Wishlist - top posts (with most votes).">IT Wishlist (HOT)</a></li>
                                             {# <li{% active request "^/$" %}><a href="/" title="Most popular entries - the IT Wish List homepage">Hot</a></li> #}
-                                            <li{% active request "^/new/$" %}><a href="/new/" title="Latest Posts">New</a></li>
-                                            <li{% active request "^/bug/$" %}><a href="/bug/" title="Bug Reports with most votes">Bugs</a></li>
-                                            <li{% active request "^/feature/$" %}><a href="/feature/" title="Feature Requests with most votes">Features</a></li>
+                                            <li{% active request "^/new/$" %}><a href="/new/" title="Latest posts (most recently added).">New</a></li>
+                                            <li{% active request "^/feature/$" %}><a href="/feature/" title="Feature Request posts with most votes.">Feature Requests</a></li>
+                                            <li{% active request "^/bug/$" %}><a href="/bug/" title="Bug Report posts with most votes.">Bug Reports</a></li>
                                             
                                             {% comment %}
 
@@ -132,7 +132,9 @@
                                 <button type="submit" class="btn">Search</button>
                             </form>
                             <p class="small quiet">
-                                Recent posts with most <strong class="subdued" style="font-family:'courier new', courier, monospace;">&and;</strong>upvotes are on the <a href="/">homepage</a>. Latest posts are in <a href="/new/">new</a>.
+                                Recent posts with most <strong class="subdued" style="font-family:'courier new', courier, monospace;">&and;</strong>upvotes (hot) are on the <a href="/">homepage</a>. Most recently added posts are in <a href="/new/">new</a>. Pages listing <a href="/feature/">new feature requests</a> and <a href="/bug/">bugs</a> are also available.
+                                <br>
+                                <a href="/about/" title="What is this site?">More about the IPPC IT Wishlist</a>
                                 {# <br> #}
                                 {#                                 Original entries &amp; comments copyright © by their authors.  #}
                                 {#                                 <br> #}

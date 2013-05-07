@@ -246,7 +246,7 @@ def feature(request):
         # Display Eat OR Everything
         # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
         queryset=Post.hot.most_loved().filter(status=IS_PUBLIC, kind='F').order_by('-created_at')[:300], 
-        template_name='new.html',
+        template_name='feature.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
     )
@@ -257,7 +257,7 @@ def bug(request):
         # Display Eat OR Everything
         # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
         queryset=Post.hot.most_loved().filter(status=IS_PUBLIC, kind='B').order_by('-created_at')[:300], 
-        template_name='new.html',
+        template_name='bug.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
     )
