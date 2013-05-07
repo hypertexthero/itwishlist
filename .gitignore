@@ -1,7 +1,6 @@
 *.pyc
 *.sql
 *.db
-settings.py
 settings_local.py
 .DS_Store
 fixtures/initial_data.json
