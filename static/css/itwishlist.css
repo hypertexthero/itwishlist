@@ -10,8 +10,9 @@ a i {vertical-align:middle !important;}
 blockquote {border-left:2px solid #ddd;}
 blockquote p {font-size:1em;}
 p + p {margin-bottom:1em;}
-div.navbar, div.navbar-fixed-top {position:relative !important; text-transform:uppercase; font-size:0.9em; letter-spacing:0.1em; /*background: #993300;*/}
-ul.nav {}
+div.navbar, div.navbar-fixed-top {position:relative !important; text-transform:uppercase; font-size:0.9em; letter-spacing:0.1em; background: #000;}
+ul.nav li a {color:#fff !important; font-weight:bold;}
+.navbar .nav .active > a, .navbar .nav .active > a:hover {color:#fc0 !important;}
 div.navbar-inner {border-radius:0;}
 
 *:target {background:#ffc !important;}

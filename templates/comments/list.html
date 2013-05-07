@@ -1,6 +1,6 @@
 {% for comment in comment_list %}
 <div class="comment {% cycle odd,even %}" id="comment{{ forloop.counter }}">
-    <p><a href="#comment{{ forloop.counter }}"><b class="larger">{{ forloop.counter }}</b></a> by <a href="/profiles/{{ comment.user_name }}">{{ comment.user.get_profile.name }}</a> on {{ comment.submit_date|date:"D, d M Y, H:i" }}</p>
+    <p><a href="#comment{{ forloop.counter }}"><b class="larger">{{ forloop.counter }}</b></a> by <a href="/profiles/{{ comment.user_name }}">{% if user.get_profile.name %}{{ comment.user.get_profile.name }}{% else %}{{ comment.user.username }}{% endif %}</a> on {{ comment.submit_date|date:"D, d M Y, H:i" }}</p>
     <p>{{ comment.comment }}</p>
 </div>
 {% endfor %}
