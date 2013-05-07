@@ -166,7 +166,7 @@ INSTALLED_APPS = [
     # gunicorn --daemon wsgi:application
     
     # STOP: ps aux | grep gunicorn
-    # kill ####
+    # kill -HUP ####
     
     
     # First install south, then syncdb, then uncomment apps under Project above and migrate
