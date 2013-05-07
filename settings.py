@@ -160,9 +160,14 @@ INSTALLED_APPS = [
     "profiles",
     "blog",
     
-    # gunicorn --daemon wsgi:application
-    # http://docs.gunicorn.org/en/latest/run.html
     "gunicorn",
+    # http://docs.gunicorn.org/en/latest/run.html
+    # START:
+    # gunicorn --daemon wsgi:application
+    
+    # STOP: ps aux | grep gunicorn
+    # kill ####
+    
     
     # First install south, then syncdb, then uncomment apps under Project above and migrate
     # "south",

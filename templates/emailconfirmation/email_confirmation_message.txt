@@ -1,0 +1,6 @@
+{% load i18n %}{% blocktrans with current_site.name as site_name %}User '{{ user }}' has signed up for an account at {{ site_name }} and given this as an email address. If this is you, please click on the following link to confirm:
+
+{{ activate_url }}
+
+If you did not sign up for an account at {{ site_name }}, please ignore this message.
+{% endblocktrans %}

@@ -24,6 +24,69 @@ Pygments
 	# sudo ./configure
 	# sudo make
 	# sudo make install
+# And still before installing PIL, on rhel:
+    # yum install freetype
+    # yum install freetype-devel
+# Finally install PIL: - http://community.webfaction.com/questions/7340/how-to-install-pil-with-truetype-support
+    # First, download and extract the PIL tarball:
+    # 
+    # mkdir -p ~/src ~/lib/python2.7
+    # cd ~/src
+    # wget http://effbot.org/media/downloads/PIL-1.1.7.tar.gz
+    # tar zxf PIL-1.1.7.tar.gz
+    # cd PIL-1.1.7
+    # 
+    # Next, edit PIL's setup.py to set the library pointers as follows:
+    # 
+    # # --------------------------------------------------------------------
+    # # Library pointers.
+    # #
+    # # Use None to look for the libraries in well-known library locations.
+    # # Use a string to specify a single directory, for both the library and
+    # # the include files.  Use a tuple to specify separate directories:
+    # # (libpath, includepath).  Examples:
+    # #
+    # # JPEG_ROOT = "/home/libraries/jpeg-6b"
+    # # TIFF_ROOT = "/opt/tiff/lib", "/opt/tiff/include"
+    # #
+    # # If you have "lib" and "include" directories under a common parent,
+    # # you can use the "libinclude" helper:
+    # #
+    # # TIFF_ROOT = libinclude("/opt/tiff")
+    # 
+    # TCL_ROOT = None
+    # JPEG_ROOT = '/usr/lib64','/usr/include'
+    # ZLIB_ROOT = '/lib64','/usr/include'
+    # TIFF_ROOT = None
+    # FREETYPE_ROOT = '/usr/lib64','/usr/include/freetype2/freetype'
+    # LCMS_ROOT = None
+    # 
+    # Next, build PIL with the following command:
+    # 
+    # python2.7 setup.py build_ext -i
+    # 
+    # Next, run the test to confirm that the build was successful:
+    # 
+    # $ python2.7 selftest.py
+    # --------------------------------------------------------------------
+    # PIL 1.1.7 TEST SUMMARY 
+    # --------------------------------------------------------------------
+    # Python modules loaded from ./PIL
+    # Binary modules loaded from ./PIL
+    # --------------------------------------------------------------------
+    # --- PIL CORE support ok
+    # --- TKINTER support ok
+    # --- JPEG support ok
+    # --- ZLIB (PNG/ZIP) support ok
+    # --- FREETYPE2 support ok
+    # --- LITTLECMS support ok
+    # --------------------------------------------------------------------
+    # 
+    # Finally, install the library:
+    # 
+    # python2.7 setup.py install
+    # 
+    # You're done!
 
 # NOTA BENE: on some hosts PIL's setup.py needs to be fixed before installation: http://community.webfaction.com/questions/7340/how-to-install-pil-with-truetype-support
 PIL
