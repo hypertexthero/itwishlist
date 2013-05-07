@@ -11,7 +11,7 @@ from datetime import datetime
 from easy_thumbnails.fields import ThumbnailerImageField
 
 class Profile(ProfileBase):
-    name = models.CharField(_("Name"), max_length=50, null=True, blank=True, help_text="Your itwishlist.com byline.")
+    name = models.CharField(_("Name"), max_length=50, null=True, blank=True, help_text="Your it.ippc.int byline.")
     email = models.EmailField(_("Email"), blank=True, help_text="An email address you want to display publically.")
     im = models.CharField(_("im"), max_length=50, null=True, blank=True, help_text="An instant messaging handle you want to display publically.")
     url = models.URLField(blank=True, null=True, help_text="A URL you may want to share?")
