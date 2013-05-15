@@ -72,6 +72,8 @@
                                             <li {% active request "^/$" %}><a class="brand" href="{% url "home" %}" title="IT Wishlist - top posts (with most votes).">IT Wishlist (HOT)</a></li>
                                             {# <li{% active request "^/$" %}><a href="/" title="Most popular entries - the IT Wish List homepage">Hot</a></li> #}
                                             <li{% active request "^/new/$" %}><a href="/new/" title="Latest posts (most recently added).">New</a></li>
+                                            <li{% active request "^/inprogress/$" %}><a href="/inprogress/" title="Stuff that's in progress in the current sprint.">In Progress</a></li>
+                                            <li{% active request "^/done/$" %}><a href="/done/" title="Stuff that's been finished.">Done</a></li>
                                             <li{% active request "^/feature/$" %}><a href="/feature/" title="Feature Request posts with most votes.">Feature Requests</a></li>
                                             <li{% active request "^/bug/$" %}><a href="/bug/" title="Bug Report posts with most votes.">Bug Reports</a></li>
                                             

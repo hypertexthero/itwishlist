@@ -67,21 +67,20 @@
 <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
 
 
-<div style="display:none;">
-<label for="id_category">{{ post_form.category.label }}</label>
-
-    {{ post_form.category|tabindex:4 }}
-
-    {% if post_form.category.errors %}
-	    <div class="alert alert-error">
-	    {% for error in post_form.category.errors %}
-	        {{ error|escape }}
-	    {% endfor %}
-	    </div>
-	{% endif %}
-{# <br> #}
-{# <br> #}
-</div>
+{# <div style="display:none;"> #}
+{# <label for="id_category">{{ post_form.category.label }}</label> #}
+{#  #}
+{#     {{ post_form.category|tabindex:4 }} #}
+{#  #}
+{#     {% if post_form.category.errors %} #}
+{#      <div class="alert alert-error"> #}
+{#      {% for error in post_form.category.errors %} #}
+{#          {{ error|escape }} #}
+{#      {% endfor %} #}
+{#      </div> #}
+{#  {% endif %} #}
+{#  #}
+{# </div> #}
 
 <label for="id_status">{{ post_form.status.label }}</label>
 

@@ -29,31 +29,25 @@ def sanitize(value):
 
 IS_DRAFT = 1
 IS_PUBLIC = 2
+IN_PROGRESS = 3
+DONE = 4
 
 STATUS_CHOICES = (
-    (IS_DRAFT, _("Draft")), 
+    (IS_DRAFT, _("Draft (does not appear on wishlist)")), 
     (IS_PUBLIC, _("Published")),
+    (IN_PROGRESS, _("In Progress")),
+    (DONE, _("Done")),
 )
 
-EVERYTHING = 1
-EAT = 2
-SLEEP = 3 
-SOCIALIZE = 4
-EXERCISE = 5
-ART = 6
-# SHOP = 6
-# WORK = 7
+# WAIT = 1
+# INPROGRESS = 2
+# DONE = 3 
 
-CATEGORY_CHOICES = (
-    (EVERYTHING, _("Everything")), 
-    (EAT, _("Eat")), 
-    (SLEEP, _("Sleep")),
-    (SOCIALIZE, _("Socialize")),
-    (EXERCISE, _("Exercise")),
-    (ART, _("Art")),
-    # (SHOP, _("Shop")),
-    # (WORK, _("Work")),
-)
+# CATEGORY_CHOICES = (
+#     (WAIT, _("Wait")), 
+#     (INPROGRESS, _("In Progress")), 
+#     (DONE, _("Done")),
+# )
 
 KIND = (
     ('B', 'Bug Report'),
@@ -123,22 +117,22 @@ class VoteAwareManager(models.Manager):
 
 class Post(models.Model):
     """Post model"""
-    title = models.CharField(_("title"), max_length=500, blank=False)
-    slug = models.SlugField(_("slug"), max_length=500, blank=True)
+    title = models.CharField(_("Title"), max_length=500, blank=False)
+    slug = models.SlugField(_("URL Slug"), max_length=500, blank=True)
     author = models.ForeignKey(User, related_name="added_posts")
     # creator_ip = models.CharField(_("IP Address of the Post Creator"), max_length=255, blank=True, null=True)
     kind = models.CharField(max_length=1, choices=KIND, default=1, help_text="Is this a link to other content or an original article you will write here?")
     url = models.URLField(_("Bug URL"), blank=True, null=True, help_text="with or without http://", default='')
     content_markdown = models.TextField(_("Description"), blank=True, help_text="<a data-toggle='modal' href='#markdownhelp'>Markdown syntax</a>.")
     content_html = models.TextField(blank=True, null=True, editable=False)
-    status = models.IntegerField(_("status"), choices=STATUS_CHOICES, default=IS_PUBLIC)
+    status = models.IntegerField(_("Status"), choices=STATUS_CHOICES, default=IS_PUBLIC)
     allow_comments = models.BooleanField(_("Allow Comments?"), blank=False, default=1)
     publish = models.DateTimeField(_("Date Published"), default=datetime.now)
-    created_at = models.DateTimeField(_("created at"), default=datetime.now)
-    updated_at = models.DateTimeField(_("updated at"))
+    created_at = models.DateTimeField(_("Date Created"), default=datetime.now)
+    updated_at = models.DateTimeField(_("Last Updated"))
 
     # Categorization.
-    category = models.IntegerField(_("category"), choices=CATEGORY_CHOICES, default=EVERYTHING)
+    # category = models.IntegerField(_("category"), choices=CATEGORY_CHOICES, default=WAIT)
 
     # Get top votes
     objects = models.Manager()

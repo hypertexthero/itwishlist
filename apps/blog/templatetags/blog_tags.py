@@ -8,7 +8,7 @@ from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 from django.template import RequestContext
 
-from itwishlist.apps.blog.models import Post, IS_DRAFT, IS_PUBLIC
+from itwishlist.apps.blog.models import Post, IS_DRAFT, IS_PUBLIC, IN_PROGRESS, DONE
 
 register = template.Library()
 
@@ -27,7 +27,7 @@ class CheckPostStatus(template.Node):
         post = Variable(self.post).resolve(context)
         if not user or not post:
             return ''
-        if post.author == user or post.status == IS_PUBLIC:
+        if post.author == user or post.status == IS_PUBLIC or post.status == IN_PROGRESS or post.status == DONE:
             context['show_post'] = True
         else:
             context['show_post'] = False

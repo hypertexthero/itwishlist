@@ -33,15 +33,9 @@ urlpatterns = patterns("",
 
     url(r"^bug/$", "itwishlist.apps.blog.views.bug", name="bug"),
     url(r"^feature/$", "itwishlist.apps.blog.views.feature", name="feature"),
+    url(r"^done/$", "itwishlist.apps.blog.views.done", name="done"),
+    url(r"^inprogress/$", "itwishlist.apps.blog.views.inprogress", name="inprogress"),
     
-    url(r"^eat/$", "itwishlist.apps.blog.views.eat", name="eat"),
-    url(r"^sleep/$", "itwishlist.apps.blog.views.sleep", name="sleep"),
-    url(r"^socialize/$", "itwishlist.apps.blog.views.socialize", name="socialize"),
-    url(r"^exercise/$", "itwishlist.apps.blog.views.exercise", name="exercise"),
-    url(r"^art/$", "itwishlist.apps.blog.views.art", name="art"),
-    # url(r"^shop/$", "itwishlist.apps.blog.views.shop", name="shop"),
-    # url(r"^work/$", "itwishlist.apps.blog.views.work", name="work"),
-
     url(r"^admin/invite_user/$", "pinax.apps.signup_codes.views.admin_invite_user", name="admin_invite_user"),
     url(r"^admin/", include(admin.site.urls)),
     # url(r"^about/", include("about.urls")),

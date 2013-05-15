@@ -12,13 +12,16 @@ from django.conf import settings
 from django.db.models import Q, Count # http://stackoverflow.com/a/1217911/412329
 
 # from misc.json_encode import json_response
-from itwishlist.apps.blog.models import Post, Vote, IS_DRAFT, IS_PUBLIC, EVERYTHING, EAT, SLEEP, SOCIALIZE, EXERCISE, ART#, SHOP, WORK
+from itwishlist.apps.blog.models import Post, Vote, IS_DRAFT, IS_PUBLIC, DONE, IN_PROGRESS
 from itwishlist.apps.profiles.models import Profile
 from itwishlist.apps.blog.forms import PostForm
 from itwishlist.apps.blog.signals import post_published
 
 from voting.models import Vote
 from voting.managers import VoteManager
+
+from django.shortcuts import render_to_response
+from django.db.models import Q
 
 # homepage
 from django.views.generic.date_based import archive_index
@@ -29,9 +32,9 @@ def blog_post_detail(request, *kargs, **kwargs):
     kwargs['template_object_name'] = 'post'
     kwargs['queryset'] = Post.objects.filter(blog = blog)
     if request.user.is_authenticated():
-        kwargs['queryset'] = kwargs['queryset'].filter(author=request.user) | kwargs['queryset'].filter(status=IS_PUBLIC)
+        kwargs['queryset'] = kwargs['queryset'].filter(author=request.user) | kwargs['queryset'].filter(Q(status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS))
     else:
-        kwargs['queryset'] = kwargs['queryset'].filter(status=IS_PUBLIC)
+        kwargs['queryset'] = kwargs['queryset'].filter(Q(status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS))
     return list_detail.object_detail(request, *kargs, **kwargs)
 
 def blog_user_post_detail(request, *kargs, **kwargs):
@@ -41,7 +44,7 @@ def blog_user_post_detail(request, *kargs, **kwargs):
     if user==request.user:
         kwargs['queryset'] = kwargs['queryset'].filter(author=request.user)
     else:
-        kwargs['queryset'] = kwargs['queryset'].filter(author=user, status=IS_PUBLIC)
+        kwargs['queryset'] = kwargs['queryset'].filter(author=user).filter(Q(status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS))
     return list_detail.object_detail(request, *kargs, **kwargs)
 
 @login_required
@@ -56,9 +59,9 @@ def change_status(request, action, id):
     if post.author != request.user:
         request.user.message_set.create(message="You can't change statuses of posts that aren't yours")
     else:
-        if action == 'draft' and post.status == IS_PUBLIC:
+        if action == 'draft' and post.status == IS_PUBLIC or post.status == IN_PROGRESS or post.status == DONE:
             post.status = IS_DRAFT
-        if action == 'public' and post.status == IS_DRAFT:
+        if action == 'public' and post.status == IS_DRAFT or post.status == IN_PROGRESS or post.status == DONE:
             post.status = IS_PUBLIC
             post_published.send(sender=Post, post=post)
         post.save()
@@ -135,8 +138,6 @@ def backup(request):
 def get_profiles():
     return Profile.objects.all()
 
-from django.shortcuts import render_to_response
-from django.db.models import Q
 def search(request):
     """ search """    
     query = request.GET.get('q', '') # both /search/ and /search/?q=query work
@@ -153,7 +154,7 @@ def search(request):
         # results = Post.objects.filter(Q(title__icontains=query)|Q(content_html__icontains=query)).distinct()
 
         # https://groups.google.com/forum/?fromgroups=#!msg/django-users/JKhf05HOezg/klz7A-vs_U0J
-        results = Post.objects.filter(Q(title__icontains=query)|Q(content_html__icontains=query)).distinct().filter(status=IS_PUBLIC)
+        results = Post.objects.filter(Q(title__icontains=query)|Q(content_html__icontains=query)).distinct().filter(Q(status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS))
         player_results = Profile.objects.filter(Q(name__icontains=query)).distinct()
     return render_to_response('search.html',
             {   'query': query, 
@@ -168,7 +169,7 @@ def search(request):
 def following(request): 
     """Show following posts"""   
     return object_list(request, 
-        queryset=Post.objects.all().filter(status=IS_PUBLIC),
+        queryset=Post.objects.all().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)),
         template_name='following.html',
         template_object_name='post',
         extra_context= {'author': request.user}
@@ -178,7 +179,7 @@ def following(request):
 def followers(request): 
     """Show following posts"""   
     return object_list(request, 
-        queryset=Post.objects.all().filter(status=IS_PUBLIC),
+        queryset=Post.objects.all().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)),
         template_name='followers.html',
         template_object_name='post',
         extra_context= {'author': request.user}
@@ -209,7 +210,7 @@ def homepage(request):
 
     return object_list(request, 
         # http://eflorenzano.com/blog/2008/05/24/managers-and-voting-and-subqueries-oh-my/
-        queryset=Post.hot.most_loved().filter(status=IS_PUBLIC)[:300], # .annotate(num_votes=Count('score')) 
+        queryset=Post.hot.most_loved().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS))[:300], # .annotate(num_votes=Count('score')) 
         # queryset=Post.objects().filter(status=IS_PUBLIC).order_by('-popularity'), # .annotate(num_votes=Count('score')) 
         template_name='homepage.html',
         template_object_name='post',
@@ -219,7 +220,7 @@ def homepage(request):
 def new(request): 
     """Show new posts"""
     return object_list(request, 
-        queryset=Post.objects.filter(status=IS_PUBLIC).order_by('-created_at')[:300], 
+        queryset=Post.objects.filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)).order_by('-created_at')[:300], 
         template_name='new.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
@@ -245,7 +246,7 @@ def feature(request):
     return object_list(request, 
         # Display Eat OR Everything
         # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
-        queryset=Post.hot.most_loved().filter(status=IS_PUBLIC, kind='F').order_by('-created_at')[:300], 
+        queryset=Post.hot.most_loved().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS), kind='F').order_by('-created_at')[:300], 
         template_name='feature.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
@@ -256,55 +257,30 @@ def bug(request):
     return object_list(request, 
         # Display Eat OR Everything
         # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
-        queryset=Post.hot.most_loved().filter(status=IS_PUBLIC, kind='B').order_by('-created_at')[:300], 
+        queryset=Post.hot.most_loved().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS), kind='B').order_by('-created_at')[:300], 
         template_name='bug.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
     )
     
-def eat(request): 
-    """Eat category"""
+def done(request): 
+    """Done - Stuff that's been finished"""
     return object_list(request, 
         # Display Eat OR Everything
         # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
-        queryset=Post.hot.most_loved().filter(category=EAT)[:300], 
-        template_name='category-eat.html',
+        queryset=Post.hot.most_loved().filter(status=DONE)[:300], 
+        template_name='done.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
     )
 
-def sleep(request): 
-    """Sleep category"""
+def inprogress(request): 
+    """In Progress - Stuff that's in progress"""
     return object_list(request, 
-        queryset=Post.hot.most_loved().filter(category=SLEEP)[:300], 
-        template_name='category-sleep.html',
-        template_object_name='post',
-        extra_context= {"profile": get_profiles}
-    )
-
-def socialize(request): 
-    """Socialize category"""
-    return object_list(request, 
-        queryset=Post.hot.most_loved().filter(category=SOCIALIZE)[:300], 
-        template_name='category-socialize.html',
-        template_object_name='post',
-        extra_context= {"profile": get_profiles}
-    )
-
-def exercise(request): 
-    """excercise category"""
-    return object_list(request, 
-        queryset=Post.hot.most_loved().filter(category=EXERCISE)[:300], 
-        template_name='category-exercise.html',
-        template_object_name='post',
-        extra_context= {"profile": get_profiles}
-    )
-
-def art(request): 
-    """art category"""
-    return object_list(request, 
-        queryset=Post.hot.most_loved().filter(category=ART)[:300], 
-        template_name='category-art.html',
+        # Display Eat OR Everything
+        # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
+        queryset=Post.hot.most_loved().filter(status=IN_PROGRESS)[:300], 
+        template_name='inprogress.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
     )
