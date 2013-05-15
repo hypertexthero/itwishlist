@@ -39,7 +39,7 @@
     {% if user.is_authenticated %}
         {# <p class="navbar-text pull-left">{% trans "Logged in as:" %}</p> #}
             <ul class="nav pull-right">
-                <li{% active request "^/post/$" %}><a href="/post/" title="Post a link or article.">Post</a></li> {# <i class="icon-pencil icon-white"></i>  #}
+                <li{% active request "^/post/$" %}><a href="/post/" title="Post a link or article."><i class="icon-pencil icon-white"></i> Post</a></li> {# <i class="icon-pencil icon-white"></i>  #}
                 <li{% active request "^/desk/$" %}><a href="/desk/" title="Your links and entries, draft and public.">Desk</a></li>    
                 <li id="nav-profile"><a href="/profiles/{{ user.username }}" title="Your profile.">Profile</a></li>
                 
