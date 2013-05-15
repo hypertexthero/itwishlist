@@ -214,6 +214,7 @@ def homepage(request):
         template_name='homepage.html',
         template_object_name='post',
         extra_context= {'profile': get_profiles}
+        # paginate_by=2
     )
 
 def new(request): 

@@ -133,7 +133,7 @@ class Post(models.Model):
     content_html = models.TextField(blank=True, null=True, editable=False)
     status = models.IntegerField(_("status"), choices=STATUS_CHOICES, default=IS_PUBLIC)
     allow_comments = models.BooleanField(_("Allow Comments?"), blank=False, default=1)
-    publish = models.DateTimeField(_("publish"), default=datetime.now)
+    publish = models.DateTimeField(_("Date Published"), default=datetime.now)
     created_at = models.DateTimeField(_("created at"), default=datetime.now)
     updated_at = models.DateTimeField(_("updated at"))
 
