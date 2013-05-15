@@ -39,14 +39,10 @@ STATUS_CHOICES = (
     (DONE, _("Done")),
 )
 
-# WAIT = 1
-# INPROGRESS = 2
-# DONE = 3 
-
+# WAIT = 5
+# 
 # CATEGORY_CHOICES = (
 #     (WAIT, _("Wait")), 
-#     (INPROGRESS, _("In Progress")), 
-#     (DONE, _("Done")),
 # )
 
 KIND = (
@@ -145,8 +141,8 @@ class Post(models.Model):
     def __unicode__(self):
         return self.title
 
-    def get_category(self):
-        return self.category
+    # def get_category(self):
+    #     return self.category
 
     # model methods should act on a particular model instance
     @models.permalink

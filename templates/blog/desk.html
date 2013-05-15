@@ -48,7 +48,7 @@
                                 <b><a href="{{ post.get_absolute_url }}" class="post_link_small" title="View post">{{ post.title }}</a></b>{% if post.allow_comments %} <span class="smaller quiet"> <a href="{{ post.get_absolute_url }}#disqus_thread"></a></span>{% endif %}
 
                                 <span class="smaller quiet">
-                                    <a href="{% url blog_edit post.id %}" title="Edit post">{% trans "edit" %}</a> | <a href="{% url blog_delete post.id %}" title="Delete post">{% trans "delete" %}</a> | {% if post.is_public %}<a href="{% url blog_change_status 'draft' post.id %}" title="Make post a draft (not listed publically)">{% trans "make draft" %}</a>{% else %}<a href="{% url blog_change_status 'public' post.id %}" title="Publish post"></i>{% trans "publish" %}</a>{% endif %}
+                                    <a href="{% url blog_edit post.id %}" title="Edit post">{% trans "edit" %}</a> | <a href="{% url blog_delete post.id %}" title="Delete post">{% trans "delete" %}</a> {# | {% if post.is_public %}<a href="{% url blog_change_status 'draft' post.id %}" title="Make post a draft (not listed publically)">{% trans "make draft" %}</a>{% else %}<a href="{% url blog_change_status 'public' post.id %}" title="Publish post"></i>{% trans "publish" %}</a>{% endif %} #}
                                 </span>
                             </td>
                             <td>
