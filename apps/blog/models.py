@@ -117,7 +117,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, related_name="added_posts")
     # creator_ip = models.CharField(_("IP Address of the Post Creator"), max_length=255, blank=True, null=True)
     kind = models.CharField(max_length=1, choices=KIND, default=1, help_text="Is this a link to other content or an original article you will write here?")
-    url = models.URLField(_("Bug URL"), blank=True, null=True, help_text="with or without http://", default='')
+    url = models.URLField(_("Bug URL"), blank=True, null=True, help_text="Not required, but helpful if relevant. With or without http://", default='')
     content_markdown = models.TextField(_("Description"), blank=True, help_text="<a data-toggle='modal' href='#markdownhelp'>Markdown syntax</a>.")
     content_html = models.TextField(blank=True, null=True, editable=False)
     status = models.IntegerField(_("Status"), choices=STATUS_CHOICES, default=IS_PUBLIC)
