@@ -6,7 +6,6 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from django.db.models.signals import post_save, post_delete
 
 from voting.models import Vote
 from voting.managers import VoteManager
@@ -184,3 +183,40 @@ class Post(models.Model):
     #     if prev:
     #         return prev[0]
     #     return False
+
+
+# Notifications when users comment
+# http://stackoverflow.com/questions/8603469/how-to-use-django-notification-to-inform-a-user-when-somebody-comments-on-their
+from django.contrib.sites.models import Site
+from django.db.models import signals
+from notification import models as notification
+
+def create_notice_types(app, created_models, verbosity, **kwargs):
+    notification.create_notice_type("new_comment", "Comment posted", "A comment has been posted")
+signals.post_syncdb.connect(create_notice_types, sender=notification)
+
+def new_comment(sender, instance, created, **kwargs):
+    # remove this if-block if you want notifications for comment edit too
+    if not created:
+        return None
+
+    context = {
+        'comment': instance,
+        'site': Site.objects.get_current(),
+    }
+    recipients = []
+
+    # add all users who commented the same object to recipients
+    for comment in instance.__class__.objects.for_model(instance.content_object):
+        if comment.user not in recipients and comment.user != instance.user:
+            recipients.append(comment.user)
+
+    # if the commented object is a user then notify him as well
+    if isinstance(instance.content_object, models.get_model('auth', 'User')):
+        # if he is the one who posts the comment then don't add him to recipients
+        if instance.content_object != instance.user and instance.content_object not in recipients:
+            recipients.append(instance.content_object)
+
+    notification.send(recipients, 'new_comment', context)
+
+signals.post_save.connect(new_comment, sender=models.get_model('comments', 'Comment'))

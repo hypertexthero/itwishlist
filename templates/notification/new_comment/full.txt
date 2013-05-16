@@ -1,0 +1,7 @@
+{{ comment.user }} commented on {{ comment.content_object }}
+
+Comment:
+{{ comment.comment }}
+
+Reply on: 
+http://{{ site.domain }}{{ comment.content_object.get_absolute_url }}

@@ -40,15 +40,15 @@
         <p style="max-width:60%;">No profile information entered yet. <br>{% if is_me %}<a href="/profiles/edit/{{profile.user.username}}">Edit your profile</a>.{% endif %}</p>
         {# <p>No profile information entered yet. <a href="/profiles/edit/{{profile.user.username}}">Edit your profile</a> to generate a URL you can add to your Rome in-game profile so your information appears inside Rome.</p> #}
     {% endif %}
-    <div class="profile_info">
-        <p>
-        {% if profile.email %}<b>{% trans "Email" %}</b>: {{ profile.email }}<br>{% endif %}
-        {% if profile.url %}<b>{% trans "URL" %}</b>: <a href="{{ profile.url }}">{{ profile.url }}</a><br>{% endif %}
-        {% if profile.im %}<b>{% trans "IM" %}</b>: {{ profile.im }}<br>{% endif %}
-        {% if profile.remark %}<b>{% trans "Remark" %}</b>: {{ profile.remark }}<br>{% endif %}
-        {# {% if profile.website %}<p><b>{% trans "Website" %}</b>: <a href="{{ profile.website }}">{{ profile.website }}</a></p>{% endif %} #}
-        </p>
-    </div>
+    {# <div class="profile_info"> #}
+    {#     <p> #}
+    {#     {% if profile.email %}<b>{% trans "Email" %}</b>: {{ profile.email }}<br>{% endif %} #}
+    {#     {% if profile.url %}<b>{% trans "URL" %}</b>: <a href="{{ profile.url }}">{{ profile.url }}</a><br>{% endif %} #}
+    {#     {% if profile.im %}<b>{% trans "IM" %}</b>: {{ profile.im }}<br>{% endif %} #}
+    {#     {% if profile.remark %}<b>{% trans "Remark" %}</b>: {{ profile.remark }}<br>{% endif %} #}
+    {#     {% if profile.website %}<p><b>{% trans "Website" %}</b>: <a href="{{ profile.website }}">{{ profile.website }}</a></p>{% endif %} #}
+    {#     </p> #}
+    {# </div> #}
 
     {% load account_tags %}
     {% load url from future %}
