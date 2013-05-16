@@ -11,7 +11,7 @@
                 </a>
                 <ul class="dropdown-menu">
                     {% block user_links %}
-                    <li {% active request "^/account/email/$" %}><a href="{% url "acct_email" %}"><i class="icon-wrench"></i> {% trans "Account" %}</a></li> 
+                    {# <li {% active request "^/account/email/$" %}><a href="{% url "acct_email" %}"><i class="icon-wrench"></i> {% trans "Account" %}</a></li>  #}
                     {# <li><a href="{% url "profile_detail" user.username %}"><i class="icon-user"></i> {% trans "Profile" %}</a></li> #}
                     <li {% active request "^/posts/" %}><a href="/posts/{{ user.username }}" title="Your public homepage at it.ippc.int"><i class="icon-list"></i> Posts</a></li>
                 <li{% active request "^/following/$" %}><a href="/following/" title="Posts by users you are following on it.ippc.int"><i class="icon-hand-left"></i> Following</a></li>
@@ -39,9 +39,10 @@
     {% if user.is_authenticated %}
         {# <p class="navbar-text pull-left">{% trans "Logged in as:" %}</p> #}
             <ul class="nav pull-right">
-                <li{% active request "^/post/$" %}><a href="/post/" title="Post a link or article."><i class="icon-pencil icon-white"></i> Post</a></li> {# <i class="icon-pencil icon-white"></i>  #}
-                <li{% active request "^/desk/$" %}><a href="/desk/" title="Your links and entries, draft and public.">Desk</a></li>    
-                <li id="nav-profile"><a href="/profiles/{{ user.username }}" title="Your profile.">Profile</a></li>
+                <li{% active request "^/post/$" %}><a href="/post/" title="Post a bug report or feature request."><i class="icon-pencil icon-white"></i> Post</a></li> {# <i class="icon-pencil icon-white"></i>  #}
+                <li{% active request "^/desk/$" %}><a href="/desk/" title="Your bug reports and feature requests, drafts and published.">Desk</a></li>    
+                <li id="nav-profile"><a href="/profiles/{{ user.username }}" title="Set your display name and upload a picture.">Profile</a></li>
+                <li {% active request "^/account/email/$" %}><a href="{% url "acct_email" %}" title="Change password or email addresses."> {% trans "Account" %}</a></li>
                 
                 {# <li{% active request "^/relationships/(?P<username>[\w\._\-]+)/$" %}><a href="/relationships/">Relationships</a></li> #}
             </ul>

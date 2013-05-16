@@ -12,6 +12,7 @@ blockquote p {font-size:1em;}
 p + p {margin-bottom:1em;}
 div.navbar, div.navbar-fixed-top {position:relative !important; text-transform:uppercase; font-size:0.9em; letter-spacing:0.1em; background: #000;}
 ul.nav li a {color:#fff !important; font-weight:bold;}
+ul.nav-list li a {color:#000 !important;}
 .navbar .nav .active > a, .navbar .nav .active > a:hover {color:#fc0 !important;}
 div.navbar-inner {border-radius:0;}
 
@@ -52,6 +53,7 @@ thead th {text-transform: uppercase; font-weight:normal; color:#9c998f;}
 tr, td {border-top:0 !important; background:transparent !important;}
 h1 {text-align:left !important; font-family:georgia, serif;}
 h1 a {color:#2e2a1f !important;}
+h1 a:hover {background:#eee;}
 .hero-unit h1 {font-size:3em; margin-bottom:0.15em !important;}
 h2 {margin-bottom:0.25em; font-family:georgia, serif;}
 h2.dateline {

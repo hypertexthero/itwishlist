@@ -26,7 +26,7 @@
                 {% load markup %}
                 {# {{ post.content_markdown|markdown:"safe" }} #}
                 {# http://michelf.ca/blog/2010/markdown-and-xss/ #}
-                <h1>{{ post.title|capfirst }}</h1>
+                <h1><a style="text-decoration:none;" href="{{ post.get_absolute_url }}" title="Permanent link to this entry.">{{ post.title|capfirst }}</a></h1>
 
                     <div class="vote pull-right">
                             <form class="postvote pull-left" id="postup{{post.id}}" action="/posts/{{ post.slug }}/{% if vote and vote.is_upvote %}clear{% else %}up{% endif %}vote/?next={% firstof request.path '/' %}" method="POST">
@@ -79,13 +79,21 @@
                     </div>
 
                 <p class="subdued">
-                    By <strong><a href="/posts/{{ post.author.username }}/">{% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}</a></strong> 
-                    on <a href="{{ post.get_absolute_url }}" class="post_link" title="Permanent link to this entry.">{{ post.updated_at|date:"D, d M Y, H:i"}} <small># permalink</small></a>
-                </p>
-
+                    
+                    {% if post.kind == "F" %} {# if an feature: #}
+                        Feature Request
+                    {% else %} {# or a bug: #}
+                        Bug Report
+                    {% endif %}
+                    
+                    
+                   
+                
+                
                 {% if post.kind == "B" %} {# if a bug show bug url: #}
-                    <p><b>URL:</b> <a href="{{ post.url }}">{{ post.url }}</a> {# <span class="smaller quiet">({{post.url|rootdomain}})</span> #}</p>
+                    <br>Bug URL: <a href="{{ post.url }}">{{ post.url }}</a>
                 {% endif %} {# / if.note.kind == "A" #}
+                </p>
 
                 {{ post.content_html|safe }}
             
@@ -176,24 +184,11 @@
         </div>
 
        <div class="span4">
-            {% ifnotequal post.author request.user %}
-                    {% if post.author.get_profile.user_photo %}
-                    {% load thumbnail %}
-                    <p><a href="/profiles/{{post.author.username}}"><img class="player-img" src="{% thumbnail post.author.get_profile.user_photo 260x180 crop %}" /></a></p>{% endif %}
 
-                    <p class="lead subdued">
-                        {# http://stackoverflow.com/a/9667189/412329 #}
-                        {% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}
-                    </p>
-                    <p class="subdued">
-                    {% if post.author.get_profile.date_joined %}Member since: {{post.author.get_profile.date_joined|date:"j F Y"}}{% endif %}    
-                    <br>
-                    <a href="/profiles/{{post.author.username}}" title="Profile."><i class="icon-user"></i> Profile</a> <a href="/posts/{{post.author.username}}"><i class="icon-list"></i> Posts</a>
-                    </p>
-            {% endifnotequal %}
 
-            {% ifequal post.author request.user %}
                 <p class="meta well">
+            {% ifequal post.author request.user %}
+
                     <span class="caps"><a href="/desk/">Desk Actions</a></span>
                     <br>
                     <a href="{% url blog_edit post.id %}"><i class="icon-edit"></i> edit</a>
@@ -206,13 +201,40 @@
                     {# {% endif %} #}
                     <br>
                     <a href="{% url blog_delete post.id %}"><i class="icon-remove"></i> delete</a> 
-                </p>
+                    <br>
+                    <br>
             {% endifequal %}
+            {% load thumbnail %}
+                    {% if post.author.get_profile.user_photo %}<a href="/posts/{{ post.author.username }}/"><img class="pull-right" src="{% thumbnail post.author.get_profile.user_photo 40x28 crop %}" /></a>{% endif %}
+                    <span class="caps">By:</span> <strong><a href="/posts/{{ post.author.username }}/">{% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}</strong></a>
+                    <br>
+                    <span class="caps">Published:</span> {{ post.publish|date:"D, d M Y, H:i"}}
+                    <br>
+                    <span class="caps">Last Updated:</span> {{ post.updated_at|date:"D, d M Y, H:i"}}
+                    <br>
+                    <a style="text-decoration:underline;" href="{{ post.get_absolute_url }}" title="Permanent link to this entry."># permanent link to this page</a>
+                </p>
 
 
-
-
+{% comment %}
     
+
+                {% ifnotequal post.author request.user %}
+                        {% if post.author.get_profile.user_photo %}
+                        {% load thumbnail %}
+                        <p><a href="/profiles/{{post.author.username}}"><img class="player-img" src="{% thumbnail post.author.get_profile.user_photo 260x180 crop %}" /></a></p>{% endif %}
+
+                        <p class="lead subdued">
+                            {# http://stackoverflow.com/a/9667189/412329 #}
+                            {% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}
+                        </p>
+                        <p class="subdued">
+                        {% if post.author.get_profile.date_joined %}Member since: {{post.author.get_profile.date_joined|date:"j F Y"}}{% endif %}    
+                        <br>
+                        <a href="/profiles/{{post.author.username}}" title="Profile."><i class="icon-user"></i> Profile</a> <a href="/posts/{{post.author.username}}"><i class="icon-list"></i> Posts</a>
+                        </p>
+                {% endifnotequal %}
+{% endcomment %}    
 
             
 
