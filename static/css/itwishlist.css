@@ -115,6 +115,7 @@ a.subdued {color:#999;}
 .center {text-align:center;}
 .help-block {font-size:0.9em; color:#999; margin-bottom:1.5em;}
 .error {color:#c00;}
+.nomargin {margin:0;}
 .small {font-size:0.9em;}
 .large {font-size:1.1em;}
 .larger {font-size:1.2em;}
