@@ -8,9 +8,9 @@
         {% if vote and vote.is_upvote %}
            <input type="submit" value="&and; clear your vote" id="postuparrow{{ post.id }}" title="Clear your vote.">
         {% else %}
-            <input class="btn" type="submit" value="&and; upvote this entry" id="postuparrow{{ post.id }}" title="Upvote this post.">
+            <input class="btn" type="submit" value="&and; upvote this item" id="postuparrow{{ post.id }}" title="Upvote this item.">
         {% endif %}
-        {# <input type="submit" value="{% if vote and vote.is_upvote %}&Delta;{% else %}&uArr;{% endif %}" id="postuparrow{{ post.id }}" title="{% if vote and vote.is_upvote %}clear your vote{% else %}upvote this story{% endif %}"> #}
+        {# <input type="submit" value="{% if vote and vote.is_upvote %}&Delta;{% else %}&uArr;{% endif %}" id="postuparrow{{ post.id }}" title="{% if vote and vote.is_upvote %}clear your vote{% else %}upvote this item{% endif %}"> #}
          {# src="/static/img/aup{% if vote and vote.is_downvote %}mod{% else %}grey{% endif %}.png" #}
          {# onclick="vote('{{ post.slug }}', 'up');" #}
     </form>
