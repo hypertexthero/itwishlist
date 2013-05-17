@@ -1,132 +1,106 @@
-{% extends "blog/base_my.html" %}
+{# https://github.com/samwillis/pagedown-bootstrap #}
+{# http://stackoverflow.com/a/5930179 #}
 
-{% load i18n %}
+{% load blog_tags %}
 
-{% block head_title %}{% trans "Write an Entry" %}{% endblock %}
+{{ post_form.non_field_errors }}
 
-{% block js %}
-    {{ block.super }}
-    
-        {# WMD Markdown Editor with Preview - required files #}
+<label for="id_title">{{ post_form.title.label }}</label>
+<div class="input{% if post_form.title.errors %} alert alert-error{% endif %}">
+    {% if u and t %}
+    	<input id="id_title" type="text" name="title" tabindex="1" maxlength="500" value="{{t}}">
+    {% else %}
+    	{{ post_form.title|tabindex:1 }}
+    {% endif %}   
 
-        <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
+    {% if post_form.title.errors %}
+	    {% for error in post_form.title.errors %}
+	        {{ error|escape }}
+	    {% endfor %}
+	{% endif %}
+</div>
+<br>
 
-        <link rel="stylesheet" type="text/css" href="/static/css/wmd.css"/>
-        <script type="text/javascript" src="/static/js/wmd.js"></script>
-        <script type="text/javascript" src="/static/js/showdown.js"></script>
+<label for="id_kind">Bug Report or New Feature Request?</label>
+{{ post_form.kind|tabindex:1 }}
 
-    <script type="text/javascript" charset="utf-8">
-            // Disable link url field if note kind is Article
-            // http://stackoverflow.com/a/4597170/412329
-            // http://jsfiddle.net/gnarf/GpmSs/2/        
-            // TODO?: alternative - http://stackoverflow.com/a/2171606/412329        
+<div class="url">
+<label for="id_url">{{ post_form.url.label }} <span class="small quiet">{{ post_form.url.help_text }}</span></label>
+<div class="input{% if post_form.url.errors %} alert alert-error{% endif %}">
 
-            $(document).ready(function(){            
+    {% if u and t %}
+    	<input id="id_url" maxlength="500" type="text" name="url" tabindex="2" value="{{u}}" />
+    {% else %}
+    	{{ post_form.url|tabindex:1 }}
+    {% endif %}
 
-                var $kind = $('#id_kind'),
-                    $url = $('#id_url');
-
-                $kind.change(function() {
-                    if ($kind.val() == 'B') {
-                        $url.removeAttr('disabled').show();
-                    } else {
-                        $url.attr('disabled', 'disabled').val('').hide();
-                    }
-                }).trigger('change'); // added trigger to calculate initial state
-                // 
-                // $("input[type=text]").click(function() { // automatically select text on click - http://stackoverflow.com/a/3150370/412329
-                //    $(this).select();
-                // });
-            });
-    </script>
-    
-{% endblock %}
-
-{% block content %}
-
-{% load bootstrap_tags %}
-<form class="customform" id="add_post" method="POST" action="{% url blog_add %}">
-    {% csrf_token %}
-  <fieldset>
-    <legend>New  Entry</legend>  
-        {{ post_form|as_bootstrap }}
-        {% include "post_form.html" %}
-        <br>
-        <button type="submit" class="btn btn-primary btn-large">Submit</button> or <a href="javascript:history.go(-1)">Cancel</a>
-  </fieldset>
-</form>
+    {% if post_form.url.errors %}
+	    {% for error in post_form.url.errors %}
+	        {{ error|escape }}
+	    {% endfor %}
+	{% endif %}
+</div>
+</div>
+<br>
 
 
-{% endblock %}
+<div class="wmd-panel">
+    <label for="wmd-input">{{ post_form.content_markdown.label }} <span class="quiet small"><a data-toggle='modal' href='#markdownhelp'>markdown syntax</a> · <a href="#" class="toggles">show/hide preview{# <i class="icon-chevron-left"></i> #}</a></span></label>
+    <div id="wmd-button-bar"></div>
 
-<div class="noteswritebox">
-    {{ form.non_field_errors }}
-    <fieldset>
-        {{ form.title.errors }}
-        <label for="id_title">Title:</label><br />
-        {# {{ form.title }} #}
-        <input id="id_title" type="text" name="title" value="{{ form.title.value|default:'' }}" maxlength="255" tabindex="1" placeholder="Title…" />
-              
-    </fieldset>
+	{% if post_form.content_markdown.errors %}<div class="alert alert-error">{% endif %}
 
-    <fieldset>
-        {{ form.content_markdown.errors }}
-        <label for="id_content_markdown">Entry Body: <span class="smaller">(markdown syntax)</span></label>
-        <div id="button_bar"></div>        
-        {# {{ form.content_markdown }} #}
-        {# Keeping presentation in template rather than in modelform widgets: #}
-            {# - https://docs.djangoproject.com/en/dev/topics/forms/#looping-over-the-form-s-fields #}
-            {# - http://stackoverflow.com/a/2152407/412329 #}
-        <textarea placeholder="Note…" id="id_content_markdown" rows="30" cols="80" name="content_markdown" tabindex="3">{{ form.content_markdown.value|default:'' }}</textarea> 
-    </fieldset>
+	    {{ post_form.content_markdown|tabindex:3 }}
 
-    <fieldset style="margin-bottom:0.8em;" class="quiet">
-        {{ form.created.errors }}
-        <label for="id_created">Published on </label>
-        {{ form.created }}
-    </fieldset>
+	{# <textarea class="wmd-input" rows="10" id="wmd-input" name="content_markdown" cols="40" tabindex="2">{{post_form.content_markdown.value}}</textarea> #}
 
-    {#  <div class="clearfix"> #}
-    {#  #}
-    {#                 <label for="id_status" class="requiredField"> #}
-    {#                     Status #}
-    {#                 </label> #}
-    {#                 <div class="input"> #}
-    {#                     <select name="status" id="id_status"> #}
-    {# <option value="1">Draft</option> #}
-    {# <option value="2" selected="selected">Public</option> #}
-    {# </select> #}
-    {#  #}
-    {#  #}
-    {#                 </div> #}
-    {#  #}
-    {#         </div> #}
+	{% if post_form.content_markdown.errors %}
+		{% for error in post_form.content_markdown.errors %}
+		    {{ error|escape }}
+		{% endfor %}
+		</div>
+	{% endif %}
+	
+</div>
+
+{# <label for="wmd-preview"></label> #}
+<div id="wmd-preview" class="wmd-panel wmd-preview"></div>
 
 
-</div> {# /.noteswritebox #}
+{# <div style="display:none;"> #}
+{# <label for="id_category">{{ post_form.category.label }}</label> #}
+{#  #}
+{#     {{ post_form.category|tabindex:4 }} #}
+{#  #}
+{#     {% if post_form.category.errors %} #}
+{#      <div class="alert alert-error"> #}
+{#      {% for error in post_form.category.errors %} #}
+{#          {{ error|escape }} #}
+{#      {% endfor %} #}
+{#      </div> #}
+{#  {% endif %} #}
+{#  #}
+{# </div> #}
 
+<label for="id_status">{{ post_form.status.label }}</label>
 
-<div class="notespreviewbox">
-    <h1 class="first">{{ post.title }}</h1>
-    <h5>Entry Preview</h5>
-    <div id="content_rendered_preview"></div>
-    {# <h5>Generated raw HTML <span class="normal">(save to content_html table in database)</span></h5> #}
-    {# <textarea name="content_html" value="" id="content_html_preview" columns="80" rows="40"></textarea> #}
-    {# <input type="hidden" name="notes-html" value="" id="notes-html" /> #}
-</div> <!-- /div.notespreviewbox -->
-    
-{% block extra_script %}
-{# WMD Markdown Editor with Preview - initialization #}
-<script type="text/javascript">
-setup_wmd({
-	input: "id_content_markdown",
-	button_bar: "button_bar",
-	preview: "content_rendered_preview",
-	output: "content_html",
-    // buttons: "bold italic link image ol ul  heading  undo redo  help",
-    buttons: "bold italic link image ol ul heading  undo redo  help",
-	modifierKeys: false,
-	autoFormatting: false
-});
-</script>    
-{% endblock %}
+    {{ post_form.status|tabindex:5 }}
+
+    {% if post_form.status.errors %}
+	    <div class="alert alert-error">
+	    {% for error in post_form.status.errors %}
+	        {{ error|escape }}
+	    {% endfor %}
+	    </div>
+	{% endif %}
+<br>
+<br>
+
+<label for="id_allow_comments">{{ post_form.allow_comments|tabindex:6 }} {{ post_form.allow_comments.label }}</label>
+    {% if post_form.allow_comments.errors %}
+	    <div class="alert alert-error">
+	    {% for error in post_form.allow_comments.errors %}
+	        {{ error|escape }}
+	    {% endfor %}
+	    </div>
+	{% endif %}

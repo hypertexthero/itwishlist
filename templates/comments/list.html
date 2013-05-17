@@ -3,7 +3,7 @@
 
     {% load thumbnail %}
     
-    <p><a href="#comment{{ forloop.counter }}"><b class="larger">{{ forloop.counter }}</b></a> by <b><a href="/profiles/{{ comment.user_name }}">
+    <p class="subdued small"><a href="#comment{{ forloop.counter }}"><b class="larger">#{{ forloop.counter }}</b></a> by <b><a href="/profiles/{{ comment.user_name }}">
         {% if comment.user.get_profile.user_photo %}
         <img class="pull-right" src="{% thumbnail comment.user.get_profile.user_photo 40x28 crop %}" />
         {% else %}

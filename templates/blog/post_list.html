@@ -142,7 +142,7 @@
                                     <span class="comments quiet">
                                         | 
                                         {% get_comment_count for post as comment_count %}
-                                        <a href="{{ post.get_absolute_url }}#comments">{{ comment_count }} comments</a>
+                                        <a class="subdued" href="{{ post.get_absolute_url }}#comments">{{ comment_count }} comments</a>
                                         {# <a class="quiet" href="{{ post.get_absolute_url }}#disqus_thread"></a> #}
                                     </span>
                                     {% endif %}

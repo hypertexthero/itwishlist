@@ -55,7 +55,7 @@
             {% if post.allow_comments %}
             <div id="commentsbox">
                 {% get_comment_count for post as comment_count %}
-                <h3 id="comments">Comments ({{ comment_count }})</h3>
+                <h3 id="comments">Comments <span class="normal">({{ comment_count }})</span></h3>
 
                 
                 {% render_comment_list for post %}
@@ -209,13 +209,13 @@
             {% endifequal %}
             {% load thumbnail %}
                     {% if post.author.get_profile.user_photo %}<a href="/posts/{{ post.author.username }}/"><img class="pull-right" src="{% thumbnail post.author.get_profile.user_photo 40x28 crop %}" /></a>{% endif %}
-                    <span class="caps">By:</span> <strong><a href="/posts/{{ post.author.username }}/">{% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}</strong></a>
+                    <span class="caps">Author:</span> <strong><a href="/posts/{{ post.author.username }}/">{% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}</strong></a>
                     <br>
                     <span class="caps">Published:</span> {{ post.publish|date:"D, d M Y, H:i"}}
                     <br>
                     <span class="caps">Last Updated:</span> {{ post.updated_at|date:"D, d M Y, H:i"}}
                     <br>
-                    <a style="text-decoration:underline;" class="small quiet" href="{{ post.get_absolute_url }}" title="Permanent link to this entry."># permanent link to this page</a>
+                    <a style="text-decoration:underline;" class="small" href="{{ post.get_absolute_url }}" title="Permanent link to this entry."># permanent link to this page</a>
                 </p>
 
 

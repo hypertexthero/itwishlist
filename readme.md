@@ -4,13 +4,15 @@ Naively-built website inspired by a well-known geek site to manage IT needs at w
 
 ## Todo now
 
-- Ability to vote on comments
-- User karma system - users with karma above a certain threshold get new abilities such as downvotes
-- Set up fabric deployment
+- Allow logins from users with details in existing separate user database
 
 ## Todo in Future (upcoming features)
 
-- Rename 'blog' to 'wishlist'
+- Create local image upload app so users can upload images for inserting in posts
+- Set up fabric deployment
+- Ability to vote on comments
+- User karma system - users with karma above a certain threshold get new abilities such as downvotes
+- Rename URLS from 'post' to 'item'
 - Port DB to MySQL for work setup?
 - Blog
     - Feeds & Content Export in Atom XML and JSON
