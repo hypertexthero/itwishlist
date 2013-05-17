@@ -69,7 +69,7 @@
                                 {% block nav %}
                                         {% load blog_tags %}
                                         <ul class="nav">
-                                            <li {% active request "^/$" %}><a class="brand" href="{% url "home" %}" title="IT Wishlist - top items (with most votes). Note that the Core Team ultimately decides what's top priority.">IT Wishlist</a></li>
+                                            <li {% active request "^/$" %}><a class="brand" href="{% url "home" %}" title="IPPC IT Wishlist - top items (with most votes). Note that the Core Team ultimately decides what's top priority.">IT Wishlist</a></li>
                                             {# <li{% active request "^/$" %}><a href="/" title="Most popular entries - the IT Wish List homepage">Hot</a></li> #}
                                             <li{% active request "^/new/$" %}><a href="/new/" title="Latest items (most recently added).">New</a></li>
                                             <li{% active request "^/inprogress/$" %}><a href="/inprogress/" title="Stuff that's in progress in the current sprint.">In Progress</a></li>
