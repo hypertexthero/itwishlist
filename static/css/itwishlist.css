@@ -29,6 +29,7 @@ hr {color:#d7d5c6; border-color:#d7d5c6; }
 a:link {color:#00782b; font-weight:bold;}
 a:visited {color:#004b18;}
 a:hover {color:#930; text-decoration:none;}
+.btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {background-color:#930;}
 a.btn {font-weight:normal;}
 div.post a, div#content a, div#wmd-preview a {text-decoration:underline;}
 /*a:hover, a:active {text-decoration:none; color:#000; outline:none;}*/
