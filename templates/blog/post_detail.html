@@ -186,6 +186,10 @@
 
                 <p class="meta well">
                     
+                    {% if user.is_staff %} 
+                        <a class="btn" href="/admin/blog/post/{{ post.id }}">Edit in Admin Interface</a><br>
+                    {% endif %}
+                    
             {% ifequal post.author request.user %}
 
                     <span class="caps"><a href="/desk/">Desk Actions</a></span>

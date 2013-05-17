@@ -25,16 +25,17 @@ b, strong {font-weight:bold;}
 div.well {border:0;}
 legend {border-color:#e7e6db;}
 hr {color:#d7d5c6; border-color:#d7d5c6; }
-a:link {color:#060;}
-a:visited {color:#030;}
+a:link {color:#00782b; font-weight:bold;}
+a:visited {color:#004b18;}
+a.btn {font-weight:normal;}
 div.post a, div#content a, div#wmd-preview a {text-decoration:underline;}
 /*a:hover, a:active {text-decoration:none; color:#000; outline:none;}*/
 /*.btn {padding-bottom:0.45em;}*/
 a.btn {color:#fff;}
-a.btn.dropdown-toggle {color:#060; font-size:0.9em;}
-.showall, .hideall {color:#060;}
+a.btn.dropdown-toggle {color:#00782b; font-size:0.9em;}
+.showall, .hideall {color:#00782b;}
 .btn.tip, .btn-smaller, .btn {color:#2e2a1f !important;}
-.btn-primary {background:#060; color:#fff !important; padding-bottom:0.5em;}
+.btn-primary {background:#00782b; color:#fff !important; padding-bottom:0.5em;}
 .btn-danger {color:#fff !important;}
 /*.btn:hover {background:#ccc;}*/
 div.form-actions {background:transparent; border-top:double #e7e6db; padding:1em 0;}
@@ -100,6 +101,7 @@ body#log form.postvote {display:inline;}
 .block {display:block;}
 .alignright {text-align:right !important;}
 .alignleft {text-align:left !important;}
+.center {text-align:center;}
 .quiet, input[placeholder] {color:#999;}
 .subdued {color:#999;}
 a.quiet {color:#999;}
