@@ -14,6 +14,7 @@ div.navbar, div.navbar-fixed-top {position:relative !important; text-transform:u
 ul.nav li a {color:#fff !important; font-weight:bold;}
 ul.nav-list li a {color:#000 !important;}
 .navbar .nav .active > a, .navbar .nav .active > a:hover {color:#fc0 !important;}
+.navbar .nav a:hover {color:#fc6 !important;}
 div.navbar-inner {border-radius:0;}
 
 *:target {background:#ffc !important;}
@@ -27,6 +28,7 @@ legend {border-color:#e7e6db;}
 hr {color:#d7d5c6; border-color:#d7d5c6; }
 a:link {color:#00782b; font-weight:bold;}
 a:visited {color:#004b18;}
+a:hover {color:#930; text-decoration:none;}
 a.btn {font-weight:normal;}
 div.post a, div#content a, div#wmd-preview a {text-decoration:underline;}
 /*a:hover, a:active {text-decoration:none; color:#000; outline:none;}*/
