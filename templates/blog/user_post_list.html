@@ -69,7 +69,7 @@
         {% endif %}
 
         <p class="lead subdued">
-        {% if author.get_profile.name %}{{ author.get_profile.name }}{% else %}{{author.username}}{% endif %}&rsquo;s Posts
+        {% if author.get_profile.name %}{{ author.get_profile.name }}{% else %}{{author.username}}{% endif %}&rsquo;s Posted Items
         </p>
         <p class="subdued">
         {% if author.get_profile.date_joined %}Member since: {{author.get_profile.date_joined|date:"j F Y"}}{% endif %}    
