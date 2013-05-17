@@ -57,7 +57,7 @@ def desk(request, *kargs, **kwargs):
 def change_status(request, action, id):
     post = get_object_or_404(Post, pk = id)
     if post.author != request.user:
-        request.user.message_set.create(message="You can't change statuses of posts that aren't yours")
+        request.user.message_set.create(message="You can't change statuses of items that aren't yours")
     else:
         if action == 'draft' and post.status == IS_PUBLIC or post.status == IN_PROGRESS or post.status == DONE:
             post.status = IS_DRAFT
@@ -89,7 +89,7 @@ def add(request, form_class=PostForm, template_name="blog/post_add.html"):
 def edit(request, id, form_class=PostForm, template_name="blog/post_edit.html"):
     post = get_object_or_404(Post, id=id)
     if post.author != request.user:
-        request.user.message_set.create(message="You can't edit posts that aren't yours")
+        request.user.message_set.create(message="You can't edit items that aren't yours")
         return redirect("desk")
     post_form = form_class(request, instance=post)
     if request.method == "POST" and post_form.is_valid():
@@ -114,11 +114,11 @@ def delete(request, id):
         post_delete_redirect=reverse("desk")
     )
 
-# =todo: export all posts to plain text in markdown format
+# =todo: export all items to plain text in markdown format
 # https://docs.djangoproject.com/en/1.0/topics/generic-views/#performing-extra-work
 @login_required
 def backup(request):
-    """ export all posts to plain text in markdown format """
+    """ export all items to plain text in markdown format """
     return object_list(request,
         queryset = Post.objects.all(),
         # mimetype = "text/plain",
@@ -167,7 +167,7 @@ def search(request):
 
 @login_required
 def following(request): 
-    """Show following posts"""   
+    """Show following items"""   
     return object_list(request, 
         queryset=Post.objects.all().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)),
         template_name='following.html',
@@ -177,7 +177,7 @@ def following(request):
 
 @login_required
 def followers(request): 
-    """Show following posts"""   
+    """Show followers items"""   
     return object_list(request, 
         queryset=Post.objects.all().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)),
         template_name='followers.html',
@@ -206,7 +206,7 @@ def followers(request):
 #                 context_instance=RequestContext(request)) # http://stackoverflow.com/questions/8625601/yourlabs-subscription-error-caught-variabledoesnotexist-while-rendering
 
 def homepage(request): 
-    """Show top posts"""   
+    """Show top items"""   
 
     return object_list(request, 
         # http://eflorenzano.com/blog/2008/05/24/managers-and-voting-and-subqueries-oh-my/
@@ -218,7 +218,7 @@ def homepage(request):
     )
 
 def new(request): 
-    """Show new posts"""
+    """Show new items"""
     return object_list(request, 
         queryset=Post.objects.filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)).order_by('-created_at')[:300], 
         template_name='new.html',

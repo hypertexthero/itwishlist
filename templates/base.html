@@ -64,37 +64,19 @@
                                 {# <span class="icon-bar"></span> #}
                             {# </a> #}
                             {# {% block site_brand %}<a class="brand" href="{% url "home" %}" title="IT Wish List homepage - most popular entries"><img src="{% static "img/dayzmod-small.png" %}" alt="Rome"><i>LOG</i></a>{% endblock %} #}
-                            {# {% block site_brand %}<a class="brand" href="{% url "home" %}" title="IT Wish List - top posts">IT Wish List</a>{% endblock %} #}
+                            {# {% block site_brand %}<a class="brand" href="{% url "home" %}" title="IT Wish List - top items">IT Wish List</a>{% endblock %} #}
                             {# <div class="nav-collapse"> #}
                                 {% block nav %}
                                         {% load blog_tags %}
                                         <ul class="nav">
-                                            <li {% active request "^/$" %}><a class="brand" href="{% url "home" %}" title="IT Wishlist - top posts (with most votes).">IT Wishlist (HOT)</a></li>
+                                            <li {% active request "^/$" %}><a class="brand" href="{% url "home" %}" title="IT Wishlist - top items (with most votes).">IT Wishlist (HOT)</a></li>
                                             {# <li{% active request "^/$" %}><a href="/" title="Most popular entries - the IT Wish List homepage">Hot</a></li> #}
-                                            <li{% active request "^/new/$" %}><a href="/new/" title="Latest posts (most recently added).">New</a></li>
+                                            <li{% active request "^/new/$" %}><a href="/new/" title="Latest items (most recently added).">New</a></li>
                                             <li{% active request "^/inprogress/$" %}><a href="/inprogress/" title="Stuff that's in progress in the current sprint.">In Progress</a></li>
                                             <li{% active request "^/done/$" %}><a href="/done/" title="Stuff that's been finished.">Done</a></li>
-                                            <li{% active request "^/feature/$" %}><a href="/feature/" title="Feature Request posts with most votes.">Feature Requests</a></li>
-                                            <li{% active request "^/bug/$" %}><a href="/bug/" title="Bug Report posts with most votes.">Bug Reports</a></li>
+                                            <li{% active request "^/feature/$" %}><a href="/feature/" title="Feature Request items with most votes.">Feature Requests</a></li>
+                                            <li{% active request "^/bug/$" %}><a href="/bug/" title="Bug Report items with most votes.">Bug Reports</a></li>
                                             
-                                            {% comment %}
-
-                                            <li{% active request "^/ask/$" %}><a href="/ask/" title="Ask anything about Rome">Ask</a></li>
-                                            <li{% active request "^/work/$" %}><a href="/work/" title="Top Work Entries">Work</a></li>
-
-    
-
-                                            <li{% active request "^/eat/$" %}><a href="/eat/" title="Top Eat Posts">Eat</a></li>
-                                            <li{% active request "^/sleep/$" %}><a href="/sleep/" title="Top Sleep Posts">Sleep</a></li>
-                                            <li{% active request "^/socialize/$" %}><a href="/socialize/" title="Top Socialize Posts">Socialize</a></li>
-                                            <li{% active request "^/exercise/$" %}><a href="/exercise/" title="Top Exercise Posts">Excercise</a></li>
-                                            <li{% active request "^/art/$" %}><a href="/art/" title="Top Art Posts">Art</a></li>
-                                            {# <li{% active request "^/shop/$" %}><a href="/shop/" title="Top Shop Posts">Shop</a></li> #}
-                                            {# <li{% active request "^/work/$" %}><a href="/work/" title="Top Work Posts">Work</a></li> #}
-
-
-                                            {# <li{% active request "^/faq/$" %}><a href="/faq/" title="Frequently asked questions.">Faq</a></li> #}
-                                            {% endcomment %}
                                         </ul>
                                 {% endblock %}
                             {# </div> #}
@@ -120,31 +102,18 @@
                             {% block footer %}
                             <p><a href="javascript:window.location=%22http%3A%2F%2F{{SITE_DOMAIN}}%2Fpost?u=%22+encodeURIComponent(document.location)+%22&amp;t=%22+encodeURIComponent(document.title)" title="Drag this link to your browser bookmarks bar, then click on it to post a link to the webpage you are currently visiting to IT Wish List.">Post to IT Wish List</a> <span class="small subdued">&larr; drag to your browser toolbar, then click to post the current page to it.ippc.int (useful for posting bug reports)</span></p>
 
-{% comment %}
-    
 
-                            <p class="subdued">
-                                <span{% active request "^/faq/$" %}><a href="/faq/" title="Frequently asked questions.">FAQ</a></span> ·
-                                <span{% active request "^/guidelines/$" %}><a href="/faq/" title="Guidelines for posts.">Guidelines</a></span>
-                            </p>
-{% endcomment %}
                             <form class="form-search" method="get" action="/search/"> 
                                 {# <label for="id_q">Search the <a href="{% url notes_archive %}">archive</a>:</label>  #}
                                 <input class="input-large search-query" type="text" name="q" id="id_q" size="30" placeholder="keyword(s)" /> 
                                 <button type="submit" class="btn">Search</button>
                             </form>
                             <p class="small quiet">
-                                Recent posts with most <strong class="subdued" style="font-family:'courier new', courier, monospace;">&and;</strong>upvotes (hot) are on the <a href="/">homepage</a>. Most recently added posts are in <a href="/new/">new</a>. Pages listing <a href="/feature/">new feature requests</a> and <a href="/bug/">bugs</a> are also available.
+                                Recent items with most <strong class="subdued" style="font-family:'courier new', courier, monospace;">&and;</strong>upvotes (hot) are on the <a href="/">homepage</a>. Most recently added items are in <a href="/new/">new</a>. Pages listing <a href="/feature/">new feature requests</a> and <a href="/bug/">bugs</a> are also available.
                                 <br>
                                 <a href="/about/" title="What is this site?">About the IPPC IT Wishlist</a>
                                 <br>
                                 ~
-                                {# <br> #}
-                                {#                                 Original entries &amp; comments copyright © by their authors.  #}
-                                {#                                 <br> #}
-                                {#                                 Thank you for visiting <a class="quiet" href="/">it.ippc.int</a>, dear reader. #}
-                                {#                                 <br> #}
-                                {#                                 <span class="caps">Festina Lente Consilio Manuque</span> #}
                             </p> 
                             {% endblock %}
                         </div>
