@@ -156,7 +156,7 @@
                        {{ score.score|default:0 }} point{{ score.score|default:0|pluralize }}
                        {# {{ score.score|default:0 }} #}
                    {% else %}
-                   
+                    <small>no votes yet</small>
                    {% endif %}
                </p>
                <br style="clear:both;">
@@ -193,8 +193,8 @@
                     
             {% ifequal post.author request.user %}
 
-                    <span class="caps"><a href="/desk/">Desk Actions</a></span>
-                    <br>
+                    {# <span class="caps"><a href="/desk/">Desk Actions</a></span> #}
+                    {# <br> #}
                     <a class="btn" href="{% url blog_edit post.id %}"><i class="icon-edit"></i> Edit</a>
                     <a class="btn" href="{% url blog_delete post.id %}"><i class="icon-remove"></i> Delete</a> 
                     <br>
