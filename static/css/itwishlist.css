@@ -7,7 +7,7 @@ Monday, 20 May 2013: 09:53:05 Italy Time
 
 body {padding-top: 10px; background:#fff url(/static/img/website-bar-3.0.gif) repeat-x; color:#000; font-family:verdana, sans-serif;}
  /*url(/static/img/background.jpg) repeat 0 0;*/
-a.brand {font-size:1.2em !important; vertical-align:middle; color:#c00; font-family:georgia, serif; letter-spacing:0.1em; background:url(/static/img/ippc-logo-small.png) no-repeat 0 5px; margin-left:0 !important;}
+a.brand {font-size:1.1em !important; vertical-align:middle; color:#c00; font-family:georgia, serif; letter-spacing:0.1em; background:url(/static/img/ippc-logo-small.png) no-repeat 0 5px; margin-left:0 !important;}
 
 p, li, .btn {line-height:1.7em;}
 div.post {max-width:39em;}

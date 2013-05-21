@@ -3,10 +3,11 @@ from django.conf import settings
 
 # from django.contrib.comments.models import FreeComment
 
-from itwishlist.apps.blog.models import Post, IS_PUBLIC
+from itwishlist.apps.blog.models import Post, IS_PUBLIC, IN_PROGRESS
 from itwishlist.apps.profiles.models import Profile
 
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 # =voting
 # http://code.google.com/p/django-voting/wiki/RedditStyleVoting
@@ -34,7 +35,7 @@ backup_dict = {
 }
 
 post_dict_public = {
-    'queryset': Post.objects.filter(status=IS_PUBLIC).order_by('-created_at'),
+    'queryset': Post.objects.filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)).order_by('-created_at'),
     'template_object_name': 'post',
     # 'extra_context': {"user": user},
 }
