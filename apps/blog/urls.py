@@ -47,7 +47,7 @@ urlpatterns = patterns('',
     url(r'^comments/', include('django.contrib.comments.urls')),
     url(r'^(?P<username>[\w\._\-]+)/$', 'itwishlist.apps.blog.views.user_post_list', dict(post_dict_public, template_name='blog/user_post_list.html'), name='blog_user_post_list'),
     url(r'^edit/(?P<id>\d+)/$', 'itwishlist.apps.blog.views.edit', name='blog_edit'),
-    url(r'^(?P<action>draft|public)/(?P<id>\d+)/$', 'itwishlist.apps.blog.views.change_status', name='blog_change_status'),
+    url(r'^(?P<action>draft|public|inprogress|done)/(?P<id>\d+)/$', 'itwishlist.apps.blog.views.change_status', name='blog_change_status'),
     url(r'^delete/(?P<id>\d+)/$', 'itwishlist.apps.blog.views.delete', name='blog_delete'), 
     # =voting
     # =todo: figure out why vote doesn't work for logged out users after logging in and accessing post_voting view

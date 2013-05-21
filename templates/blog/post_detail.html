@@ -183,27 +183,37 @@
                </form>
                {% endcomment %}
            </div>
-
-                <p class="meta well">
+                <div class="meta well">
                     
                     {% if user.is_staff %} 
-                        <a class="btn" href="/admin/blog/post/{{ post.id }}">Edit in Admin Interface</a><br>
+                        <a class="btn" href="/admin/blog/post/{{ post.id }}">Edit as Admin</a><br>
                     {% endif %}
                     
             {% ifequal post.author request.user %}
 
                     <span class="caps"><a href="/desk/">Desk Actions</a></span>
                     <br>
-                    <a href="{% url blog_edit post.id %}"><i class="icon-edit"></i> edit</a>
+                    <a class="btn" href="{% url blog_edit post.id %}"><i class="icon-edit"></i> Edit</a>
+                    <a class="btn" href="{% url blog_delete post.id %}"><i class="icon-remove"></i> Delete</a> 
+                    <br>
+                    <br>
+                    <span class="caps">Change status to:</span>
+
+                    <ul class="nav nav-pills nav-stacked">
+                    <li{% if post.status == 1 %} class="active"{% endif %}><a href="{% url blog_change_status 'draft' post.id %}">Draft</a></li>
+                    <li{% if post.status == 2 %} class="active"{% endif %}><a href="{% url blog_change_status 'public' post.id %}">Pending</a></li>
+                    <li{% if post.status == 3 %} class="active"{% endif %}><a href="{% url blog_change_status 'inprogress' post.id %}">In Progress</a></li>
+                    <li{% if post.status == 4 %} class="active"{% endif %}><a href="{% url blog_change_status 'done' post.id %}">Done</a></li>
+                    </ul>
+
                     {#  {% if post.status == 1 %} #}
                     {#     <br> #}
                     {#     <a href="{% url blog_change_status 'public' post.id %}"><i class="icon-ok"></i> {% trans "publish" %}</a> #}
                     {#     {% else %} #}
                     {#     <br> #}
-                    {#     <a href="{% url blog_change_status 'draft' post.id %}"><i class="icon-inbox"></i> {% trans "move to drafts" %}</a> #}
+                    {#      #}
                     {# {% endif %} #}
-                    <br>
-                    <a href="{% url blog_delete post.id %}"><i class="icon-remove"></i> delete</a> 
+
                     <br>
                     <br>
             {% endifequal %}
@@ -218,7 +228,7 @@
                     <span class="caps">Last Updated:</span> {{ post.updated_at|date:"D, d M Y, H:i"}}
                     <br>
                     <a style="text-decoration:underline;" class="small" href="{{ post.get_absolute_url }}" title="Permanent link to this entry."># permanent link to this page</a>
-                </p>
+                </div>
 
 
 {% comment %}

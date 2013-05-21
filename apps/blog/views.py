@@ -7,6 +7,9 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+
+from django.contrib import messages
+
 from django.views.generic import date_based, list_detail
 from django.conf import settings
 from django.db.models import Q, Count # http://stackoverflow.com/a/1217911/412329
@@ -57,16 +60,20 @@ def desk(request, *kargs, **kwargs):
 def change_status(request, action, id):
     post = get_object_or_404(Post, pk = id)
     if post.author != request.user:
-        request.user.message_set.create(message="You can't change statuses of items that aren't yours")
+        messages.add_message(request, messages.ERROR, message="You can't change statuses of items that aren't yours")
     else:
-        if action == 'draft' and post.status == IS_PUBLIC or post.status == IN_PROGRESS or post.status == DONE:
+        if action == 'draft' and post.status in [IS_PUBLIC,IN_PROGRESS,DONE]:
             post.status = IS_DRAFT
-        if action == 'public' and post.status == IS_DRAFT or post.status == IN_PROGRESS or post.status == DONE:
+        elif action == 'public' and post.status in [IS_DRAFT,IN_PROGRESS,DONE]:
             post.status = IS_PUBLIC
-            post_published.send(sender=Post, post=post)
+        elif action == 'inprogress' and post.status in [IS_PUBLIC,IS_DRAFT,DONE]:
+            post.status = IN_PROGRESS
+        elif action == 'done' and post.status in [IS_DRAFT,IS_PUBLIC,IN_PROGRESS]:
+            post.status = DONE
+        post_published.send(sender=Post, post=post)
         post.save()
-        request.user.message_set.create(message=_("Successfully change status for post '%s'") % post.title)
-    return redirect("desk")
+        messages.add_message(request, messages.SUCCESS, message=_("Successfully changed status for post '%s'") % post.title)
+    return redirect("blog_user_post_detail", username=request.user.username, slug=post.slug)
 
 @login_required
 def add(request, form_class=PostForm, template_name="blog/post_add.html"):
@@ -81,7 +88,7 @@ def add(request, form_class=PostForm, template_name="blog/post_add.html"):
             # creator_ip = request.META.get('REMOTE_ADDR', None)
         # post.creator_ip = creator_ip
         post.save()
-        request.user.message_set.create(message=_("Successfully created post '%s'") % post.title)
+        messages.add_message(request, messages.SUCCESS, message=_("Successfully created post '%s'") % post.title)
         return redirect("blog_user_post_detail", username=request.user.username, slug=post.slug)
     return render_to_response(template_name, {"post_form": post_form, "u": u, "t": t}, context_instance=RequestContext(request))
 
@@ -96,7 +103,9 @@ def edit(request, id, form_class=PostForm, template_name="blog/post_edit.html"):
         post = post_form.save(commit=False)
         post.updated_at = datetime.now()
         post.save()
-        request.user.message_set.create(message=_("Successfully updated post '%s'") % post.title)
+        # request.user.message_set.create(message=_("Successfully updated post '%s'") % post.title)
+        # http://stackoverflow.com/a/11728475/412329
+        messages.add_message(request, messages.SUCCESS, message=_("Successfully updated post '%s'") % post.title)
         return redirect("blog_user_post_detail", username=request.user.username, slug=post.slug)
     return render_to_response(template_name, {"post_form": post_form, "post": post}, context_instance=RequestContext(request))
 

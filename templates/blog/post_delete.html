@@ -25,7 +25,7 @@
     <form method="POST" action="">
         {% csrf_token %}
         <legend>Deleting entry titled</span> &ldquo;{{ post.title }}&rdquo;</legend>  
-        <p>Are you sure want to <strong class="warning">delete</strong> the entry titled "<em>{{ post.title }}</em>"?</p>
+        <p>Are you sure want to <strong class="warning">delete</strong> the entry titled "<em>{{ post.title }}</em>"? {# If you only want to hide the entry, you can <a class="btn" href="{% url blog_change_status 'draft' post.id %}">{% trans "change status to draft" %}</a>. #}</p>
         
         <p><input class="btn btn-danger" type="submit" value="Yes, Delete" /> or <a href="javascript:history.go(-1)">Cancel</a></p>
     </form>

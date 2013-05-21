@@ -33,7 +33,7 @@ DONE = 4
 
 STATUS_CHOICES = (
     (IS_DRAFT, _("Draft (does not appear on wishlist)")), 
-    (IS_PUBLIC, _("Todo")),
+    (IS_PUBLIC, _("Pending")),
     (IN_PROGRESS, _("In Progress")),
     (DONE, _("Done")),
 )
@@ -183,7 +183,6 @@ class Post(models.Model):
     #     if prev:
     #         return prev[0]
     #     return False
-
 
 # Notifications when users comment
 # http://stackoverflow.com/questions/8603469/how-to-use-django-notification-to-inform-a-user-when-somebody-comments-on-their
