@@ -10,6 +10,8 @@
         <span class="pull-right" style="width:40px; height:28px; background:#eee; font-size:0.7em; font-weight:normal;"></span>
         {% endif %}
         {% if comment.user.get_profile.name %}{{ comment.user.get_profile.name }}{% else %}{{ comment.user.username }}{% endif %}</a></b> on {{ comment.submit_date|date:"D, d M Y, H:i" }}</p>
-    <p>{{ comment.comment }}</p>
+
+        {% load markup %}
+        {{ comment.comment|markdown:"codehilite,tables,footnotes" }}
 </div>
 {% endfor %}
