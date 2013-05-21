@@ -2,12 +2,12 @@
 it.ippc.int stylesheet overriding bootstrap.css
 Author: Simon Griffee
 Last updated: 
-Monday, 20 May 2013: 09:53:05 Italy Time
+Tuesday, 21 May 2013: 13:14:12 Italy Time
 */
 
 body {padding-top: 10px; background:#fff url(/static/img/website-bar-3.0.gif) repeat-x; color:#000; font-family:verdana, sans-serif;}
  /*url(/static/img/background.jpg) repeat 0 0;*/
-a.brand {font-size:1.1em !important; vertical-align:middle; color:#c00; font-family:georgia, serif; letter-spacing:0.1em; background:url(/static/img/ippc-logo-small.png) no-repeat 0 5px; margin-left:0 !important;}
+a.brand {font-size:1.1em !important; vertical-align:middle; color:#c00; font-family:georgia, serif; letter-spacing:0.1em; background:url(/static/img/ippc-logo-small.png) no-repeat 0 11px; margin-left:0 !important;}
 
 p, li, .btn {line-height:1.7em;}
 div.post {max-width:39em;}
@@ -22,7 +22,7 @@ ul.nav li a {color:#fff !important; font-weight:bold;}
 ul.nav-list li a {color:#000 !important;}
 .navbar .nav .active > a, .navbar .nav .active > a:hover {color:#fc0 !important;}
 .navbar .nav a:hover {color:#fc6 !important;}
-.navbar .nav > li > a {padding:3px 7px 3px !important;}
+.navbar .nav > li > a {padding:9px 7px 3px !important;}
 .navbar .nav > li > a.brand {padding-left:34px !important;}
 div.navbar-inner {border-radius:0; min-height:25px;}
 
