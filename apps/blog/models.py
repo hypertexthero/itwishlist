@@ -33,7 +33,7 @@ DONE = 4
 
 STATUS_CHOICES = (
     (IS_DRAFT, _("Draft (does not appear on wishlist)")), 
-    (IS_PUBLIC, _("Published")),
+    (IS_PUBLIC, _("Todo")),
     (IN_PROGRESS, _("In Progress")),
     (DONE, _("Done")),
 )
