@@ -12,6 +12,7 @@
         <p>Or click and drag this link to the place in the text file or form field where you want to embed the file:</p>
         <p><strong><a href="{{ file.file.url }}">{{ file.filename }}</a></strong></p>
         <a href="{{ file.file.url }}">
+            {# =todo: see why thumbs are not working and get them working. show file icons if not images. #}
             <img src="{{ file.file.url }}">
         </a>
             <br>

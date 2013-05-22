@@ -68,7 +68,7 @@ class FileDeleteView(DeleteView):
             response['Content-Disposition'] = 'inline; filename=files.json'
             return response
         else:
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/files/')
 
 class JSONResponse(HttpResponse):
     """JSON response class."""
