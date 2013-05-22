@@ -4,6 +4,8 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User
 
+from django.contrib import messages
+
 from django.http import HttpResponse, HttpResponseRedirect
 from django.utils import simplejson
 from django.core.urlresolvers import reverse
@@ -63,6 +65,7 @@ class FileDeleteView(DeleteView):
         """
         self.object = self.get_object()
         self.object.delete()
+        messages.add_message(request, messages.SUCCESS, message=("Successfully deleted file."))
         if request.is_ajax():
             response = JSONResponse(True, {}, response_mimetype(self.request))
             response['Content-Disposition'] = 'inline; filename=files.json'
