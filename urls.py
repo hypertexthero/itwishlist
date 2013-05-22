@@ -57,6 +57,7 @@ urlpatterns = patterns("",
     # url(r'^b/', include('blogs.short_urls')), # For short urls, if you want
     url(r'^feeds/posts/(?P<url>w+)/', 'django.contrib.syndication.views.feed', blogs_feed_dict),
     url(r'^search/$', 'itwishlist.apps.blog.views.search', name="search"),
+    url(r'^files/', include('itwishlist.apps.fileupload.urls')),
     )
 
 urlpatterns += patterns('django.views.generic.simple',

@@ -40,7 +40,20 @@
         {# <p class="navbar-text pull-left">{% trans "Logged in as:" %}</p> #}
             <ul class="nav pull-right">
                 <li{% active request "^/post/$" %}><a href="/post/" title="Post a bug report or feature request."><i class="icon-pencil icon-white"></i> Post</a></li> {# <i class="icon-pencil icon-white"></i>  #}
-                <li{% active request "^/desk/$" %}><a href="/desk/" title="Your bug reports and feature requests, drafts and published.">Desk</a></li>    
+                {# <li{% active request "^/desk/$" %}><a href="/desk/" title="Your bug reports and feature requests, drafts and published.">Desk</a></li>     #}
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" title="See your items, browse or upload files.">
+                        Desk
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li{% active request "^/desk/$" %}><a href="/desk/" title="Your bug reports and feature requests, regardless of status.">Desk</a></li>
+                        <li{% active request "^/files/$" %}><a href="/files/" title="Files.">Files</a></li>
+                        <li{% active request "^/files/upload/$" %}><a href="/files/upload/" title="Files.">Upload</a></li>
+                    </ul>
+                </li>
+                
                 <li id="nav-profile"><a href="/profiles/{{ user.username }}" title="Set your display name and upload a picture.">Profile</a></li>
                 <li {% active request "^/account/email/$" %}><a href="{% url "acct_email" %}" title="Change password or email addresses."> {% trans "Account" %}</a></li>
                 

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block extra_style %}
+<!-- Bootstrap CSS Toolkit styles -->
+{# <link rel="stylesheet" href="{{ STATIC_URL }}css/fileupload/bootstrap.min.css"> #}
+<!-- Generic page styles -->
+{# <link rel="stylesheet" href="{{ STATIC_URL }}css/fileupload/style.css"> #}
+<!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
+{# <link rel="stylesheet" href="{{ STATIC_URL }}css/fileupload/bootstrap-responsive.min.css"> #}
+<!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
+<link rel="stylesheet" href="{{ STATIC_URL }}css/fileupload/bootstrap-image-gallery.min.css">
+<link rel="stylesheet" href="{{ STATIC_URL }}css/fileupload/jquery.fileupload-ui.css">
+<!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
+<!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+{% endblock extra_style %}
+{% block localnav %}
+    <div class="pull-right">
+        {% include "search_form.html" %}
+    </div>
+    {% load blog_tags %}
+    <ul class="nav nav-tabs">
+        <li {% active request "^/files/$" %}>
+            <a href="/files/"><i class="icon-list"></i> Uploaded Files</a>
+        </li>
+        <li {% active request "^/files/upload/$" %}><a href="/files/upload/"><i class="icon-upload"></i> Upload</a></li>
+    </ul>
+{% endblock localnav %}
+{% block body %}
+{% endblock %}
+
+
+

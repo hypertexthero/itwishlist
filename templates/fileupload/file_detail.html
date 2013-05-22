@@ -1,0 +1,43 @@
+{% extends "fileupload/file_base.html" %}
+{# http://stackoverflow.com/questions/4578685/noreversematch-while-rendering-reverse-for-django-contrib-auth-views-login #}
+{% load url from future %}
+{% load upload_tags %}
+
+{% block body %}
+<div class="container">
+
+        <h2>{{file.filename}} <small><a href="{{ slug }}" title="permalink to this page">#</a></small></h2>
+        <p>Direct link to image for embedding (triple-click to select, then copy and paste):</p>
+        <p><code>http://{{SITE_NAME}}{{file.file.url}}</code></p>
+        <p>Or click and drag this link to the place in the text file or form field where you want to embed the file:</p>
+        <p><strong><a href="{{ file.file.url }}">{{ file.filename }}</a></strong></p>
+        <a href="{{ file.file.url }}">
+            <img src="{{ file.file.url }}">
+        </a>
+            <br>
+            <br>
+                    <a class="btn btn-danger" href="{% url 'upload-delete' file.id %}">
+                        <i class="icon-trash icon-white"></i>
+                        <span>Delete</span>
+                    </a>
+
+
+    </div>
+
+{% upload_js %}
+
+{# <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/jquery.ui.widget.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/tmpl.min.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/load-image.min.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/canvas-to-blob.min.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/bootstrap.min.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/bootstrap-image-gallery.min.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/jquery.iframe-transport.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/jquery.fileupload.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/jquery.fileupload-fp.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/jquery.fileupload-ui.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/locale.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/main.js"></script> #}
+{# <script src="{{ STATIC_URL }}js/csrf.js"></script> #}
+{% endblock %}

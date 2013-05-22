@@ -5,32 +5,53 @@
 {% block body %}
 
 {# {% if player_results or title_results or results %}  #}
-{% if player_results or title_results or results %} 
+{# {% if profile_results or title_results or result_list %}  #}
+{# {% if result_list %}  #}
 
     <p>Search results for &ldquo;<strong>{{ query }}</strong>&rdquo;:</p> 
+    
+{% if post_results or file_results or profile_results %}
+    {% if post_results %}
+        <ul>
+            {% for post in post_results %} 
+                <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a> <small class="quiet">(entry)</small></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if file_results %}
+        <ul>
+            {% for file in file_results %} 
+                <li><a href="/files/{{file.id}}/{{ file.slug }}">{{ file.filename }}</a> <small class="quiet">(file)</small></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% if profile_results %}
+        <ul>
+            {% for profile in profile_results %}
+                <li><a href="{% url profile_detail profile.user.username %}">{{ profile.name }}</a> <small class="quiet">(profile)</small></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endif %}
+
+
+
+
 {# =todo: search player names #}
-    <ul>
-    {% if player_results %}
-        {% for profile in player_results %}
-            <li><a href="{% url profile_detail profile.user.username %}">{{ profile.name }} </a></li>
-        {% endfor %} 
-    {% endif %} 
+    {# <ul> #}
+    {#     {% for file in result_list %}  #}
+    {#         <li><a href="/files/{{file.id}}/{{ file.slug }}">asdf{{ file.filename }}</a></li> #}
+    {#     {% endfor %}  #}
+    {#     {% for post in result_list %}  #}
+    {#         <li><a href="{{ post.get_absolute_url }}">asdf{{ post.title }}</a></li> #}
+    {#     {% endfor %} #}
+    {#     {% for profile in profile_results %} #}
+    {#         <li><a href="{% url profile_detail profile.user.username %}">ff{{ profile.name }} </a></li> #}
+    {#     {% endfor %} #}
+    {# </ul> #}
+{# {% endif %}  #}
 
-    {% if title_results %}
-        {% for post in title_results %} 
-            <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
-        {% endfor %} 
-    {% endif %} 
-
-    {% if results %}
-        {% for post in results %} 
-            <li><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></li>
-        {% endfor %} 
-    {% endif %} 
-    </ul>
-{% endif %} 
-
-{% if query and not title_results and not results and not player_results %}
+{% if query and not post_results or file_results or profile_results %}
     <p class="warning">No results found.</p> 
     {% else %}
     {# <p>Type a search query into the box below, and press "Submit" to search.</p> #}    

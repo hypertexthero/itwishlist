@@ -163,6 +163,7 @@ INSTALLED_APPS = [
     # Project
     "profiles",
     "blog",
+    "fileupload",
     
     "gunicorn",
     # http://docs.gunicorn.org/en/latest/run.html

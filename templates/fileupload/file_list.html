@@ -1,0 +1,40 @@
+{% extends "fileupload/file_base.html" %}
+
+{% block subnav %}
+    {{block.super}}
+{% endblock subnav %}
+
+{% block body %}
+<div class="container">
+    {# <h2>List of Uploaded Files</h2> #}
+    {% load pagination_tags %}
+    {% autopaginate file_list 30 %}
+    <table class="files table table-striped">
+        <tr>
+            <th>Name</th>
+            <th>Last Changed</th>
+            <th>URL for embedding <small class="quiet normal">triple-click to select, then copy and paste</small></th>
+        </tr>
+        {% for file in file_list %}
+        <tr>
+            {# <td class="preview"> #}
+            {#     <a href="/files/{{file.id}}/{{ file.slug }}"><img src="{{ file.file.url }}"></a> #}
+            {# </td> #}
+            <td class="name"><a href="/files/{{file.id}}/{{ file.slug }}">{{ file.filename }}</a></td>
+            <td>
+                {{file.last_change}}
+            </td>
+            <td class="delete">
+                <p><code>http://{{SITE_NAME}}{{file.file.url}}</code></p>
+                {# <a class="btn btn-danger" href="{% url 'upload-delete' file.id %}"> #}
+                {#     <i class="icon-trash icon-white"></i> #}
+                {#     <span>Delete</span> #}
+                {# </a> #}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% paginate %}
+</div>
+
+{% endblock %}

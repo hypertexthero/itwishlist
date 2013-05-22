@@ -16,6 +16,7 @@ from django.db.models import Q, Count # http://stackoverflow.com/a/1217911/41232
 
 # from misc.json_encode import json_response
 from itwishlist.apps.blog.models import Post, Vote, IS_DRAFT, IS_PUBLIC, DONE, IN_PROGRESS
+from itwishlist.apps.fileupload.models import File
 from itwishlist.apps.profiles.models import Profile
 from itwishlist.apps.blog.forms import PostForm
 from itwishlist.apps.blog.signals import post_published
@@ -147,11 +148,16 @@ def backup(request):
 def get_profiles():
     return Profile.objects.all()
 
+# http://stackoverflow.com/questions/744424/django-models-how-to-filter-out-duplicate-values-by-pk-after-the-fact
+from itertools import chain
+# =search
 def search(request):
     """ search """    
     query = request.GET.get('q', '') # both /search/ and /search/?q=query work
-    results = []
-    player_results = []
+    post_list = []
+    file_list = []
+    profile_list = []
+    result_list = list(chain(post_list, file_list, profile_list))
     user = request.user # http://stackoverflow.com/a/4338108/412329 - passing the user variable into the context
 
     if query:
@@ -163,13 +169,22 @@ def search(request):
         # results = Post.objects.filter(Q(title__icontains=query)|Q(content_html__icontains=query)).distinct()
 
         # https://groups.google.com/forum/?fromgroups=#!msg/django-users/JKhf05HOezg/klz7A-vs_U0J
-        results = Post.objects.filter(Q(title__icontains=query)|Q(content_html__icontains=query)).distinct().filter(Q(status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS))
-        player_results = Profile.objects.filter(Q(name__icontains=query)).distinct()
+        post_list = Post.objects.filter(Q(
+            title__icontains=query)|Q(content_html__icontains=query)).distinct().filter(Q(
+            status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS))
+        file_list = File.objects.filter(Q(slug__icontains=query)).distinct()
+        profile_list = Profile.objects.filter(Q(name__icontains=query)).distinct()
+        result_list = sorted(
+            chain(post_list, file_list, profile_list),
+            key=lambda instance: instance)
+            # key=lambda instance: instance.pub_date)
     return render_to_response('search.html',
             {   'query': query, 
-                'results': results,
+                # 'result_list': result_list,
                 'user': user,
-                'player_results': player_results
+                'post_results': post_list,
+                'file_results': file_list,
+                'profile_results': profile_list,
                 # 'profile': get_profiles
             },
             context_instance=RequestContext(request)) # http://stackoverflow.com/questions/8625601/yourlabs-subscription-error-caught-variabledoesnotexist-while-rendering
@@ -277,7 +292,7 @@ def done(request):
     return object_list(request, 
         # Display Eat OR Everything
         # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
-        queryset=Post.hot.most_loved().filter(status=DONE)[:300], 
+        queryset=Post.hot.most_loved().filter(status=DONE).order_by('-created_at')[:300], 
         template_name='done.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
@@ -288,7 +303,7 @@ def inprogress(request):
     return object_list(request, 
         # Display Eat OR Everything
         # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
-        queryset=Post.hot.most_loved().filter(status=IN_PROGRESS)[:300], 
+        queryset=Post.hot.most_loved().filter(status=IN_PROGRESS).order_by('-created_at')[:300], 
         template_name='inprogress.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}

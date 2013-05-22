@@ -71,11 +71,11 @@
                                         <ul class="nav">
                                             <li {% active request "^/$" %}><a class="brand" href="{% url "home" %}" title="IPPC IT Wishlist Homepage listing items with most votes. Note that the Core Team ultimately decides what's top priority.">IT Wishlist</a></li>
                                             {# <li{% active request "^/$" %}><a href="/" title="Most popular entries - the IT Wish List homepage">Hot</a></li> #}
-                                            <li{% active request "^/new/$" %}><a href="/new/" title="Latest items (most recently added).">New</a></li>
-                                            <li{% active request "^/inprogress/$" %}><a href="/inprogress/" title="Stuff that's in progress in the current sprint.">In Progress</a></li>
-                                            <li{% active request "^/done/$" %}><a href="/done/" title="Stuff that's been finished.">Done</a></li>
-                                            <li{% active request "^/feature/$" %}><a href="/feature/" title="Feature Request items sorted by most votes.">Feature Requests</a></li>
-                                            <li{% active request "^/bug/$" %}><a href="/bug/" title="Bug Report items sorted by most votes.">Bug Reports</a></li>
+                                            <li{% active request "^/new/$" %}><a href="/new/" title="Latest items (sorted by most recently added.)">New</a></li>
+                                            <li{% active request "^/inprogress/$" %}><a href="/inprogress/" title="Stuff that's in progress in the current sprint sorted by most recently added.">In Progress</a></li>
+                                            <li{% active request "^/done/$" %}><a href="/done/" title="Stuff that's been finished sorted by most recently added.">Done</a></li>
+                                            <li{% active request "^/feature/$" %}><a href="/feature/" title="Feature Request items sorted by most recently added.">Feature Requests</a></li>
+                                            <li{% active request "^/bug/$" %}><a href="/bug/" title="Bug Report items sorted by most recently added.">Bug Reports</a></li>
                                             
                                         </ul>
                                 {% endblock %}
@@ -91,6 +91,8 @@
 
         {# {% block body_base %} #}
             <div class="container">
+                {% block localnav %}
+                {% endblock localnav %}
                 {% include "_messages.html" %}
                 {% block body %}
                 {% endblock %}
