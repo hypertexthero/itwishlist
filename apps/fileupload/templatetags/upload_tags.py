@@ -47,8 +47,9 @@ def upload_js():
             <td class="error" colspan="2"><span class="label label-important">{%=locale.fileupload.error%}</span> {%=locale.fileupload.errors[file.error] || file.error%}</td>
         {% } else { %}
             <td class="preview">{% if (file.thumbnail_url) { %}
-                <!--<a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>-->
-                <img src="{%=file.thumbnail_url%}">
+                <!--<a href="{%=file.url%}" title="{%=file.name%}" rel="gallery" download="{%=file.name%}"><img src="{%=file.thumbnail_url%}"></a>
+                <img src="{%=file.thumbnail_url%}">-->
+                DONE! Now go to the <a href="/files/">Uploaded Files List</a> to get a link to this file. <small>Soon you will be able to get the link immediately from here, too</small>
             {% } %}</td>
             <td class="name">
                 <!--<a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%}</a>-->
