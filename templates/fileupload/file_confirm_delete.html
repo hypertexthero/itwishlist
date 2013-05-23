@@ -2,7 +2,7 @@
 
 {% block body %}
 <div class="container">
-    {% if is_me %}
+    {% ifequal file.uploaded_by request.user %}
     <div class="page-header">
         <h1>Delete <span class="normal">{{ object.filename }}</span>?</h1>
     </div>
@@ -16,7 +16,7 @@
     </form>
     {% else %}
     <p class="alert alert-warning">Only the administrators or the owner of <strong>{{ object.filename }}</strong> can delete it.</p>
-    {% endif %}
+    {% endifequal %}
 </div>
 
 {% endblock %}
