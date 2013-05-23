@@ -6,7 +6,19 @@
 {% block body %}
 <div class="container">
 
-        <h2>{{file.filename}} <small><a href="{{ slug }}" title="permalink to this page">#</a></small></h2>
+        <h2>{{file.filename}} <small><a href="{{ slug }}" title="permalink to this page">#</a></small>
+        <small class="smaller">uploaded by
+            <a href="/profiles/{{file.uploaded_by}}">
+            {% if file.uploaded_by.get_profile.name %}
+                   {{ file.uploaded_by.get_profile.name }}
+                   {% else %}
+                   {{file.uploaded_by.username}}
+               {% endif %}
+           </a>
+           on
+           {{ file.last_change|date:"l, d M Y"}} at {{ file.last_change|date:"H:i"}}
+           </small>
+        </h2>
         <p>Direct link to image for embedding (triple-click to select, then copy and paste):</p>
         <p><code>http://{{SITE_NAME}}{{file.file.url}}</code></p>
         <p>Or click and drag this link to the place in the text file or form field where you want to embed the file:</p>
@@ -15,12 +27,16 @@
             {# =todo: see why thumbs are not working and get them working. show file icons if not images. #}
             <img src="{{ file.file.url }}">
         </a>
+
+        {% ifequal file.uploaded_by request.user %}
             <br>
             <br>
                     <a class="btn btn-danger" href="{% url 'upload-delete' file.id %}">
                         <i class="icon-trash icon-white"></i>
+                        
                         <span>Delete</span>
                     </a>
+        {% endifequal %}
 
 
     </div>

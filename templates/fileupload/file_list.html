@@ -14,6 +14,7 @@
             <th>Name</th>
             <th>Last Changed</th>
             <th>URL for embedding <small class="quiet normal">triple-click to select, then copy and paste</small></th>
+            {# <th>Author</th> #}
         </tr>
         {% for file in file_list %}
         <tr>
@@ -22,7 +23,7 @@
             {# </td> #}
             <td class="name"><a href="/files/{{file.id}}/{{ file.slug }}">{{ file.filename }}</a></td>
             <td>
-                {{file.last_change}}
+                {{ file.last_change|date:"D d M Y, H:i" }}
             </td>
             <td class="delete">
                 <p><code>http://{{SITE_NAME}}{{file.file.url}}</code></p>
@@ -31,6 +32,7 @@
                 {#     <span>Delete</span> #}
                 {# </a> #}
             </td>
+            {# <td>{{ user }}</td> #}
         </tr>
         {% endfor %}
     </table>

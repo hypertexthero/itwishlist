@@ -6,6 +6,7 @@ Naively-built website inspired by a well-known geek site to manage IT needs at w
 
 - Allow logins from users with details in existing separate user database
 - Add markdown preview and document attachment option for comments
+- Users should only be able to delete own files
 
 ## Todo in Future (upcoming features)
 

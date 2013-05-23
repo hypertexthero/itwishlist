@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 from django.db import models
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
 import datetime
 
@@ -18,6 +19,7 @@ class File(models.Model):
     slug = models.SlugField(max_length=50, blank=True, unique_for_date='last_change')
     # owned_by = models.ForeignKey(User, blank=True)
     last_change = models.DateTimeField(auto_now=True)
+    uploaded_by = models.ForeignKey(User, related_name="added_files", verbose_name=('Uploaded by'))
 
     def __unicode__(self):
         return self.file.name
@@ -25,11 +27,14 @@ class File(models.Model):
     def filename(self):
             return os.path.basename(self.file.name)
 
+    # def owner(self):
+    #     return [self.request.user]
+
     @models.permalink
     def get_absolute_url(self):
         # return ('upload-detail', args=[self.pk])
         # return ('upload-detail', )
-        return ('upload-new', (), {
+        return ('upload-detail', (), {
                             'id': self.id,
                             # 'year': self.last_change.strftime("%Y"),
                             # 'month': self.last_change.strftime("%m"),
@@ -39,6 +44,7 @@ class File(models.Model):
     def save(self, *args, **kwargs):
         self.id = self.id
         self.slug = self.file.name
+        # self.uploaded_by = self.request.user
         if not self.id:
             # Newly created object, so set slug
             self.slug = slugify(self.file.name)

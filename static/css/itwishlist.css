@@ -45,7 +45,7 @@ a.btn {font-weight:normal;}
 div.post a, div#content a, div#wmd-preview a {text-decoration:underline;}
 /*a:hover, a:active {text-decoration:none; color:#000; outline:none;}*/
 /*.btn {padding-bottom:0.45em;}*/
-a.btn {color:#fff;}
+a.btn-primary {color:#fff;}
 a.btn.dropdown-toggle {color:#00782b; font-size:0.9em;}
 .showall, .hideall {color:#00782b;}
 /*.btn.tip, .btn-smaller, .btn {color:#2e2a1f !important;}*/
@@ -129,6 +129,7 @@ a.subdued {color:#999;}
 .error {color:#c00;}
 .nomargin {margin:0;}
 .small {font-size:0.9em;}
+.smaller {font-size:0.7em;}
 .large {font-size:1.1em;}
 .larger {font-size:1.2em;}
 .largerstill {font-size:1.4em;}

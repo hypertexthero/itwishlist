@@ -2,6 +2,7 @@
 
 {% block body %}
 <div class="container">
+    {% if is_me %}
     <div class="page-header">
         <h1>Delete <span class="normal">{{ object.filename }}</span>?</h1>
     </div>
@@ -13,6 +14,9 @@
             <button type="button" onclick="window.history.back();" class="btn"><i class="icon-remove"></i> Cancel</button>
         </div>
     </form>
+    {% else %}
+    <p class="alert alert-warning">Only the administrators or the owner of <strong>{{ object.filename }}</strong> can delete it.</p>
+    {% endif %}
 </div>
 
 {% endblock %}
