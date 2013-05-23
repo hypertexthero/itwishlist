@@ -7,10 +7,9 @@
 {# {% if player_results or title_results or results %}  #}
 {# {% if profile_results or title_results or result_list %}  #}
 {# {% if result_list %}  #}
-
-    <p>Search results for &ldquo;<strong>{{ query }}</strong>&rdquo;:</p> 
-    
+    <p>Search results for &ldquo;<strong>{{ query }}</strong>&rdquo;:</p>     
 {% if post_results or file_results or profile_results %}
+
     {% if post_results %}
         <ul>
             {% for post in post_results %} 
@@ -52,7 +51,7 @@
 {# {% endif %}  #}
 
 {% if query and not post_results or file_results or profile_results %}
-    <p class="warning">No results found.</p> 
+    {# <p class="warning">No results found.</p>  #}
     {% else %}
     {# <p>Type a search query into the box below, and press "Submit" to search.</p> #}    
 {% endif %}
