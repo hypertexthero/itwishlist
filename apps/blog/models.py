@@ -192,9 +192,10 @@ from notification import models as notification
 
 def create_notice_types(app, created_models, verbosity, **kwargs):
     notification.create_notice_type("new_comment", "Comment posted", "A comment has been posted")
+
 signals.post_syncdb.connect(create_notice_types, sender=notification)
 
-def new_comment(sender, instance, created, **kwargs):
+def new_comment(sender, instance, created, **kwargs):   
     # remove this if-block if you want notifications for comment edit too
     if not created:
         return None
@@ -219,3 +220,16 @@ def new_comment(sender, instance, created, **kwargs):
     notification.send(recipients, 'new_comment', context)
 
 signals.post_save.connect(new_comment, sender=models.get_model('comments', 'Comment'))
+
+# http://djangodays.com/2008/10/02/django-10-mail-notification-of-new-comments/
+
+# from django.contrib.comments.models import Comment
+# from django.core.mail import send_mail
+# from django.db.models import signals
+# 
+# def mail_comment(instance, **kwargs):
+#     subject = 'subject of the mail'
+#     msg = 'Comment text:\n\n%s' % instance.comment
+#     send_mail(subject, msg, 'noreply@it.ippc.int', ['email@address.com'])
+# 
+# signals.post_save.connect(mail_comment, sender=Comment)
