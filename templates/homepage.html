@@ -7,3 +7,32 @@
 {% block body %}  
     {% include "blog/post_list.html" %}
 {% endblock %}
+
+{% block sidebar %}
+<div class="row">
+    <div class="span4">
+        {% if user.is_authenticated %}
+        <h1 style="margin-bottom:0;"><a href="http://www.ippc.int" style="color:#060;">IPPC</a> IT Wishlist</h1>
+        <p class="lead subdued" style="margin-top:0;">Items sorted by most votes. <span class="small">Note that the Core Team <a href="/about/#wishlist" title="Read more about the IPPC IT Wishlist and workflow.">ultimately decides what&rsquo;s top priority</a>.</span></p>
+        {% include "search_form.html" %}
+        {% else %}        
+            <h1 style="margin-bottom:0.5em;" class="normal">What would you like from the IPPC IT Team to help accomplish IPPC’s vision?</h1>
+            {# <p class="lead">Share links, original articles.</p>         #}
+            <p class="lead"><a href="/post/" class="btn btn-primary"><i class="icon-pencil icon-white"></i> Post a Feature Request or Bug Report</a></p>
+            <p class="lead subdued">Recent items with most <strong class="subdued" style="font-family:'courier new', courier, monospace;">&and;</strong>upvotes are on the <a href="/">homepage</a>. Latest items are in <a href="/new/">new</a>. Read more <a href="/about/">about the IT Wishlist</a>.</p>
+            {% include "search_form.html" %}
+            {% comment %}
+            <p>{% url acct_login as login_url %}
+            {% load ifsetting_tag %}
+            {% ifsetting ACCOUNT_OPEN_SIGNUP %}
+                <a href="/account/login/" class="btn">Log In</a> or <a href="/account/signup/" class="btn">Sign Up</a>
+                {% else %}
+                <a href="/account/login/">Log In</a>
+            {% endifsetting %}</p>
+            {% endcomment %}
+        {# =todo: <li>Export all your items in XML or JSON format at any time.</li> #}
+    {# </div> #}
+        {% endif %}
+    </div>                              
+</div>
+{% endblock sidebar %}
