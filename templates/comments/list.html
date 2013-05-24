@@ -5,7 +5,7 @@
     
     <p class="subdued small"><a href="#comment{{ forloop.counter }}" title="Permanent link to this comment."><b class="larger">#{{ forloop.counter }}</b></a> by <b><a href="/profiles/{{ comment.user_name }}">
         {% if comment.user.get_profile.user_photo %}
-        <img class="pull-right" src="{% thumbnail comment.user.get_profile.user_photo 40x28 crop %}" />
+        <img class="pull-right" src="{% thumbnail comment.user.get_profile.user_photo 48x48 crop %}" />
         {% else %}
         <span class="pull-right" style="width:40px; height:28px; background:#eee; font-size:0.7em; font-weight:normal;"></span>
         {% endif %}

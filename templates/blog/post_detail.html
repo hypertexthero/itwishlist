@@ -220,7 +220,7 @@
                     <br>
             {% endifequal %}
             {% load thumbnail %}
-                    {% if post.author.get_profile.user_photo %}<a href="/posts/{{ post.author.username }}/"><img class="pull-right" src="{% thumbnail post.author.get_profile.user_photo 40x28 crop %}" /></a>{% endif %}
+                    {% if post.author.get_profile.user_photo %}<a href="/posts/{{ post.author.username }}/"><img class="pull-right" src="{% thumbnail post.author.get_profile.user_photo 48x48 crop %}" /></a>{% endif %}
                     <span class="caps">Author:</span> <strong><a href="/posts/{{ post.author.username }}/">{% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}</strong></a>
                     <br>
                     <span class="caps">Status:</span> {{post.get_status_display}} {# http://stackoverflow.com/a/1106201/412329 #}

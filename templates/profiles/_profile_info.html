@@ -10,7 +10,9 @@
         {% if profile.user_photo %}
             {% load thumbnail %}
             {# <p><a href="/posts/{{profile.user.username}}"><img src="/uploads/{{ profile.user_photo }}" /></a></p> #}
-            <p><a href="/posts/{{profile.user.username}}"><img class="player-img" src="{% thumbnail profile.user_photo 260x180 crop %}" /></a></p>
+            <p><a href="/posts/{{profile.user.username}}"><img class="player-img" src="{% thumbnail profile.user_photo 260x180 %}" /></a></p>
+            {# =todo: smart cropping of thumbnails #}
+            {# 260x180 #}
         {% endif %}
             {# https://docs.djangoproject.com/en/dev/topics/db/queries/#related-objects #}
             {# {% for photo in object.photo_set.all %} #}
