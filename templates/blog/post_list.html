@@ -95,11 +95,11 @@
                                 {% endifchanged %}
 {% endcomment %}                
                                 {% if post.kind == "F" %} {# if an feature: #}
-                                    <a href="{{ post.get_absolute_url }}" title="Read.">{{ post.title|capfirst }}</a>
+                                    <a href="{{ post.get_absolute_url }}" title="Read.">{{ post.title }}</a>
                                     <span class="smaller quiet">Feature Request</span>
                                 {% else %} {# or a bug: #}
                                     {# <a href="{{ post.url }}">{{ post.title }}</a>  #}
-                                    <a href="{{ post.get_absolute_url }}">{{ post.title|capfirst }}</a> 
+                                    <a href="{{ post.get_absolute_url }}">{{ post.title }}</a> 
 
                                     {# <span class="smaller quiet">({{post.url|rootdomain}})</span> #}
                                     <span class="smaller quiet">Bug Report</span>
