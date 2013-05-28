@@ -71,11 +71,11 @@
                                         <ul class="nav">
                                             <li {% active request "^/$" %}><a class="brand" href="{% url "home" %}" title="IPPC IT Wishlist Homepage listing items with most votes. Note that the Core Team ultimately decides what's top priority.">IT Wishlist</a></li>
                                             {# <li{% active request "^/$" %}><a href="/" title="Most popular entries - the IT Wish List homepage">Hot</a></li> #}
-                                            <li{% active request "^/new/$" %}><a href="/new/" title="Latest items (sorted by most recently added.)">New</a></li>
-                                            <li{% active request "^/inprogress/$" %}><a href="/inprogress/" title="Stuff that's in progress in the current sprint sorted by most recently added.">In Progress</a></li>
-                                            <li{% active request "^/done/$" %}><a href="/done/" title="Stuff that's been finished sorted by most recently added.">Done</a></li>
-                                            <li{% active request "^/feature/$" %}><a href="/feature/" title="Feature Request items sorted by most recently added.">Feature Requests</a></li>
-                                            <li{% active request "^/bug/$" %}><a href="/bug/" title="Bug Report items sorted by most recently added.">Bug Reports</a></li>
+                                            <li{% active request "^/new/$" %}><a href="/new/" title="Latest items (sorted by most recently updated.)">New</a></li>
+                                            <li{% active request "^/inprogress/$" %}><a href="/inprogress/" title="Stuff that's in progress in the current sprint sorted by most recently updated.">In Progress</a></li>
+                                            <li{% active request "^/done/$" %}><a href="/done/" title="Stuff that's been finished sorted by most recently updated.">Done</a></li>
+                                            <li{% active request "^/feature/$" %}><a href="/feature/" title="Feature Request items sorted by most recently updated.">Feature Requests</a></li>
+                                            <li{% active request "^/bug/$" %}><a href="/bug/" title="Bug Report items sorted by most recently updated.">Bug Reports</a></li>
                                             
                                         </ul>
                                 {% endblock %}
@@ -110,7 +110,7 @@
                             {% include "search_form.html" %}
                             
                             <p class="small quiet">
-                                Recent items with most <strong class="subdued" style="font-family:'courier new', courier, monospace;">&and;</strong>upvotes are on the <a href="/">homepage</a>. Most recently added items are in <a href="/new/">new</a>. Pages listing <a href="/feature/">new feature requests</a> and <a href="/bug/">bugs</a> are also available.
+                                Recent items with most <strong class="subdued" style="font-family:'courier new', courier, monospace;">&and;</strong>upvotes are on the <a href="/">homepage</a>. most recently updated items are in <a href="/new/">new</a>. Pages listing <a href="/feature/">new feature requests</a> and <a href="/bug/">bugs</a> are also available.
                                 <br>
                                 More <a href="/about/" title="What is this site?">About the IPPC IT Wishlist</a>
                                 <br>
