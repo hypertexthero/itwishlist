@@ -33,6 +33,17 @@
             <span class="time">
                 {{ post.updated_at|timesince }} ago
             </span>
+            <span class="comments">
+                {% if post.allow_comments %}
+                {% load comments %}
+                <span class="comments quiet">
+                    | 
+                    {% get_comment_count for post as comment_count %}
+                    <a class="subdued" href="{{ post.get_absolute_url }}#comments">{{ comment_count }} comments</a>
+                    {# <a class="quiet" href="{{ post.get_absolute_url }}#disqus_thread"></a> #}
+                </span>
+                {% endif %}
+            </span>
         </div>
       {% empty %}
         <p>No one is following you yet.</p>
