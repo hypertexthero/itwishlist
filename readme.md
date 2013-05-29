@@ -6,6 +6,8 @@ Naively-built website inspired by a well-known geek site to manage IT needs at w
 
 - Allow logins from users with details in existing separate user database
 - Add markdown preview for comments
+- Add 'Action Request' post status for recurring tasks
+    - Add 'Responsible' and 'Observers' fields
 
 ## Todo in Future (upcoming features)
 
