@@ -213,11 +213,13 @@ def new_comment(sender, instance, created, **kwargs):
 
     # add all users who commented the same object to recipients
     for comment in instance.__class__.objects.for_model(instance.content_object):
+        # elif comment.user not in recipients and comment.user != instance.user:
         if comment.user not in recipients and comment.user != instance.user:
             recipients.append(comment.user)
-        # content_object creator to recipients list
-        elif comment.user != instance.content_object.author:
             recipients.append(instance.content_object.author)
+        # content_object creator to recipients list
+        # elif comment.user not in recipients and comment.user != instance.content_object.author:
+        #     recipients.append(instance.content_object.author)
 
     # if the commented object is a user then notify him as well
     if isinstance(instance.content_object, models.get_model('auth', 'User')):
