@@ -26,11 +26,12 @@
                 {{ file.last_change|date:"D d M Y, H:i" }}
             </td>
             <td class="delete">
-                <p><code>http://{{SITE_NAME}}{{file.file.url}}</code></p>
-                {# <a class="btn btn-danger" href="{% url 'upload-delete' file.id %}"> #}
-                {#     <i class="icon-trash icon-white"></i> #}
-                {#     <span>Delete</span> #}
-                {# </a> #}
+                <code>http://{{SITE_NAME}}{{file.file.url}}</code><br>
+                Uploaded by: {% if file.uploaded_by.get_profile.name %}{{ file.uploaded_by.get_profile.name }}{% else %}{{ file.uploaded_by.username }}{% endif %}
+                <a class="btn btn-small btn-danger" href="{% url upload-delete file.id %}">
+                    <i class="icon-trash icon-white"></i>
+                    <span>Delete</span>
+                </a>
             </td>
             {# <td>{{ user }}</td> #}
         </tr>

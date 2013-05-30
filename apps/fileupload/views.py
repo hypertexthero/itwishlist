@@ -1,3 +1,5 @@
+import datetime
+
 from itwishlist.apps.fileupload.models import File
 from itwishlist.apps.fileupload.forms import FileUploadForm
 
@@ -69,7 +71,9 @@ class FileCreateView(LoginRequiredMixin, CreateView):
         self.object = form.save()
         f = self.request.FILES.get('file')
         data = [{'name': f.name, 
-                 # 'url': settings.MEDIA_URL + "files/" + f.name.replace(" ", "_"), 
+                 'fileurl': settings.MEDIA_URL + "files/" +
+                    self.object.last_change.strftime("%Y/%m") + "/" + self.object.filename(), 
+                 # 'fileurl': reverse('upload-file-detail', args=[self.object.slug]),
                  # 'uploaded_by': f.uploaded_by,
                  'sitename': settings.SITE_NAME,
                  'url': reverse('upload-detail', args=[self.object.id, self.object.slug]), 

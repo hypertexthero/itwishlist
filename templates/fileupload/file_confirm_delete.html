@@ -6,6 +6,13 @@
     <div class="page-header">
         <h1>Delete <span class="normal">{{ object.filename }}</span>?</h1>
     </div>
+    <form method="post" action="" class="form">{% csrf_token %}
+            <button type="submit" class="btn btn-danger"><i class="icon-trash icon-white"></i> Yes, Delete</button>
+            <button type="button" onclick="window.history.back();" class="btn"><i class="icon-remove"></i> Cancel</button>
+    </form>
+
+    <a href="{{ file.file.url }}">{{file.filename}}</a>
+    <br>
     <img src="{{ object.file.url }}" alt="">
 
     <form method="post" action="" class="form">{% csrf_token %}

@@ -20,12 +20,17 @@
            {{ file.last_change|date:"l, d M Y"}} at {{ file.last_change|date:"H:i"}}
            </small>
         </h2>
-        <p>Direct link to image for embedding (triple-click to select, then copy and paste):</p>
+        <p><strong>Direct link:</strong> <span class="quiet">(triple-click to select, then copy and paste):</span></p>
         <p><code>http://{{SITE_NAME}}{{file.file.url}}</code></p>
-        <p>Or click and drag this link to the place in the text file or form field where you want to embed the file:</p>
-        <p><strong><a href="{{ file.file.url }}">{{ file.filename }}</a></strong></p>
+        {# <p>Or click and drag this link to the place in the text file or form field where you want to embed the file:</p> #}
+        {# <p><strong><a href="{{ file.file.url }}">{{ file.filename }}</a></strong></p> #}
+        <p><strong>Markdown-syntax link:</strong> <span class="quiet">(triple-click to select, then copy and paste):</span></p>
+        <p><code>![](http://{{SITE_NAME}}{{file.file.url}})</code></p>
+        <p><strong>File:</strong></p>
         <a href="{{ file.file.url }}">
             {# =todo: see why thumbs are not working and get them working. show file icons if not images. #}
+            <a href="{{ file.file.url }}">{{file.filename}}</a>
+            <br>
             <img src="{{ file.file.url }}">
         </a>
 
