@@ -4,8 +4,7 @@
 {#     {% ifequal request.user other_user %}{{ profile.name }}{% else %}{{ profile.user.username }}{% endifequal %} #}
 {# </p> #}
 
-
-{# <div class="hero-unit"> #}
+<div class="hero-unit">
     <div class="pull-right">
         {% if profile.user_photo %}
             {% load thumbnail %}
@@ -28,7 +27,7 @@
                 {% if profile.date_joined %}Member since: {{profile.date_joined|date:"j F Y"}}{% endif %}<br><a href="/posts/{{profile.user.username}}"><i class="icon-list"></i> Posted Items</a>
             {# </small> #}
     </div>
-    {# <br class="clearfix"> #}
+
     {% if profile.name %} 
         {% ifequal request.user other_user %}
             <h1 style="margin-bottom:0.25em;">{{ profile.user.username }}</h1>
@@ -56,7 +55,7 @@
     {% load url from future %}
     {% if is_me %}
         {# <p class="pull-right"><a class="btn btn-primary btn-large" href="{% url "profile_edit" %}" class="btn">{% trans "Edit my profile" %}</a></p> #}
-        <div class="form-actions">
+        <div class="form-actions" style="max-width:60%;">
             <p><a class="btn btn-primary btn-large" href="/profiles/edit/{{profile.user.username}}" class="btn">{% trans "Edit profile" %}</a></p>
         </div>
     {% endif %}
@@ -110,4 +109,6 @@
 {% endif %}
 {% endif %}
 {% endcomment %}
-{% include "profiles/help.html" %}
+{# {% include "profiles/help.html" %} #}
+<br class="clearfix">
+</div>
