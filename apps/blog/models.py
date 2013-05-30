@@ -215,7 +215,8 @@ def new_comment(sender, instance, created, **kwargs):
     for comment in instance.__class__.objects.for_model(instance.content_object):
         if comment.user not in recipients and comment.user != instance.user:
             recipients.append(comment.user)
-            # content_object creator to recipients list
+        # content_object creator to recipients list
+        elif comment.user != instance.content_object.author:
             recipients.append(instance.content_object.author)
 
     # if the commented object is a user then notify him as well
