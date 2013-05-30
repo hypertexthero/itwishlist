@@ -27,6 +27,7 @@
 </form>
 
 {% include "includes/markdown_cheatsheet.html" %}
+{% include "includes/description_example.html" %}
 {% endblock %}
 
 {% block extra_script %}
@@ -97,6 +98,9 @@ $(document).ready(function(){
         if ($kind.val() == 'B') {
             $url.removeAttr('disabled').show();
             // $wmdpanel.attr('disabled', 'disabled').val('').hide();
+
+            // =todo: show Responsible field if post kind is Action Request
+            // else if {}
 
         } else {
             $url.attr('disabled', 'disabled').val('').hide();

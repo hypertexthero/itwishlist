@@ -158,36 +158,3 @@
 
 {% include "includes/markdown_cheatsheet.html" %}
 
-  
-        {# =todo alternative ajax voting: http://lethain.com/two-faced-django-part-5-jquery-ajax/ #}
-        {# http://malsup.com/jquery/form/ #}
-    {# <script src="/static/js/jquery.form.js"></script>  #}
-    <script type="text/javascript"> 
-        // // wait for the DOM to be loaded 
-        // $(document).ready(function() { 
-        //     // bind 'myForm' and provide a simple callback function 
-        //     $('form#postup').ajaxForm(function() { 
-        //         alert("Thank you for your up vote!"); 
-        //     }); 
-        //     $('form#postdown').ajaxForm(function() { 
-        //         alert("Thank you for your down vote!"); 
-        //     }); 
-        // }); 
-    </script>
-
-
-{% block extrabody %}
-    {# disqus comment count #}
-    <script type="text/javascript">
-          /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-          var disqus_shortname = 'itwishlist'; // required: replace example with your forum shortname
-
-          /* * * DON'T EDIT BELOW THIS LINE * * */
-          (function () {
-              var s = document.createElement('script'); s.async = true;
-              s.type = 'text/javascript';
-              s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-              (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-          }());
-    </script>
-{% endblock extrabody %}

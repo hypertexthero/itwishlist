@@ -222,6 +222,37 @@
             {% load thumbnail %}
                     {% if post.author.get_profile.user_photo %}<a href="/posts/{{ post.author.username }}/"><img class="pull-right" src="{% thumbnail post.author.get_profile.user_photo 48x48 crop %}" /></a>{% endif %}
                     <span class="caps">Author:</span> <strong><a href="/posts/{{ post.author.username }}/">{% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}</strong></a>
+                    
+
+                    {# =todo: display and allow users to change Responsible field if post kind is Action Request #}
+                    {# <br> #}
+                    {# <span class="caps">Responsible:</span> {% if post.responsible.get_profile.name %}{{post.responsible.get_profile.name}}{% else %}{{post.responsible.username}}{% endif %} <i class="small quiet">editable by creator or admins</i> #}
+                    
+
+                    
+                    {# <form class="customform" id="edit_post" method="POST" action="{% url blog_edit post.id %}"> #}
+                    {#     {% csrf_token %} #}
+                    {#     <fieldset> #}
+                    {#         <label for="id_responsible">{{ post_form.responsible.label }}</label> #}
+                    {#  #}
+                    {#             {{ post_form.data.responsible }} #}
+                    {#  #}
+                    {#             {% if post_form.responsible.errors %} #}
+                    {#              <div class="alert alert-error"> #}
+                    {#              {% for error in post_form.responsible.errors %} #}
+                    {#                  {{ error|escape }} #}
+                    {#              {% endfor %} #}
+                    {#              </div> #}
+                    {#          {% endif %} #}
+                    {#         <br> #}
+                    {#  #}
+                    {#         <div class="form-actions"> #}
+                    {#             <button type="submit" class="btn btn-primary btn-large" tabindex="7">Submit</button> or <a href="javascript:history.go(-1)">Cancel</a> #}
+                    {#         </div> #}
+                    {#     </fieldset> #}
+                    {# </form> #}
+                    
+                    
                     <br>
                     <span class="caps">Status:</span> {{post.get_status_display}} {# http://stackoverflow.com/a/1106201/412329 #}
                     <br>

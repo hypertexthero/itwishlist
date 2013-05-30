@@ -47,6 +47,7 @@ STATUS_CHOICES = (
 KIND = (
     ('B', 'Bug Report'),
     ('F', 'Feature Request'),
+    # ('A', 'Action Request'),
 )
 
 # =todo: would be nicer to do the SQL calculation below in Python like the following, but alas, can't get it to work on separate Vote table together with Post table. Tried it in views.py, too:
@@ -116,11 +117,12 @@ class Post(models.Model):
     slug = models.SlugField(_("URL Slug"), max_length=500, blank=True)
     author = models.ForeignKey(User, related_name="added_posts")
     # creator_ip = models.CharField(_("IP Address of the Post Creator"), max_length=255, blank=True, null=True)
-    kind = models.CharField(max_length=1, choices=KIND, default=1, help_text="Is this a link to other content or an original article you will write here?")
+    kind = models.CharField(max_length=1, choices=KIND, default=1)
     url = models.URLField(_("Bug URL"), blank=True, null=True, help_text="Not required, but helpful if relevant. With or without http://", default='')
     content_markdown = models.TextField(_("Description"), blank=True, help_text="<a data-toggle='modal' href='#markdownhelp'>Markdown syntax</a>.")
     content_html = models.TextField(blank=True, null=True, editable=False)
     status = models.IntegerField(_("Status"), choices=STATUS_CHOICES, default=IS_PUBLIC)
+    # responsible = models.ForeignKey(User, verbose_name=_("Responsible"), related_name="assigned_tickets", blank=True, null=True)
     allow_comments = models.BooleanField(_("Allow Comments?"), blank=False, default=1)
     publish = models.DateTimeField(_("Date Published"), default=datetime.now)
     created_at = models.DateTimeField(_("Date Created"), default=datetime.now)
@@ -194,6 +196,9 @@ def create_notice_types(app, created_models, verbosity, **kwargs):
     notification.create_notice_type("new_comment", "Comment posted", "A comment has been posted")
 
 signals.post_syncdb.connect(create_notice_types, sender=notification)
+
+
+# =todo: send email to responsible user if post kind is Action Request
 
 def new_comment(sender, instance, created, **kwargs):   
     # remove this if-block if you want notifications for comment edit too

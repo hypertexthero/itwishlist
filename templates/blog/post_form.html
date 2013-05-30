@@ -45,14 +45,14 @@
 
 
 <div class="wmd-panel">
-    <label for="wmd-input">{{ post_form.content_markdown.label }} <span class="quiet small"><a data-toggle='modal' href='#markdownhelp'>markdown syntax</a> · <a href="#" class="toggles">show/hide preview{# <i class="icon-chevron-left"></i> #}</a></span></label>
+    <label for="wmd-input">{{ post_form.content_markdown.label }} <span class="quiet small"> <a data-toggle='modal' href='#descriptionexample'>see example</a> | <a data-toggle='modal' href='#markdownhelp'>markdown syntax</a> | <a href="#" class="toggles">toggle preview</a></span></label>
     <div id="wmd-button-bar"></div>
 
 	{% if post_form.content_markdown.errors %}<div class="alert alert-error">{% endif %}
 
-	    {{ post_form.content_markdown|tabindex:3 }}
+        {{ post_form.content_markdown|tabindex:3 }}
 
-	{# <textarea class="wmd-input" rows="10" id="wmd-input" name="content_markdown" cols="40" tabindex="2">{{post_form.content_markdown.value}}</textarea> #}
+    {# <textarea class="wmd-input" rows="10" id="wmd-input" name="content_markdown" cols="40" tabindex="3" value="{{post_form.content_markdown.value}}"></textarea> #}
 
 	{% if post_form.content_markdown.errors %}
 		{% for error in post_form.content_markdown.errors %}
@@ -82,9 +82,24 @@
 {#  #}
 {# </div> #}
 
+{# =todo: display and allow users to change Responsible field if post kind is Action Request #}
+{# <label for="id_responsible">{{ post_form.responsible.label }}</label> #}
+{#  #}
+{#     {{ post_form.responsible|tabindex:4 }} #}
+{#  #}
+{#     {% if post_form.responsible.errors %} #}
+{#      <div class="alert alert-error"> #}
+{#      {% for error in post_form.responsible.errors %} #}
+{#          {{ error|escape }} #}
+{#      {% endfor %} #}
+{#      </div> #}
+{#  {% endif %} #}
+{# <br> #}
+{# <br> #}
+
 <label for="id_status">{{ post_form.status.label }}</label>
 
-    {{ post_form.status|tabindex:5 }}
+    {{ post_form.status|tabindex:4 }}
 
     {% if post_form.status.errors %}
 	    <div class="alert alert-error">
@@ -96,7 +111,7 @@
 <br>
 <br>
 
-<label for="id_allow_comments">{{ post_form.allow_comments|tabindex:6 }} {{ post_form.allow_comments.label }}</label>
+<label for="id_allow_comments">{{ post_form.allow_comments|tabindex:5 }} {{ post_form.allow_comments.label }}</label>
     {% if post_form.allow_comments.errors %}
 	    <div class="alert alert-error">
 	    {% for error in post_form.allow_comments.errors %}

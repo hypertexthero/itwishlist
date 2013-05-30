@@ -63,6 +63,7 @@ tr, td {background:#f3f0ea !important; border-color:#d7d5c6;}
    margin-top:-45%;
    /*margin-top:-45%;*/
 }
+.modal-body {max-height:700px; height:700px;}
 /*.modal-body {max-height: 600px;}*/
 thead th {text-transform: uppercase; font-weight:normal; color:#9c998f;}
 tr, td {border-top:0 !important; background:transparent !important;}
@@ -86,7 +87,7 @@ form.customform input {font-weight: bold;}
 form.customform textarea, form.customform div.input input {width:90% !important;}
 form.form-search {margin-bottom:0.75em;}
 
-/*label {text-transform: uppercase; font-size:0.9em;}*/
+label {font-weight:bold;}
 textarea#wmd-input {min-height:27em; font-size:1.2em; line-height:1.7em;}
 input#id_url {padding:2em; font-size:1.2em; font-weight:bold;}
 input#id_allow_comments, input#user_photo-clear_id {width:auto !important;}

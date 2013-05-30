@@ -12,7 +12,7 @@
 {% block body %}
 
 {% load bootstrap_tags %}
-<form class="customform" id="add_post" method="POST" action="{% url blog_add %}">
+<form class="customform" id="edit_post" method="POST" action="{% url blog_add %}">
     {% csrf_token %}
     <fieldset>
         {# <legend>New Post</legend>   #}
@@ -26,6 +26,7 @@
 </form>
 
 {% include "includes/markdown_cheatsheet.html" %}
+{% include "includes/description_example.html" %}
 {% comment %}
 
         <h2>1. This is the basic editor</h2>
@@ -146,7 +147,10 @@ $(document).ready(function(){
         if ($kind.val() == 'B') {
             $url.removeAttr('disabled').show();
             // $wmdpanel.attr('disabled', 'disabled').val('').hide();
-
+            
+            // =todo: show Responsible field if post kind is Action Request
+            // else if {}
+            
         } else {
             $url.attr('disabled', 'disabled').val('').hide();
             $wmdpanel.removeAttr('disabled').show();
