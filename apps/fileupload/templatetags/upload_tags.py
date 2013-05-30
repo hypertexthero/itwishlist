@@ -52,7 +52,7 @@ def upload_js():
             {% } %}</td>
             <td class="name">
             <!--<a href="{%=file.url%}" title="{%=file.name%}" rel="{%=file.thumbnail_url&&'gallery'%}" download="{%=file.name%}">{%=file.name%} {%=file.url%}</a>-->
-            <a href="{%=file.url%}" title="Permalink to file detail page.">{%=file.name%}</a>
+            <a href="{%=file.url%}" title="Permalink to file detail page.">{%=file.filename%}</a>
             </td>
             <td class="size"><span>{%=o.formatFileSize(file.size)%}</span></td>
             <td colspan="2"><code title="URL for embedding (triple-click to select, then copy and paste).">http://{%=file.sitename%}{%=file.fileurl%}</code></td>
