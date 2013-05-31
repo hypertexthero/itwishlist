@@ -2,7 +2,7 @@
 it.ippc.int stylesheet overriding bootstrap.css
 Author: Simon Griffee
 Last updated: 
-Wednesday, 22 May 2013: 16:18:50 Italy Time
+Friday, 31 May 2013: 13:06:17 Italy Time
 */
 
 body {padding-top: 10px; background:#fff url(/static/img/website-bar-3.0.gif) repeat-x; color:#000; font-family:verdana, sans-serif;}
@@ -26,7 +26,7 @@ ul.nav-list li a {color:#000 !important;}
 .navbar .nav > li > a {padding:9px 7px 9px !important;}
 .navbar .nav > li > a.brand {padding-left:34px !important;}
 div.navbar-inner {border-radius:0; min-height:25px;}
-.nav-pills > .active > a, .nav-pills > .active > a:hover {background:none; font-weight:normal; color:#000; outline:1px solid #fc0;}
+.nav-pills > .active > a, .nav-pills > .active > a:hover {background:none; font-weight:normal; text-transform:uppercase; color:#000;}
 
 *:target {background:#ffc !important;}
 
