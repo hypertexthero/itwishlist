@@ -148,7 +148,7 @@ div#wmd-preview img, div#wmd-preview p img {width:auto !important; max-width: au
 
 
 #id_honeypot {display:none;}
-textarea#id_comment {width:40em;}
+textarea.id_comment, textarea#id_comment {width:40em; min-height:30em;}
 div.comment {padding:1em; border-top:1px solid #eee;}
 div.comment.odd {background:#fafafa;}
 div.comment.even {background:transparent;}

@@ -1,22 +1,37 @@
 {% load comments i18n %}
+
 {% if user.is_authenticated %}
-<h4 id="writecomment">Your Comment <small>(<a data-toggle="modal" href="#markdownhelp" title="Click to see a cheatsheet of Markdown.">Markdown syntax</a> is supported)</h4>
-   <form action="{% comment_form_target %}" method="post">
-        {% csrf_token %}
-        {% if next %}<input name="next" type="hidden" value="{{ next }}" />{% endif %}
+
+<h4 id="writecomment">Your Comment <small>(<a data-toggle="modal" href="#markdownhelp" title="Click to see a cheatsheet of Markdown.">Markdown syntax</a> is supported) <span class="quiet small"><a href="#" class="toggles">toggle preview</a></span></small></h4>
+
+   <form action="{% comment_form_target %}" method="post">{% csrf_token %}
+        {# {% if next %}<input name="next" type="hidden" value="{{ next }}" />{% endif %} #}
         {% for field in form %}
             {% if field.name = "name" %}
             {# =todo: make username populate name field by default instead of using hidden value #}
                 {# <input id="id_name" name="name" type="hidden" value="{{ user.username }}">  #}
+                <input id="id_name" type="hidden" name="name" value="{{ user.username }}" />
+            {% endif %}
+            {% if field.name = "email" %}
+            {# =todo: make username populate name field by default instead of using hidden value #}
+                {# <input id="id_name" name="name" type="hidden" value="{{ user.username }}">  #}
+                <input type="hidden" name="email" value="{{ user.email }}" id="id_email" />
             {% endif %}
             {% if field.is_hidden %}
-                {{ field }}
+                <div style="display:none;">{{ field }}</div>
             {% else %}
                 {% if field.name != "name" and field.name != "email" and field.name != "url" %}
                     {% if field.errors %}{{ field.errors }}{% endif %}
-                    {{ field }}
-                {% endif %}
+                    {# {{ field }} #}
             {% endif %}
+            {% if field.name = "comment" %}
+            <div class="wmd-panel">
+                <div id="wmd-button-bar"></div>
+                <textarea id="wmd-input" class="wmd-input id_comment" name="comment" cols="40" rows="10">{{ field.value|default:'' }}</textarea>
+            </div>
+            <div id="wmd-preview"></div>
+        {% endif %}
+        {% endif %}
         {% endfor %}
         <br>
         <input class="btn submit-post" name="post" type="submit" value="Submit" />
@@ -25,3 +40,5 @@
 {% else %}
     <p><a class="btn" href="/account/login/?next={{ request.path }}">Log in</a></strong> to submit comments.</p>
 {% endif %}
+
+

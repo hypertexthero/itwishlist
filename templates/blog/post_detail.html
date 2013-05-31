@@ -1,15 +1,21 @@
 {% extends "blog/blog_base.html" %}
-
+{% load staticfiles %}
 {% load i18n %}
 {% load blog_tags %}
 
 {% block head_title %}{{ post.title }} - {% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{ user.username }}{% endif %}'s IT Wish List{% endblock %}
 
+
+{% block extra_style %}
+{% if user.is_authenticated %}
+    <link href="{% static "css/Markdown.Editor.css" %}" rel="stylesheet">
+{% endif %}
+{% endblock extra_style %}
+
+
 {% block body_id %}postdetail{% endblock body_id %}
 
 {% block body %}
-
-    {# <p class="breadcrumb"><a href="/">Home</a> / <a href="/posts/">Logs</a> / <a href="/posts/{{ post.author.username }}/">{{ post.author.username }}</a> / {{ post.slug }}</p> #}
 
     {% check_post_status request.user post %}
     
@@ -17,17 +23,14 @@
     <div class="row">
         <div class="span7">
             <div class="post">
-
             {# get ready for voting #}
             {% load voting_tags %}
             {% vote_by_user user on post as vote %}
             {% score_for_object post as score %}
-
                 {% load markup %}
                 {# {{ post.content_markdown|markdown:"safe" }} #}
                 {# http://michelf.ca/blog/2010/markdown-and-xss/ #}
                 <h1><a style="text-decoration:none;" href="{{ post.get_absolute_url }}" title="Permanent link to this entry.">{{ post.title }}</a></h1>
-
                 <p class="subdued">
                     {% if post.kind == "F" %} {# if an feature: #}
                         Feature Request
@@ -39,16 +42,8 @@
                         {% endif %}
                     {% endif %}
                 </p>
-
-
-
-
-
                 {{ post.content_html|safe }}
-            
-            </div>
-            
-            
+            </div> {# end div.post #}
             
             {# disqus #}
             {% load comments %}
@@ -59,78 +54,17 @@
 
                 
                 {% render_comment_list for post %}
-                
                 {% render_comment_form for post %}
                 {# {% get_comment_form for entry as form %} #}
             
                 
             </div> {# end commentsbox #}            
-            {#  #}
-            {# <ul> #}
-            {#  {% for post in post_list %} #}
-            {#      {% get_comment_count for blog.post post.id as comment_count %} #}
-            {#      <li> #}
-            {#          <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2> #}
-            {#             <p class="description">{{ post.body}}</p> #}
-            {#          <p class="details"><a href="{{ object.get_absolute_url }}">{{ comment_count }} Comments</a></p> #}
-            {#      </li> #}
-            {#  {% endfor %} #}
-            {# </ul> #}
-            {% comment %}
-                <div id="disqus_thread"></div>
-                <script type="text/javascript">
-                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-                    var disqus_shortname = 'itwishlist'; // required: replace example with your forum shortname
-
-                    /* * * DON'T EDIT BELOW THIS LINE * * */
-                    (function() {
-                       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                       dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-                       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                    })();
-                </script>
-                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-            {# <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a> #}
-            {% endcomment %}
             {% endif %}
-            
-            
-            
+
             {# =todo: links to previous, next, all - only from current user #}
             {# https://docs.djangoproject.com/en/dev/topics/pagination/ #}
-            
-            {# {% for post in post_list %} #}
-            {# <div class="pagination"> #}
-            {# {% if post.get_prev %} #}
-            {#     <a href="../{{ post.get_prev.slug }}">before: {{post.get_prev.title }}</a> #}
-            {# {% endif %} #}
-            {# {% if post.get_next %} #}
-            {#     <a href="../{{ post.get_next.slug }}">after: {{post.get_next.title }}</a> #}
-            {# {% endif %} #}
-            {# </div> #}
-            
-            
-            {# {% endfor %} #}
-            
-            {# {% for post in post_list %}     #}
-            {#        <div class="pagination"> #}
-            {#            <span class="step-links"> #}
-            {#                {% if post_list.has_previous %} #}
-            {#                    <a href="?page={{ post_list.previous_page_number }}">previous</a> #}
-            {#                {% endif %} #}
-            {#  #}
-            {#                <span class="current"> #}
-            {#                    Page {{ post_list.number }} of {{ post_list.paginator.num_pages }}. #}
-            {#                </span> #}
-            {#  #}
-            {#                {% if posts.has_next %} #}
-            {#                    <a href="?page={{ post_list.next_page_number }}">next</a> #}
-            {#                {% endif %} #}
-            {#            </span> #}
-            {#        </div> #}
-            {#        {% endfor %} #}
-            
-        </div>
+ 
+        </div> {# end .span7 #}
 
        <div class="span4">
 
@@ -161,40 +95,14 @@
                </p>
                <br style="clear:both;">
 
-
-               {# down ========================= #}
-                       {% comment %}
-                       <form class="postvote" id="postdown{{post.id}}" action="/posts/{{ post.slug }}/{% if vote and vote.is_downvote %}clear{% else %}down{% endif %}vote/?next={% firstof request.path '/' %}" method="POST">
-                           {% csrf_token %}
-                           {% if vote and vote.is_downvote %}
-                               <input type="submit" value="&or;" id="postdownarrow{{ post.id }}" title="clear your vote">
-                           {% else %}
-                               <input class="quiet" type="submit" value="&or;" id="postdownarrow{{ post.id }}" title="downvote this story">
-                           {% endif %}
-                           {# <input type="submit" value="{% if vote and vote.is_downvote %}&nabla;{% else %}&dArr;{% endif %}" id="postdownarrow{{ post.id }}" title="{% if vote and vote.is_downvote %}clear your vote{% else %}downvote this story{% endif %}"> #}
-                           {# src="/static/img/adown{% if vote and vote.is_downvote %}mod{% else %}grey{% endif %}.png" #}
-                           {# onclick="vote('{{ post.slug }}', 'down');" #}
-                       </form>
-                       {% endcomment %}
-
-
-               {% comment %}
-               <form class="postvote" id="postdown{{post.id}}" action="/posts/{{ post.slug }}/{% if vote and vote.is_downvote %}clear{% else %}down{% endif %}vote/?next={% firstof request.path '/' %}" method="POST">
-                   {% csrf_token %}
-                   <input type="image" id="postdownarrow{{ post.id }}" src="/static/img/adown{% if vote and vote.is_downvote %}mod{% else %}grey{% endif %}.png" title="{% if vote and vote.is_downvote %}clear your vote{% else %}downvote this story{% endif %}">
-               </form>
-               {% endcomment %}
-           </div>
-                <div class="meta well">
-                    
-                    {% if user.is_staff %} 
-                        <a class="btn" href="/admin/blog/post/{{ post.id }}">Edit as Admin</a><br>
-                    {% endif %}
-                    
-            {% ifequal post.author request.user %}
-
-                    {# <span class="caps"><a href="/desk/">Desk Actions</a></span> #}
-                    {# <br> #}
+           </div> {# end .meta .well #}
+            <div class="meta well">
+                
+                {% if user.is_staff %} 
+                    <a class="btn" href="/admin/blog/post/{{ post.id }}">Edit as Admin</a><br>
+                {% endif %}
+                
+                {% ifequal post.author request.user %}
                     <a class="btn" href="{% url blog_edit post.id %}"><i class="icon-edit"></i> Edit</a>
                     <a class="btn" href="{% url blog_delete post.id %}"><i class="icon-remove"></i> Delete</a> 
                     <br>
@@ -208,106 +116,90 @@
                     <li{% if post.status == 4 %} class="active"{% endif %}><a href="{% url blog_change_status 'done' post.id %}">Done</a></li>
                     </ul>
 
-                    {#  {% if post.status == 1 %} #}
-                    {#     <br> #}
-                    {#     <a href="{% url blog_change_status 'public' post.id %}"><i class="icon-ok"></i> {% trans "publish" %}</a> #}
-                    {#     {% else %} #}
-                    {#     <br> #}
-                    {#      #}
-                    {# {% endif %} #}
 
                     <br>
                     <br>
-            {% endifequal %}
-            {% load thumbnail %}
-                    {% if post.author.get_profile.user_photo %}<a href="/posts/{{ post.author.username }}/"><img class="pull-right" src="{% thumbnail post.author.get_profile.user_photo 48x48 crop %}" /></a>{% endif %}
-                    <span class="caps">Author:</span> <strong><a href="/posts/{{ post.author.username }}/">{% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}</strong></a>
-                    
+                {% endifequal %}
+                {% load thumbnail %}
+                {% if post.author.get_profile.user_photo %}<a href="/posts/{{ post.author.username }}/"><img class="pull-right" src="{% thumbnail post.author.get_profile.user_photo 48x48 crop %}" /></a>{% endif %}
+                <span class="caps">Author:</span> <strong><a href="/posts/{{ post.author.username }}/">{% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}</a></strong>
+                
 
-                    {# =todo: display and allow users to change Responsible field if post kind is Action Request #}
-                    {# <br> #}
-                    {# <span class="caps">Responsible:</span> {% if post.responsible.get_profile.name %}{{post.responsible.get_profile.name}}{% else %}{{post.responsible.username}}{% endif %} <i class="small quiet">editable by creator or admins</i> #}
-                    
-
-                    
-                    {# <form class="customform" id="edit_post" method="POST" action="{% url blog_edit post.id %}"> #}
-                    {#     {% csrf_token %} #}
-                    {#     <fieldset> #}
-                    {#         <label for="id_responsible">{{ post_form.responsible.label }}</label> #}
-                    {#  #}
-                    {#             {{ post_form.data.responsible }} #}
-                    {#  #}
-                    {#             {% if post_form.responsible.errors %} #}
-                    {#              <div class="alert alert-error"> #}
-                    {#              {% for error in post_form.responsible.errors %} #}
-                    {#                  {{ error|escape }} #}
-                    {#              {% endfor %} #}
-                    {#              </div> #}
-                    {#          {% endif %} #}
-                    {#         <br> #}
-                    {#  #}
-                    {#         <div class="form-actions"> #}
-                    {#             <button type="submit" class="btn btn-primary btn-large" tabindex="7">Submit</button> or <a href="javascript:history.go(-1)">Cancel</a> #}
-                    {#         </div> #}
-                    {#     </fieldset> #}
-                    {# </form> #}
-                    
-                    
-                    <br>
-                    <span class="caps">Status:</span> {{post.get_status_display}} {# http://stackoverflow.com/a/1106201/412329 #}
-                    <br>
-                    <span class="caps">Published:</span> {{ post.publish|date:"D, d M Y, H:i"}}
-                    <br>
-                    <span class="caps">Last Updated:</span> {{ post.updated_at|date:"D, d M Y, H:i"}}
-                    <br>
-                    <a style="text-decoration:underline;" class="small" href="{{ post.get_absolute_url }}" title="Right-click and Copy Link, or copy the link in the browser's address bar."># permanent link to this page</a>
-                </div>
+                {# =todo: display and allow users to change Responsible field if post kind is Action Request #}
+                {# <br> #}
+                {# <span class="caps">Responsible:</span> {% if post.responsible.get_profile.name %}{{post.responsible.get_profile.name}}{% else %}{{post.responsible.username}}{% endif %} <i class="small quiet">editable by creator or admins</i> #}
+                
+                
+                <br>
+                <span class="caps">Status:</span> {{post.get_status_display}} {# http://stackoverflow.com/a/1106201/412329 #}
+                <br>
+                <span class="caps">Published:</span> {{ post.publish|date:"D, d M Y, H:i"}}
+                <br>
+                <span class="caps">Last Updated:</span> {{ post.updated_at|date:"D, d M Y, H:i"}}
+                <br>
+                <a style="text-decoration:underline;" class="small" href="{{ post.get_absolute_url }}" title="Right-click and Copy Link, or copy the link in the browser's address bar."># permanent link to this page</a>
+            </div> {# end .meta .well #}
 
 
-{% comment %}
-    
-
-                {% ifnotequal post.author request.user %}
-                        {% if post.author.get_profile.user_photo %}
-                        {% load thumbnail %}
-                        <p><a href="/profiles/{{post.author.username}}"><img class="player-img" src="{% thumbnail post.author.get_profile.user_photo 260x180 crop %}" /></a></p>{% endif %}
-
-                        <p class="lead subdued">
-                            {# http://stackoverflow.com/a/9667189/412329 #}
-                            {% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}
-                        </p>
-                        <p class="subdued">
-                        {% if post.author.get_profile.date_joined %}Member since: {{post.author.get_profile.date_joined|date:"j F Y"}}{% endif %}    
-                        <br>
-                        <a href="/profiles/{{post.author.username}}" title="Profile."><i class="icon-user"></i> Profile</a> <a href="/posts/{{post.author.username}}"><i class="icon-list"></i> Posts</a>
-                        </p>
-                {% endifnotequal %}
-{% endcomment %}    
-
-            
-
-
-        
-        {# http://django-relationships.readthedocs.org/en/latest/getting_started.html #}
-        {% comment %}
-        {% ifnotequal post.author request.user %}
-        {% load relationship_tags %}         
-        <p style="margin-top:2em;">
-        {# decide whether or not the current user is following this user #}
-        {% if_relationship request.user post.author.get_profile.user "following" %}
-            {# they are following them, so show a "remove" url #}
-            <a class="btn btn-smaller" href="{{ post.author.get_profile.user|remove_relationship_url:"following" }}">Unfollow</a>
-        {% else %}
-            {# they are not following them, so show a link to start following #}
-            <a class="btn btn-smaller" href="{{ post.author.get_profile.user|add_relationship_url:"following" }}">Follow</a>
-        {% endif_relationship %}
-        </p>
-        {% endifnotequal %}
-        {% endcomment %}
-    
-
-
-        </div>
-    </div>
+        </div> {# end .span4 #}
+    </div> {# end .row #}
     {% endif %}
 {% endblock %}
+
+
+{% block extra_script %}
+{% if user.is_authenticated %}
+    <script src="{% static "js/Markdown.Converter.js" %}"></script>
+    <script src="{% static "js/Markdown.Sanitizer.js" %}"></script>
+    <script src="{% static "js/Markdown.Editor.js" %}"></script>
+
+    <script type="text/javascript">
+    (function () {
+        var converter1 = Markdown.getSanitizingConverter();
+        var editor1 = new Markdown.Editor(converter1);
+        editor1.run();
+        
+        // var converter2 = new Markdown.Converter();
+
+        // converter2.hooks.chain("preConversion", function (text) {
+        //     return text.replace(/\b(a\w*)/gi, "*$1*");
+        // });
+
+        // converter2.hooks.chain("plainLinkText", function (url) {
+        //     return "This is a link to " + url.replace(/^https?:\/\//, "");
+        // });
+        
+        // var help = function () { alert("Do you need help?"); }
+        
+        // var editor2 = new Markdown.Editor(converter2, "-second", { handler: help });
+        
+        // editor2.run();
+    })();
+
+    // toggle preview =todo: get this working in an include
+    // http://stackoverflow.com/a/9380998
+    // http://jsfiddle.net/andresilich/dQ5b7/1/
+    $('a.toggles').click(function() {
+        // $('a.toggles i').toggleClass('icon-chevron-left icon-chevron-right');
+
+        $('#wmd-preview').animate({
+            height: 'toggle'
+        }, 200);
+        // $('#content').toggleClass('span12 span9');
+    });
+
+    $('#wmd-preview').toggle(
+
+    function() {
+        $(this).css({
+            'display': 'block'
+        });
+    }, function() {
+        $(this).css({
+            'display': 'none'
+        });
+    });
+
+</script>
+{% endif %}
+{% endblock extra_script %}
