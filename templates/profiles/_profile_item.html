@@ -24,6 +24,9 @@
                     {% endif %}
                 </td>
                 <td>
+                    {% if profile.date_joined %}{{profile.date_joined|date:"j F Y"}}{% endif %}
+                </td>
+                <td>
                     <a href="/posts/{{profile.user.username}}">http://{{SITE_NAME}}/posts/{{profile.user.username}}</a>
                 </td>
             </tr>
