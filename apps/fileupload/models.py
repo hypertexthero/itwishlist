@@ -16,7 +16,7 @@ class File(models.Model):
 
     file = models.FileField(upload_to="files/%Y/%m/", unique_for_date='last_change')
     # file = models.ImageField(upload_to="pictures")
-    slug = models.SlugField(max_length=50, blank=True, unique_for_date='last_change')
+    slug = models.SlugField(max_length=200, blank=True, unique_for_date='last_change')
     # owned_by = models.ForeignKey(User, blank=True)
     last_change = models.DateTimeField(auto_now=True)
     uploaded_by = models.ForeignKey(User, related_name="added_files", verbose_name=('Uploaded by'))

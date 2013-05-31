@@ -75,7 +75,7 @@ class FileCreateView(LoginRequiredMixin, CreateView):
                     self.object.last_change.strftime("%Y/%m") + "/" + self.object.filename(), 
                  # 'fileurl': reverse('upload-file-detail', args=[self.object.slug]),
                  # 'uploaded_by': f.uploaded_by,
-                 'filename': self.object.filename(),
+                 # 'filename': self.object.filename(),
                  'sitename': settings.SITE_NAME,
                  'url': reverse('upload-detail', args=[self.object.id, self.object.slug]), 
                  # 'thumbnail_url': settings.MEDIA_URL + "files/" + f.name.replace(" ", "_"), 
