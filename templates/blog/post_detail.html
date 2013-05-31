@@ -55,7 +55,7 @@
             {% if post.allow_comments %}
             <div id="commentsbox">
                 {% get_comment_count for post as comment_count %}
-                <h3 id="comments">Comments <span class="normal">({{ comment_count }})</span></h3>
+                <h3 id="comments">Comments <span class="normal quiet">({{ comment_count }})</span> <a class="normal smaller" href="#writecomment"><i class="icon-comment"></i> Write a comment</a></h3>
 
                 
                 {% render_comment_list for post %}

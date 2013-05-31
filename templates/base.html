@@ -51,7 +51,7 @@
 {% endcomment %}
     </head>
     <body class="{% block body_class %}{% endblock %}" id="{% block body_id %}{% endblock %}">
-
+        <a id="top"></a>
         {% block topbar_base %}
             {# <div class="navbar-inner {% block navbar_class %}navbar-fixed-top{% endblock %}"> #}
             <div class="navbar">
@@ -117,7 +117,8 @@
                                 <br>
                                 More <a href="/about/" title="What is this site?">About the IPPC IT Wishlist</a>
                                 <br>
-                                ~
+                                <br>
+                                <a href="#top">&uarr; One, two, JUMP to the top of the page!</a>
                             </p> 
                             {% endblock %}
                         </div>

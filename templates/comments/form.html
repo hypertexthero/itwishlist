@@ -1,6 +1,6 @@
 {% load comments i18n %}
 {% if user.is_authenticated %}
-<h4>Write a Comment <small>(<a data-toggle="modal" href="#markdownhelp" title="Click to see a cheatsheet of Markdown.">Markdown syntax</a> is supported)</h4>
+<h4 id="writecomment">Your Comment <small>(<a data-toggle="modal" href="#markdownhelp" title="Click to see a cheatsheet of Markdown.">Markdown syntax</a> is supported)</h4>
    <form action="{% comment_form_target %}" method="post">
         {% csrf_token %}
         {% if next %}<input name="next" type="hidden" value="{{ next }}" />{% endif %}
