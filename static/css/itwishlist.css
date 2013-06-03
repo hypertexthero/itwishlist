@@ -89,6 +89,7 @@ form.form-search {margin-bottom:0.75em;}
 
 label {font-weight:bold;}
 textarea#wmd-input {min-height:27em; font-size:1.2em; line-height:1.7em;}
+textarea {color:#000;}
 input#id_url {padding:2em; font-size:1.2em; font-weight:bold;}
 input#id_allow_comments, input#user_photo-clear_id {width:auto !important;}
 input#user_photo-clear_id {display:block;}
