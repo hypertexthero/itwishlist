@@ -5,9 +5,9 @@ Naively-built website inspired by a well-known geek site to manage IT needs at w
 ## Todo now
 
 - Allow logins from users with details in existing separate user database
-- Add markdown preview for comments
 - Add 'Action Request' post status for recurring tasks
     - Add 'Responsible' and 'Observers' fields
+- Refactor ranking algorythm using [the function from Drum](http://blog.jupo.org/2013/04/30/building-social-apps-with-mezzanine-drum/)
 
 ## Todo in Future (upcoming features)
 
