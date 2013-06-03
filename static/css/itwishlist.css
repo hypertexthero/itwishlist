@@ -2,7 +2,7 @@
 it.ippc.int stylesheet overriding bootstrap.css
 Author: Simon Griffee
 Last updated: 
-Friday, 31 May 2013: 13:06:17 Italy Time
+Monday, 03 June 2013: 11:53:33 Italy Time
 */
 
 body {padding-top: 10px; padding-bottom:5em; background:#fff url(/static/img/website-bar-3.0.gif) repeat-x; color:#000; font-family:verdana, sans-serif;}
@@ -10,7 +10,7 @@ body {padding-top: 10px; padding-bottom:5em; background:#fff url(/static/img/web
 a.brand {font-size:1.1em !important; vertical-align:middle; color:#c00; font-family:georgia, serif; letter-spacing:0.1em; background:url(/static/img/ippc-logo-small.png) no-repeat 0 11px; margin-left:0 !important;}
 
 p, li, .btn {line-height:1.7em;}
-div.post {max-width:39em;}
+div.post {max-width:47em;}
 div.post p, div.post li {line-height:1.7em;}
 li.navbar-text {line-height:3.6em !important; color:#999;}
 a i {vertical-align:middle !important;}
