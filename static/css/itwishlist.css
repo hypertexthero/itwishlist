@@ -63,7 +63,7 @@ tr, td {background:#f3f0ea !important; border-color:#d7d5c6;}
    margin-top:-45%;
    /*margin-top:-45%;*/
 }
-.modal-body {max-height:700px; height:700px;}
+/*.modal-body {max-height:700px; height:700px;}*/
 /*.modal-body {max-height: 600px;}*/
 thead th {text-transform: uppercase; font-weight:normal; color:#9c998f;}
 tr, td {border-top:0 !important; background:transparent !important;}
