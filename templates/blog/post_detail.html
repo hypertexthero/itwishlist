@@ -38,7 +38,7 @@
                         Bug Report
                         {% if post.url %}
                         <br>
-                        URL: <a onclick="window.open(this.href, this.target); return false;" href="{{ post.url }}">{{ post.url }}</a>
+                        URL: <a title="Opens in a new window." onclick="window.open(this.href, this.target); return false;" href="{{ post.url }}">{{ post.url }}</a>
                         {% endif %}
                     {% endif %}
                 </p>
