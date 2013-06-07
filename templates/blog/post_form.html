@@ -45,7 +45,7 @@
 
 
 <div class="wmd-panel">
-    <label for="wmd-input">{{ post_form.content_markdown.label }} <span class="quiet small"> <a data-toggle='modal' href='#descriptionexample'>see example</a> | <a data-toggle='modal' href='#markdownhelp'>markdown syntax</a> | <a href="#" class="toggles">toggle preview</a></span></label>
+    <label for="wmd-input">{{ post_form.content_markdown.label }} <span class="quiet small"> <a data-toggle='modal' href='#descriptionexample'>see example</a> | <a data-toggle='modal' href='#markdownhelp'>markdown syntax</a> | <a href="#" class="toggles">toggle preview</a>{#} | <a onclick="window.open(this.href, this.target); return false;" href="/files/upload/">Upload a File</a> <span class="smaller">(opens a new window) and then paste the link to the file here.</span>#}</span></label>
     <div id="wmd-button-bar"></div>
 
 	{% if post_form.content_markdown.errors %}<div class="alert alert-error">{% endif %}
