@@ -16,6 +16,11 @@ from django.contrib.contenttypes import generic
 import markdown
 from typogrify.templatetags.typogrify_tags import typogrify
 
+# comment notifications
+from django.contrib.sites.models import Site
+from django.db.models import signals
+from notification import models as notification
+
 # defining html sanitizer to subsequently use in content_markdown to content_html conversion of user content at post save
 # http://code.google.com/p/html5lib/wiki/UserDocumentation
 # http://djangosnippets.org/snippets/2444/
@@ -188,9 +193,7 @@ class Post(models.Model):
 
 # Notifications when users comment
 # http://stackoverflow.com/questions/8603469/how-to-use-django-notification-to-inform-a-user-when-somebody-comments-on-their
-from django.contrib.sites.models import Site
-from django.db.models import signals
-from notification import models as notification
+
 
 def create_notice_types(app, created_models, verbosity, **kwargs):
     notification.create_notice_type("new_comment", "Comment posted", "A comment has been posted")
@@ -210,26 +213,31 @@ def new_comment(sender, instance, created, **kwargs):
         'site': Site.objects.get_current(),
     }
     recipients = []
+    pk=instance._get_pk_val()
 
     # add all users who commented the same object to recipients
     for comment in instance.__class__.objects.for_model(instance.content_object):
         # elif comment.user not in recipients and comment.user != instance.user:
         if comment.user not in recipients and comment.user != instance.user:
             recipients.append(comment.user)
-            recipients.append(instance.content_object.author)
-        # content_object creator to recipients list
-        # elif comment.user not in recipients and comment.user != instance.content_object.author:
-        #     recipients.append(instance.content_object.author)
+            # recipients.append(instance.content_object.author)
 
     # if the commented object is a user then notify him as well
-    if isinstance(instance.content_object, models.get_model('auth', 'User')):
+    # if isinstance(instance.content_object, models.get_model('auth', 'User')):
+    #     # if he is the one who posts the comment then don't add him to recipients
+    #     if instance.content_object != instance.user and instance.content_object not in recipients:
+    #         recipients.append(instance.content_object)
+
+    # if the commented object is a post then notify the post author as well
+    if isinstance(instance.content_object, models.get_model('blog', 'Post')):
         # if he is the one who posts the comment then don't add him to recipients
-        if instance.content_object != instance.user and instance.content_object not in recipients:
-            recipients.append(instance.content_object)
+        if instance.content_object.author != instance.user and instance.content_object.author not in recipients:
+            recipients.append(instance.content_object.author)
 
     notification.send(recipients, 'new_comment', context)
 
-signals.post_save.connect(new_comment, sender=models.get_model('comments', 'Comment'))
+# http://stackoverflow.com/a/1480174
+signals.post_save.connect(new_comment, sender=models.get_model('comments', 'Comment'), dispatch_uid="pk")
 
 # http://djangodays.com/2008/10/02/django-10-mail-notification-of-new-comments/
 
