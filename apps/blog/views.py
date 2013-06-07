@@ -244,7 +244,7 @@ def homepage(request):
 def new(request): 
     """Show new items"""
     return object_list(request, 
-        queryset=Post.objects.filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)).order_by('-updated_at')[:300], 
+        queryset=Post.objects.filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)).order_by('-created_at')[:300], 
         template_name='new.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
@@ -270,7 +270,7 @@ def feature(request):
     return object_list(request, 
         # Display Eat OR Everything
         # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
-        queryset=Post.hot.most_loved().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS), kind='F').order_by('-updated_at')[:300], 
+        queryset=Post.hot.most_loved().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS), kind='F').order_by('-created_at')[:300], 
         template_name='feature.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
@@ -281,7 +281,7 @@ def bug(request):
     return object_list(request, 
         # Display Eat OR Everything
         # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
-        queryset=Post.hot.most_loved().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS), kind='B').order_by('-updated_at')[:300], 
+        queryset=Post.hot.most_loved().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS), kind='B').order_by('-created_at')[:300], 
         template_name='bug.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
@@ -292,7 +292,7 @@ def done(request):
     return object_list(request, 
         # Display Eat OR Everything
         # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
-        queryset=Post.hot.most_loved().filter(status=DONE).order_by('-updated_at')[:300], 
+        queryset=Post.hot.most_loved().filter(status=DONE).order_by('-created_at')[:300], 
         template_name='done.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
@@ -303,7 +303,7 @@ def inprogress(request):
     return object_list(request, 
         # Display Eat OR Everything
         # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
-        queryset=Post.hot.most_loved().filter(status=IN_PROGRESS).order_by('-updated_at')[:300], 
+        queryset=Post.hot.most_loved().filter(status=IN_PROGRESS).order_by('-created_at')[:300], 
         template_name='inprogress.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
