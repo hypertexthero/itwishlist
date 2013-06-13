@@ -62,12 +62,12 @@ def tabindex(value, index):
     return value
 
 
-# @register.filter
-# def replace ( string, args ): 
-#     search  = args.split(args[0])[1]
-#     replace = args.split(args[0])[2]
-
-#     return re.sub( search, replace, string )
+# http://stackoverflow.com/questions/203859/how-do-i-get-python-markdown-to-additionally-urlify-links-when-formatting-plai
+urlfinder = re.compile("(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))")
+@register.filter('urlify_markdown')
+def urlify_markdown(value):
+    return urlfinder.sub(r'<a href="\1">\1</a>', value)
+    
 
 @register.filter
 def rootdomain(value):

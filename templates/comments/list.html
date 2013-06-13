@@ -12,6 +12,8 @@
         {% if comment.user.get_profile.name %}{{ comment.user.get_profile.name }}{% else %}{{ comment.user.username }}{% endif %}</a></b> on {{ comment.submit_date|date:"D, d M Y, H:i" }}</p>
 
         {% load markup %}
-        {{ comment.comment|markdown:"codehilite,tables,footnotes" }}
+        {% load blog_tags %}
+        {# {{ comment.comment|markdown:"codehilite,tables,footnotes" }} #}
+        {{ comment.comment|urlize|markdown:"codehilite,tables,footnotes" }}
 </div>
 {% endfor %}

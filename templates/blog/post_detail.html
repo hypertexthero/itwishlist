@@ -42,7 +42,10 @@
                         {% endif %}
                     {% endif %}
                 </p>
-                {{ post.content_html|safe }}
+                {# {{ post.content_html|safe }} #}
+                 {# another option is to use markdown and urlize,  pro: links get automatically linked without the need of < and >  con: performance suffers #}
+                {# urlify_markdown is also available in blog_tags.py, but not working. #}
+                {{ post.content_markdown|urlize }}
             </div> {# end div.post #}
             
             {# disqus #}
