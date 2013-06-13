@@ -13,7 +13,7 @@
 
         {% load markup %}
         {% load blog_tags %}
-        {# {{ comment.comment|markdown:"codehilite,tables,footnotes" }} #}
-        {{ comment.comment|urlize|markdown:"codehilite,tables,footnotes" }}
+        {{ comment.comment|markdown:"codehilite,tables,footnotes" }}
+        {# {{ comment.comment|urlize|markdown:"codehilite,tables,footnotes" }} #}
 </div>
 {% endfor %}
