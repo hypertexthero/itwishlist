@@ -60,9 +60,9 @@ urlpatterns = patterns("",
     url(r'^files/', include('itwishlist.apps.fileupload.urls')),
     )
 
-urlpatterns += patterns('django.views.generic.simple',
-    url(r'^about/$', 'direct_to_template', {'template': 'about.html'}, name='about'),
-)
+# urlpatterns += patterns('django.views.generic.simple',
+#     url(r'^about/$', 'direct_to_template', {'template': 'about.html'}, name='about'),
+# )
 
 
 # if settings.SERVE_MEDIA:
