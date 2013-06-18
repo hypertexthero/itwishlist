@@ -8,9 +8,40 @@ from django.utils.encoding import force_unicode
 from django.utils.safestring import mark_safe
 from django.template import RequestContext
 
+# http://www.b-list.org/weblog/2006/jun/07/django-tips-write-better-template-tags/
+from django.template import Library, Node
+from django.db.models import get_model
+
 from itwishlist.apps.blog.models import Post, IS_DRAFT, IS_PUBLIC, IN_PROGRESS, DONE
 
 register = template.Library()
+
+# http://www.b-list.org/weblog/2006/jun/07/django-tips-write-better-template-tags/
+class LatestContentNode(Node):
+    """ 
+    Usage:
+    {% get_latest blog.Post 10 as latest_entries %}
+    or
+    {% get_latest comments.Comment 5 as recent_comments %}
+    """
+    def __init__(self, model, num, varname):
+        self.num, self.varname = num, varname
+        self.model = get_model(*model.split('.'))
+
+    def render(self, context):
+        # context[self.varname] = self.model._default_manager.all()[:self.num]
+        context[self.varname] = self.model._default_manager.order_by('-submit_date')[:self.num]
+        return ''
+
+def get_latest(parser, token):
+    bits = token.contents.split()
+    if len(bits) != 5:
+        raise TemplateSyntaxError, "get_latest tag takes exactly four arguments"
+    if bits[3] != 'as':
+        raise TemplateSyntaxError, "third argument to get_latest tag must be 'as'"
+    return LatestContentNode(bits[1], bits[2], bits[4])
+
+get_latest = register.tag(get_latest)
 
 @register.tag
 def check_post_status(parser, token):
@@ -67,7 +98,6 @@ urlfinder = re.compile("""(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[
 @register.filter('urlify_markdown')
 def urlify_markdown(value):
     return urlfinder.sub(r'<a href="\1">\1</a>', value)
-    
 
 @register.filter
 def rootdomain(value):

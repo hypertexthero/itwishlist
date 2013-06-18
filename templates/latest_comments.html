@@ -1,0 +1,12 @@
+<div class="well">
+{% load blog_tags %}
+<h3>Latest Comments</h3>
+{% get_latest comments.Comment 10 as latest_comments %}
+{% for comment in latest_comments %} 
+<p class="smaller">
+    <a href="{{ comment.get_absolute_url }}" title="Permanent link to this comment."><b class="larger">{{comment.comment|truncatewords:20}}</b></a> by <b><a href="/profiles/{{ comment.user_name }}">
+        {% if comment.user.get_profile.name %}{{ comment.user.get_profile.name }}{% else %}{{ comment.user.username }}{% endif %}</a></b>
+        <time class="timeago" datetime="{{ comment.submit_date|date:"c" }}">{{ comment.submit_date|date:"c" }}</time>
+</p>
+{% endfor %}
+</div>

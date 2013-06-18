@@ -136,6 +136,12 @@
                 <br>
                 <span class="caps">Status:</span> {{post.get_status_display}} {# http://stackoverflow.com/a/1106201/412329 #}
                 <br>
+                {% comment %}
+                    
+                    =todo: responsible field
+                <span class="caps">Responsible:</span> {% if post.responsible.get_profile.name %}{{ post.responsible.get_profile.name }}{% else %}{{post.responsible.username}}{% endif %} {# http://stackoverflow.com/a/1106201/412329 #}
+                <br>
+                {% endcomment %}
                 <span class="caps">Published:</span> {{ post.publish|date:"D, d M Y, H:i"}}
                 <br>
                 <span class="caps">Last Updated:</span> {{ post.updated_at|date:"D, d M Y, H:i"}}

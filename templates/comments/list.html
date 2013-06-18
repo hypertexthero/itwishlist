@@ -1,9 +1,9 @@
 {% for comment in comment_list %}
-<div class="comment {% cycle odd,even %}" id="comment{{ forloop.counter }}">
+<div class="comment {% cycle odd,even %}" id="comment{{ forloop.counter }}" >
 
     {% load thumbnail %}
     
-    <p class="subdued small"><a href="#comment{{ forloop.counter }}" title="Permanent link to this comment."><b class="larger">#{{ forloop.counter }}</b></a> by <b><a href="/profiles/{{ comment.user_name }}">
+    <p class="subdued small" id="c{{comment.id}}"><a href="#comment{{ forloop.counter }}" title="Permanent link to this comment."><b class="larger">#{{ forloop.counter }}</b></a> by <b><a href="/profiles/{{ comment.user_name }}">
         {% if comment.user.get_profile.user_photo %}
         <img class="pull-right" src="{% thumbnail comment.user.get_profile.user_photo 48x48 crop %}" />
         {% else %}

@@ -81,6 +81,7 @@ margin-bottom: 2em;
 font-size: 1.25em;
 /*line-height: 36px;*/
 }
+.well h3 {margin:0 0 0.5em}
 form.customform {margin-bottom:20em;}
 /*form.customform option, form.customform select,*/
 form.customform input {font-weight: bold;}

@@ -127,7 +127,8 @@ class Post(models.Model):
     content_markdown = models.TextField(_("Description"), blank=True, help_text="<a data-toggle='modal' href='#markdownhelp'>Markdown syntax</a>.")
     content_html = models.TextField(blank=True, null=True, editable=False)
     status = models.IntegerField(_("Status"), choices=STATUS_CHOICES, default=IS_PUBLIC)
-    # responsible = models.ForeignKey(User, verbose_name=_("Responsible"), related_name="assigned_tickets", blank=True, null=True)
+    # =todo: responsible = models.ForeignKey(User, verbose_name=_("Responsible"), related_name="assigned_tickets", blank=True, null=True)
+    # observer =todo: list of observers to be copied in email alert
     allow_comments = models.BooleanField(_("Allow Comments?"), blank=False, default=1)
     publish = models.DateTimeField(_("Date Published"), default=datetime.now)
     created_at = models.DateTimeField(_("Date Created"), default=datetime.now)
@@ -193,7 +194,10 @@ class Post(models.Model):
 
 # Notifications when users comment
 # http://stackoverflow.com/questions/8603469/how-to-use-django-notification-to-inform-a-user-when-somebody-comments-on-their
-
+from django.contrib.comments import Comment
+class ReorderComment(Comment):
+    class Meta:
+        ordering = ["-submit_date"]
 
 def create_notice_types(app, created_models, verbosity, **kwargs):
     notification.create_notice_type("new_comment", "Comment posted", "A comment has been posted")
@@ -230,9 +234,13 @@ def new_comment(sender, instance, created, **kwargs):
 
     # if the commented object is a post then notify the post author as well
     if isinstance(instance.content_object, models.get_model('blog', 'Post')):
-        # if he is the one who posts the comment then don't add him to recipients
         if instance.content_object.author != instance.user and instance.content_object.author not in recipients:
             recipients.append(instance.content_object.author)
+    # and if a responsible user is selected, add him to recipients, too
+        # elif instance.content_object.responsible != instance.user and instance.content_object.responsible not in recipients:
+        #     recipients.append(instance.content_object.responsible)
+
+
 
     notification.send(recipients, 'new_comment', context)
 
