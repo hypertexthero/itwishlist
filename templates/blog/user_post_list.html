@@ -35,7 +35,7 @@
                 {% if post.kind == "K" %} {# if a feature: #}
 
                     <p class="subdued nomargin">IT Knowledge Base Article</p>
-                    <h1><a href="{{ post.get_absolute_url }}" title="Permanent link to this post.">{{ post.title }}</a></h1>
+                    <h3><a href="{{ post.get_absolute_url }}" title="Permanent link to this post.">{{ post.title }}</a></h3>
                     
                     <p>{% if post.allow_comments %} <a href="{{ post.get_absolute_url }}#disqus_thread"></a>{% endif %}</p>
                     {{ post.content_html|safe }}
@@ -43,7 +43,7 @@
                 {% if post.kind == "F" %} {# if a feature: #}
 
                     <p class="subdued nomargin">Feature Request</p>
-                    <h1><a href="{{ post.get_absolute_url }}" title="Permanent link to this post.">{{ post.title }}</a></h1>
+                    <h3><a href="{{ post.get_absolute_url }}" title="Permanent link to this post.">{{ post.title }}</a></h3>
                     
                     <p>{% if post.allow_comments %} <a href="{{ post.get_absolute_url }}#disqus_thread"></a>{% endif %}</p>
                     {{ post.content_html|safe }}

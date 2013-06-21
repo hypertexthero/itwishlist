@@ -43,6 +43,7 @@ a:hover {color:#930; text-decoration:none;}
 /*.btn-primary:hover, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {background-color:#930;}*/
 a.btn {font-weight:normal;}
 div.post a, div#content a, div#wmd-preview a {text-decoration:underline;}
+div.post h3 a {text-decoration:none;}
 /*a:hover, a:active {text-decoration:none; color:#000; outline:none;}*/
 /*.btn {padding-bottom:0.45em;}*/
 a.btn-primary {color:#fff;}
@@ -73,11 +74,10 @@ h1 a:hover {background:#eee;}
 .hero-unit h1 {font-size:3em; margin-bottom:0.15em !important;}
 h2 {margin-bottom:0.25em;}
 h2.dateline {
-	font-family:georgia, serif;
 text-transform:uppercase; 
 letter-spacing: 0.1em;
 font-weight:normal;
-margin-bottom: 2em;
+margin-bottom: 1em;
 font-size: 1.25em;
 /*line-height: 36px;*/
 }
