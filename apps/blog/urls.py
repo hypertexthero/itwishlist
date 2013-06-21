@@ -3,7 +3,7 @@ from django.conf import settings
 
 # from django.contrib.comments.models import FreeComment
 
-from itwishlist.apps.blog.models import Post, IS_PUBLIC, IN_PROGRESS
+from itwishlist.apps.blog.models import Post, IS_PUBLIC, DONE, IN_PROGRESS, KNOWLEDGE_BASE
 from itwishlist.apps.profiles.models import Profile
 
 from django.contrib.auth.models import User
@@ -35,7 +35,7 @@ backup_dict = {
 }
 
 post_dict_public = {
-    'queryset': Post.objects.filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)).order_by('-created_at'),
+    'queryset': Post.objects.filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)|Q(status=DONE)|Q(status=KNOWLEDGE_BASE)).order_by('-created_at'),
     'template_object_name': 'post',
     # 'extra_context': {"user": user},
 }
