@@ -12,7 +12,7 @@ from django.template import RequestContext
 from django.template import Library, Node
 from django.db.models import get_model
 
-from itwishlist.apps.blog.models import Post, IS_DRAFT, IS_PUBLIC, IN_PROGRESS, DONE
+from itwishlist.apps.blog.models import Post, IS_DRAFT, IS_PUBLIC, IN_PROGRESS, DONE, KNOWLEDGE_BASE
 
 register = template.Library()
 
@@ -58,7 +58,7 @@ class CheckPostStatus(template.Node):
         post = Variable(self.post).resolve(context)
         if not user or not post:
             return ''
-        if post.author == user or post.status == IS_PUBLIC or post.status == IN_PROGRESS or post.status == DONE:
+        if post.author == user or post.status == IS_PUBLIC or post.status == IN_PROGRESS or post.status == DONE or post.status == KNOWLEDGE_BASE:
             context['show_post'] = True
         else:
             context['show_post'] = False

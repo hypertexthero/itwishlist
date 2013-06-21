@@ -36,9 +36,9 @@ def blog_post_detail(request, *kargs, **kwargs):
     kwargs['template_object_name'] = 'post'
     kwargs['queryset'] = Post.objects.filter(blog = blog)
     if request.user.is_authenticated():
-        kwargs['queryset'] = kwargs['queryset'].filter(author=request.user) | kwargs['queryset'].filter(Q(status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS))
+        kwargs['queryset'] = kwargs['queryset'].filter(author=request.user) | kwargs['queryset'].filter(Q(status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS)|Q(status=KNOWLEDGE_BASE))
     else:
-        kwargs['queryset'] = kwargs['queryset'].filter(Q(status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS))
+        kwargs['queryset'] = kwargs['queryset'].filter(Q(status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS)|Q(status=KNOWLEDGE_BASE))
     return list_detail.object_detail(request, *kargs, **kwargs)
 
 def blog_user_post_detail(request, *kargs, **kwargs):
@@ -48,7 +48,7 @@ def blog_user_post_detail(request, *kargs, **kwargs):
     if user==request.user:
         kwargs['queryset'] = kwargs['queryset'].filter(author=request.user)
     else:
-        kwargs['queryset'] = kwargs['queryset'].filter(author=user).filter(Q(status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS))
+        kwargs['queryset'] = kwargs['queryset'].filter(author=user).filter(Q(status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS)|Q(status=KNOWLEDGE_BASE))
     return list_detail.object_detail(request, *kargs, **kwargs)
 
 @login_required
@@ -63,13 +63,15 @@ def change_status(request, action, id):
     if post.author != request.user:
         messages.add_message(request, messages.ERROR, message="You can't change statuses of items that aren't yours")
     else:
-        if action == 'draft' and post.status in [IS_PUBLIC,IN_PROGRESS,DONE]:
+        if action == 'draft' and post.status in [IS_PUBLIC,IN_PROGRESS,DONE,KNOWLEDGE_BASE]:
             post.status = IS_DRAFT
-        elif action == 'public' and post.status in [IS_DRAFT,IN_PROGRESS,DONE]:
+        elif action == 'public' and post.status in [IS_DRAFT,IN_PROGRESS,DONE,KNOWLEDGE_BASE]:
             post.status = IS_PUBLIC
-        elif action == 'inprogress' and post.status in [IS_PUBLIC,IS_DRAFT,DONE]:
+        elif action == 'inprogress' and post.status in [IS_PUBLIC,IS_DRAFT,DONE,KNOWLEDGE_BASE]:
             post.status = IN_PROGRESS
-        elif action == 'done' and post.status in [IS_DRAFT,IS_PUBLIC,IN_PROGRESS]:
+        elif action == 'done' and post.status in [IS_DRAFT,IS_PUBLIC,IN_PROGRESS,KNOWLEDGE_BASE]:
+            post.status = DONE
+        elif action == 'kb' and post.status in [IS_DRAFT,IS_PUBLIC,IN_PROGRESS,DONE]:
             post.status = DONE
         post_published.send(sender=Post, post=post)
         post.save()
@@ -83,8 +85,6 @@ def add(request, form_class=PostForm, template_name="blog/post_add.html"):
     post_form = form_class(request)
     if request.method == "POST" and post_form.is_valid():
         post = post_form.save(commit=False)
-        # if post.kind == 3:
-        #     post.status == 5
         post.author = request.user
         # creator_ip = request.META.get('HTTP_X_FORWARDED_FOR', None)
         # if not creator_ip:
@@ -195,7 +195,7 @@ def search(request):
 def following(request): 
     """Show following items"""   
     return object_list(request, 
-        queryset=Post.objects.all().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)),
+        queryset=Post.objects.all().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)|Q(status=KNOWLEDGE_BASE)),
         template_name='following.html',
         template_object_name='post',
         extra_context= {'author': request.user}
@@ -205,7 +205,7 @@ def following(request):
 def followers(request): 
     """Show followers items"""   
     return object_list(request, 
-        queryset=Post.objects.all().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)),
+        queryset=Post.objects.all().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)|Q(status=KNOWLEDGE_BASE)),
         template_name='followers.html',
         template_object_name='post',
         extra_context= {'author': request.user}
