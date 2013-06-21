@@ -122,7 +122,7 @@
                     <li{% if post.status == 2 %} class="active"{% endif %}><a href="{% url blog_change_status 'public' post.id %}">Pending</a></li>
                     <li{% if post.status == 3 %} class="active"{% endif %}><a href="{% url blog_change_status 'inprogress' post.id %}">In Progress</a></li>
                     <li{% if post.status == 4 %} class="active"{% endif %}><a href="{% url blog_change_status 'done' post.id %}">Done</a></li>
-                    <li{% if post.status == 5 %} class="active"{% endif %}><a href="{% url blog_change_status 'kb' post.id %}">Knowledge Base</a></li>
+                    {# <li{% if post.status == 5 %} class="active"{% endif %}><a href="{% url blog_change_status 'kb' post.id %}">Knowledge Base</a></li> #}
                     </ul>
 
 

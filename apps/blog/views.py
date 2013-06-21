@@ -71,8 +71,8 @@ def change_status(request, action, id):
             post.status = IN_PROGRESS
         elif action == 'done' and post.status in [IS_DRAFT,IS_PUBLIC,IN_PROGRESS,KNOWLEDGE_BASE]:
             post.status = DONE
-        elif action == 'kb' and post.status in [IS_DRAFT,IS_PUBLIC,IN_PROGRESS,DONE]:
-            post.status = DONE
+        # elif action == 'kb' and post.status in [IS_DRAFT,IS_PUBLIC,IN_PROGRESS,DONE]:
+        #     post.status = DONE
         post_published.send(sender=Post, post=post)
         post.save()
         messages.add_message(request, messages.SUCCESS, message=_("Successfully changed status for post '%s'") % post.title)

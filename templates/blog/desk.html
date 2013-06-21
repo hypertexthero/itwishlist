@@ -17,6 +17,8 @@
       {# <h1>My IT Wish List Desk</h1> #}
       {# <p class="pull-right"><a class="btn btn-primary" href="/post/"><i class="icon-pencil icon-white"></i> Post new link or article</a></p> #}
     {# </header> #}
+
+      <h2 class="center normal"><a href="/profiles/{{ user.username }}" title="Set your display name and upload a picture.">Your</a> IPPC IT Wishlist <a href="/posts/{{user.username}}">Entries</a></h2>
     
     
         {% regroup post_list|dictsort:"status" by status as posts_by_status %}
