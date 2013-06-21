@@ -91,21 +91,27 @@ function() {
 $(document).ready(function(){            
     
     var $kind = $('#id_kind'),
-        $url = $('.url');
+        $url = $('.url'),
+        $status = $('#id_status'),
         $wmdpanel = $('.wmd-panel');
 
     $kind.change(function() {
         if ($kind.val() == 'B') {
-            $url.removeAttr('disabled').show();
-            // $wmdpanel.attr('disabled', 'disabled').val('').hide();
-            
-            // =todo: show Responsible field if post kind is Action Request
-            // else if {}
-            
-        } else {
-            $url.attr('disabled', 'disabled').val('').hide();
-            $wmdpanel.removeAttr('disabled').show();
-        }
+                $url.removeAttr('disabled').show();
+                // $wmdpanel.attr('disabled', 'disabled').val('').hide();
+                // =todo: show Responsible field if post kind is Action Request
+                // else if {}
+            }
+        else if ($kind.val() == 'K') {
+                $url.attr('disabled', 'disabled').val('').hide();
+                $status.val('5');   
+            } 
+        else {
+                $url.attr('disabled', 'disabled').val('').hide();
+                $wmdpanel.removeAttr('disabled').show();
+                $status.val('2');   
+            }
+        
     }).trigger('change'); // added trigger to calculate initial state
     // 
     // $("input[type=text]").click(function() { // automatically select text on click - http://stackoverflow.com/a/3150370/412329

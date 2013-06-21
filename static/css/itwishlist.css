@@ -2,12 +2,12 @@
 it.ippc.int stylesheet overriding bootstrap.css
 Author: Simon Griffee
 Last updated: 
-Monday, 03 June 2013: 11:53:33 Italy Time
+Friday, 21 June 2013: 13:54:30 Italy Time
 */
 
 body {padding-top: 10px; padding-bottom:5em; background:#fff url(/static/img/website-bar-3.0.gif) repeat-x; color:#000; font-family:verdana, sans-serif;}
  /*url(/static/img/background.jpg) repeat 0 0;*/
-a.brand {font-size:1.1em !important; vertical-align:middle; color:#c00; font-family:georgia, serif; letter-spacing:0.1em; background:url(/static/img/ippc-logo-small.png) no-repeat 0 11px; margin-left:0 !important;}
+a.brand {font-size:1em !important; vertical-align:middle; color:#c00; background:url(/static/img/ippc-logo-small.png) no-repeat 0 11px; margin-left:0 !important;}
 
 p, li, .btn {line-height:1.7em;}
 div.post {max-width:47em;}
@@ -17,7 +17,7 @@ a i {vertical-align:middle !important;}
 blockquote {border-left:2px solid #ddd;}
 blockquote p {font-size:1em;}
 p + p {margin-bottom:1em;}
-div.navbar, div.navbar-fixed-top {position:relative !important; text-transform:uppercase; font-size:0.9em; letter-spacing:0.1em; background: #000;}
+div.navbar, div.navbar-fixed-top {position:relative !important; font-size:0.9em; background:#000;}
 div.navbar ul.nav li a {color:#fff; font-weight:bold;}
 div.navbar ul.nav li.dropdown ul.dropdown-menu a {color:#004b18;}
 ul.nav-list li a {color:#000 !important;}
@@ -34,7 +34,7 @@ img.player-img {border:2px solid #2e2a1f;}
 b, strong {font-weight:bold;}
 
 /*.hero-unit, .well {background:transparent;}*/
-div.well {border:0;}
+div.well {border:0; overflow:hidden;}
 legend {border-color:#e7e6db;}
 hr {color:#d7d5c6; border-color:#d7d5c6; }
 a:link {color:#00782b; font-weight:bold;}
@@ -67,11 +67,11 @@ tr, td {background:#f3f0ea !important; border-color:#d7d5c6;}
 /*.modal-body {max-height: 600px;}*/
 thead th {text-transform: uppercase; font-weight:normal; color:#9c998f;}
 tr, td {border-top:0 !important; background:transparent !important;}
-h1 {text-align:left !important; font-family:georgia, serif;}
+h1 {text-align:left !important;}
 h1 a {color:#2e2a1f !important;}
 h1 a:hover {background:#eee;}
 .hero-unit h1 {font-size:3em; margin-bottom:0.15em !important;}
-h2 {margin-bottom:0.25em; font-family:georgia, serif;}
+h2 {margin-bottom:0.25em;}
 h2.dateline {
 	font-family:georgia, serif;
 text-transform:uppercase; 
@@ -131,13 +131,15 @@ a.subdued {color:#999;}
 .help-block {font-size:0.9em; color:#999; margin-bottom:1.5em;}
 .error {color:#c00;}
 .nomargin {margin:0;}
-.small {font-size:0.9em;}
+.small, .meta {font-size:0.9em;}
 .smaller {font-size:0.7em;}
+.smallerstill {font-size:9px !important;}
 .large {font-size:1.1em;}
 .larger {font-size:1.2em;}
 .largerstill {font-size:1.4em;}
 .smaller {font-size:0.8em;}
 .caps {text-transform: uppercase; font-size:0.9em;}
+
 #footer {border-top:double #e7e6db; padding-top:1.5em; margin-top:1em; text-align:center; clear:both;}
 body.entryform #footer {display:none;}
 

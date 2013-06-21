@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block head_title %}Feature Requests{% endblock %}
+{% block head_title %}IT Knowledge Base Articles{% endblock %}
 
 {% block body %}  
     {% include "blog/post_list.html" %}
@@ -12,11 +12,11 @@
         {# {% if user.is_authenticated %} #}
         {# {% include "search_form.html" %} #}
         {# {% else %}         #}
-            <h1 style="margin-bottom:0;" class="normal">Feature Requests</h1>
-            <p class="subdued" style="margin-top:0;">Feature Request items sorted by most recently created.</p>
+            <h1 style="margin-bottom:0; display:inline;" class="normal">IT Knowledge Base Articles</h1>
+            <p class="subdued" style="margin-top:0; display:inline;">such as tutorials, sorted by most recently created.</p>
             {% include "search_form.html" %}
-            {% include "latest_comments.html" %}
         {# {% endif %} #}
+        {% include "latest_comments.html" %}
     </div>                              
 </div>
 {% endblock sidebar %}

@@ -15,7 +15,7 @@ from django.conf import settings
 from django.db.models import Q, Count # http://stackoverflow.com/a/1217911/412329
 
 # from misc.json_encode import json_response
-from itwishlist.apps.blog.models import Post, Vote, IS_DRAFT, IS_PUBLIC, DONE, IN_PROGRESS
+from itwishlist.apps.blog.models import Post, Vote, IS_DRAFT, IS_PUBLIC, DONE, IN_PROGRESS, KNOWLEDGE_BASE
 from itwishlist.apps.fileupload.models import File
 from itwishlist.apps.profiles.models import Profile
 from itwishlist.apps.blog.forms import PostForm
@@ -83,6 +83,8 @@ def add(request, form_class=PostForm, template_name="blog/post_add.html"):
     post_form = form_class(request)
     if request.method == "POST" and post_form.is_valid():
         post = post_form.save(commit=False)
+        # if post.kind == 3:
+        #     post.status == 5
         post.author = request.user
         # creator_ip = request.META.get('HTTP_X_FORWARDED_FOR', None)
         # if not creator_ip:
@@ -171,7 +173,7 @@ def search(request):
         # https://groups.google.com/forum/?fromgroups=#!msg/django-users/JKhf05HOezg/klz7A-vs_U0J
         post_list = Post.objects.filter(Q(
             title__icontains=query)|Q(content_html__icontains=query)).distinct().filter(Q(
-            status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS))
+            status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS)|Q(status=KNOWLEDGE_BASE))
         file_list = File.objects.filter(Q(slug__icontains=query)).distinct()
         profile_list = Profile.objects.filter(Q(name__icontains=query)).distinct()
         result_list = sorted(
@@ -234,7 +236,7 @@ def homepage(request):
 
     return object_list(request, 
         # http://eflorenzano.com/blog/2008/05/24/managers-and-voting-and-subqueries-oh-my/
-        queryset=Post.hot.most_loved().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS))[:300], # .annotate(num_votes=Count('score')) 
+        queryset=Post.hot.most_loved().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)|Q(status=KNOWLEDGE_BASE))[:300], # .annotate(num_votes=Count('score')) 
         # queryset=Post.objects().filter(status=IS_PUBLIC).order_by('-popularity'), # .annotate(num_votes=Count('score')) 
         template_name='homepage.html',
         template_object_name='post',
@@ -244,7 +246,7 @@ def homepage(request):
 def new(request): 
     """Show new items"""
     return object_list(request, 
-        queryset=Post.objects.filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)).order_by('-created_at')[:300], 
+        queryset=Post.objects.filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS)|Q(status=KNOWLEDGE_BASE)).order_by('-created_at')[:300], 
         template_name='new.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
@@ -305,6 +307,15 @@ def inprogress(request):
         # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
         queryset=Post.hot.most_loved().filter(status=IN_PROGRESS).order_by('-created_at')[:300], 
         template_name='inprogress.html',
+        template_object_name='post',
+        extra_context= {"profile": get_profiles}
+    )
+
+def kb(request): 
+    """Show IT Knowledge Base items"""
+    return object_list(request, 
+        queryset=Post.objects.filter(Q(status=KNOWLEDGE_BASE), kind='K').order_by('-created_at')[:300], 
+        template_name='kb.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
     )

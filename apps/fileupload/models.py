@@ -19,7 +19,8 @@ class File(models.Model):
     # pillow (where Pillow is easily installable in a virtualenv. If you have
     # problems installing pillow, use a more generic FileField instead.
 
-    file = models.FileField(upload_to="files/%Y/%m/", unique_for_date='last_change')
+    # http://reinout.vanrees.org/weblog/2012/04/13/django-filefield-limitation.html
+    file = models.FileField(upload_to="files/%Y/%m/", unique_for_date='last_change', max_length=204)
     # file = models.ImageField(upload_to="pictures")
     slug = models.SlugField(max_length=200, blank=True, unique_for_date='last_change')
     # owned_by = models.ForeignKey(User, blank=True)

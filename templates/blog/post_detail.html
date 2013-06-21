@@ -34,7 +34,12 @@
                 <p class="subdued">
                     {% if post.kind == "F" %} {# if an feature: #}
                         Feature Request
-                    {% else %} {# or a bug: #}
+                    {% endif %}
+                    {% if post.kind == "K" %}
+                        IT Knowledge Base Article
+                    {% endif %}
+                    {% if post.kind == "B" %}
+                    {# {% else %} or a bug: #}
                         Bug Report
                         {% if post.url %}
                         <br>

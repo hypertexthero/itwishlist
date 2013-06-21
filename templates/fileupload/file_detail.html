@@ -31,7 +31,7 @@
             {# =todo: see why thumbs are not working and get them working. show file icons if not images. #}
             <a href="{{ file.file.url }}">{{file.filename}}</a>
             <br>
-            <img src="{{ file.file.url }}">
+            <img style="border:1px solid #ddd;" src="{{ file.file.url }}">
         </a>
 
         {% ifequal file.uploaded_by request.user %}

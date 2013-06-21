@@ -96,13 +96,18 @@
 {% endcomment %}                
                                 {% if post.kind == "F" %} {# if an feature: #}
                                     <a href="{{ post.get_absolute_url }}" title="Read.">{{ post.title }}</a>
-                                    <span class="smaller quiet">Feature Request</span>
-                                {% else %} {# or a bug: #}
+                                    <span class="smallerstill quiet caps">Feature Request</span>
+                                {% endif %}
+                                {% if post.kind == "K" %}
+                                    <a href="{{ post.get_absolute_url }}" title="Read.">{{ post.title }}</a>
+                                    <span class="smallerstill quiet caps">IT Knowledge Base Article</span>
+                                {% endif %} {# or a bug: #}
+                                {% if post.kind == "B" %}
                                     {# <a href="{{ post.url }}">{{ post.title }}</a>  #}
                                     <a href="{{ post.get_absolute_url }}">{{ post.title }}</a> 
 
                                     {# <span class="smaller quiet">({{post.url|rootdomain}})</span> #}
-                                    <span class="smaller quiet">Bug Report</span>
+                                    <span class="smallerstill quiet caps">Bug Report</span>
                                     
                                     
                                     {# <a class="quiet" href="{{ post.get_absolute_url }}" rel="permalink" title="Permanent link to {{ post.title }} here at it.ippc.int">#</a> #}
