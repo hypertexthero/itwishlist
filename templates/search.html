@@ -11,7 +11,7 @@
 <p><a href="javascript:history.go(-1)">« Back to previous page</a></p>
 
     <h2>Search results for &ldquo;<strong>{{ query }}</strong>&rdquo;:</h2>     
-{% if post_results or file_results or profile_results %}
+{% if post_results or file_results or profile_results or comment_results %}
 
     {% if post_results %}
         <ul>
@@ -34,6 +34,16 @@
             {% endfor %}
         </ul>
     {% endif %}
+    {% if comment_results %}
+        <ul>
+            {% for comment in comment_results %}
+                <li>
+                    <a style="font-weight:normal;" href="{{ comment.get_absolute_url }}" title="Permanent link to this comment.">{{comment.comment|truncatewords:20}}</a> by <a style="font-weight:normal;" href="/profiles/{{ comment.user_name }}">
+                    {% if comment.user.get_profile.name %}{{ comment.user.get_profile.name }}{% else %}{{ comment.user.username }}{% endif %}</a>
+                    <time class="timeago" datetime="{{ comment.submit_date|date:"c" }}">{{ comment.submit_date|date:"c" }}</time> <small class="quiet">(comment)</small></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endif %}
 
 
@@ -53,7 +63,7 @@
     {# </ul> #}
 {# {% endif %}  #}
 
-{% if query and not post_results and not file_results and not profile_results %}
+{% if query and not post_results and not file_results and not profile_results and not comment_results %}
     <p class="warning">No results found.</p> 
     {% else %}
     {# <p>Type a search query into the box below, and press "Submit" to search.</p> #}    

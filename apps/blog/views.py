@@ -21,6 +21,11 @@ from itwishlist.apps.profiles.models import Profile
 from itwishlist.apps.blog.forms import PostForm
 from itwishlist.apps.blog.signals import post_published
 
+# http://stackoverflow.com/a/2167434/412329
+from django.http import HttpResponseRedirect
+from django.contrib.comments import Comment
+from django.contrib.auth.models import User
+
 from voting.models import Vote
 from voting.managers import VoteManager
 
@@ -86,6 +91,8 @@ def add(request, form_class=PostForm, template_name="blog/post_add.html"):
     if request.method == "POST" and post_form.is_valid():
         post = post_form.save(commit=False)
         post.author = request.user
+        # =todo: responsible user
+        # post.responsible = post.responsible.user
         # creator_ip = request.META.get('HTTP_X_FORWARDED_FOR', None)
         # if not creator_ip:
             # creator_ip = request.META.get('REMOTE_ADDR', None)
@@ -159,7 +166,8 @@ def search(request):
     post_list = []
     file_list = []
     profile_list = []
-    result_list = list(chain(post_list, file_list, profile_list))
+    comment_list = []
+    result_list = list(chain(post_list, file_list, profile_list, comment_list))
     user = request.user # http://stackoverflow.com/a/4338108/412329 - passing the user variable into the context
 
     if query:
@@ -176,8 +184,9 @@ def search(request):
             status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS)|Q(status=KNOWLEDGE_BASE))
         file_list = File.objects.filter(Q(slug__icontains=query)).distinct()
         profile_list = Profile.objects.filter(Q(name__icontains=query)).distinct()
+        comment_list = Comment.objects.filter(Q(comment__icontains=query)).distinct()
         result_list = sorted(
-            chain(post_list, file_list, profile_list),
+            chain(post_list, file_list, profile_list, comment_list),
             key=lambda instance: instance)
             # key=lambda instance: instance.pub_date)
     return render_to_response('search.html',
@@ -187,6 +196,7 @@ def search(request):
                 'post_results': post_list,
                 'file_results': file_list,
                 'profile_results': profile_list,
+                'comment_results': comment_list,
                 # 'profile': get_profiles
             },
             context_instance=RequestContext(request)) # http://stackoverflow.com/questions/8625601/yourlabs-subscription-error-caught-variabledoesnotexist-while-rendering
@@ -338,12 +348,7 @@ def kb(request):
 #         extra_context= {"profile": get_profiles}
 #     )
 
-
 # http://stackoverflow.com/a/2167434/412329
-from django.http import HttpResponseRedirect
-from django.contrib.comments import Comment
-from django.contrib.auth.models import User
-
 def comment_posted(request):
     if request.GET['c']:
         comment_id = request.GET['c'] #B

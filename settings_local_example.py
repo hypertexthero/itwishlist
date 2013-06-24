@@ -6,6 +6,8 @@ ADMINS = [
     # ("Your Name", "your_email@domain.com"),
 ]
 
+DEFAULT_FROM_EMAIL = 'email@domain.tld'
+
 MANAGERS = ADMINS
 
 DATABASES = {
