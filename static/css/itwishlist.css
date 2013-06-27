@@ -128,7 +128,7 @@ a.subdued {color:#999;}
 /*.tip {background:#ffc;}*/
 .breadcrumb {color:#999;}
 .center {text-align:center;}
-.help-block {font-size:0.9em; color:#999; margin-bottom:1.5em;}
+.help-block {font-size:0.9em; color:#999; margin-bottom:1.5em; display:inline;}
 .error {color:#c00;}
 .nomargin {margin:0;}
 .small, .meta {font-size:0.9em;}

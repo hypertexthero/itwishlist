@@ -130,14 +130,21 @@
                     <br>
                 {% endifequal %}
                 {% load thumbnail %}
-                {% if post.author.get_profile.user_photo %}<a href="/posts/{{ post.author.username }}/"><img class="pull-right" src="{% thumbnail post.author.get_profile.user_photo 48x48 crop %}" /></a>{% endif %}
-                <span class="caps">Author:</span> <strong><a href="/posts/{{ post.author.username }}/">{% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}</a></strong>
-                
+                {% if post.author.get_profile.user_photo %}<a href="/profiles/{{ post.author.username }}/"><img class="pull-right" src="{% thumbnail post.author.get_profile.user_photo 48x48 crop %}" /></a>{% endif %}
+                <span class="caps">Author:</span> <strong><a href="/profiles/{{ post.author.username }}/">{% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}</a></strong>
 
-                {# =todo: display and allow users to change Responsible field if post kind is Action Request #}
+                {# =todo: display and allow users to change observers field #}
+                {# http://stackoverflow.com/a/4270839 #}
                 {# <br> #}
-                {# <span class="caps">Responsible:</span> {% if post.responsible.get_profile.name %}{{post.responsible.get_profile.name}}{% else %}{{post.responsible.username}}{% endif %} <i class="small quiet">editable by creator or admins</i> #}
-                
+                {# <span class="caps">Observers:</span> #}
+                {#     <ul class="unstyled"> #}
+                {#     {% for observer in post.observers.all  %} #}
+                {#         <li> #}
+                {#             <a href="/profiles/{{ observer }}/">{% if observer.get_profile.user_photo %}<img style="vertical-align:middle;" src="{% thumbnail observer.get_profile.user_photo 24x24 crop %}" />{%else%}<span style="display:inline-block; width:24px; height:24px; background:#ccc; vertical-align:middle;"></span>{% endif %}</a> #}
+                {#              #}
+                {#             <a href="/profiles/{{ observer }}/">{% if observer.get_profile.name %}{{observer.get_profile.name}}{% else %}{{observer}}{% endif %}</a></li> #}
+                {#     {% endfor %} #}
+                {#     </ul>                 #}
                 
                 <br>
                 <span class="caps">Status:</span> {{post.get_status_display}} {# http://stackoverflow.com/a/1106201/412329 #}

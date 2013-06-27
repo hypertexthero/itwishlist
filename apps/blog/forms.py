@@ -2,6 +2,8 @@ from datetime import datetime
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from django.contrib.auth.models import User
+
 from itwishlist.apps.blog.models import Post, IS_DRAFT, IS_PUBLIC
 
 class PostForm(forms.ModelForm):

@@ -63,33 +63,17 @@
 	
 </div>
 
-{# <label for="wmd-preview"></label> #}
 <div id="wmd-preview" class="wmd-panel wmd-preview"></div>
 
 
-{# <div style="display:none;"> #}
-{# <label for="id_category">{{ post_form.category.label }}</label> #}
-{#  #}
-{#     {{ post_form.category|tabindex:4 }} #}
-{#  #}
-{#     {% if post_form.category.errors %} #}
-{#      <div class="alert alert-error"> #}
-{#      {% for error in post_form.category.errors %} #}
-{#          {{ error|escape }} #}
-{#      {% endfor %} #}
-{#      </div> #}
-{#  {% endif %} #}
-{#  #}
-{# </div> #}
-
 {# =todo: display and allow users to change Responsible field if post kind is Action Request #}
-{# <label for="id_responsible">{{ post_form.responsible.label }} <span class="small quiet normal">(this user will be notified by email)</label> #}
+{# <label for="id_observers">Observers <span class="small quiet normal">(these users will be notified by email)</label> #}
 {#  #}
-{#     {{ post_form.responsible|tabindex:4 }} #}
+{#     {{ post_form.observers|tabindex:4 }} #}
 {#  #}
-{#     {% if post_form.responsible.errors %} #}
+{#     {% if post_form.observers.errors %} #}
 {#      <div class="alert alert-error"> #}
-{#      {% for error in post_form.responsible.errors %} #}
+{#      {% for error in post_form.observers.errors %} #}
 {#          {{ error|escape }} #}
 {#      {% endfor %} #}
 {#      </div> #}

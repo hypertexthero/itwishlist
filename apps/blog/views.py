@@ -36,6 +36,7 @@ from django.db.models import Q
 from django.views.generic.date_based import archive_index
 from django.views.generic.list_detail import object_list
 
+@login_required
 def blog_post_detail(request, *kargs, **kwargs):
     blog = get_object_or_404(Blog, slug = kwargs.pop('blog', ''))
     kwargs['template_object_name'] = 'post'
@@ -46,6 +47,7 @@ def blog_post_detail(request, *kargs, **kwargs):
         kwargs['queryset'] = kwargs['queryset'].filter(Q(status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS)|Q(status=KNOWLEDGE_BASE))
     return list_detail.object_detail(request, *kargs, **kwargs)
 
+@login_required
 def blog_user_post_detail(request, *kargs, **kwargs):
     user = get_object_or_404(User, username=kwargs.pop('username', ''))
     # =todo: show vote on post detail page
@@ -83,6 +85,9 @@ def change_status(request, action, id):
         messages.add_message(request, messages.SUCCESS, message=_("Successfully changed status for post '%s'") % post.title)
     return redirect("blog_user_post_detail", username=request.user.username, slug=post.slug)
 
+# from django.db.models import signals
+# from notification import models as notification
+
 @login_required
 def add(request, form_class=PostForm, template_name="blog/post_add.html"):
     u = request.GET.get('u', '')
@@ -91,13 +96,9 @@ def add(request, form_class=PostForm, template_name="blog/post_add.html"):
     if request.method == "POST" and post_form.is_valid():
         post = post_form.save(commit=False)
         post.author = request.user
-        # =todo: responsible user
-        # post.responsible = post.responsible.user
-        # creator_ip = request.META.get('HTTP_X_FORWARDED_FOR', None)
-        # if not creator_ip:
-            # creator_ip = request.META.get('REMOTE_ADDR', None)
-        # post.creator_ip = creator_ip
         post.save()
+        # post_form.save()
+        # post_form.save_m2m()
         messages.add_message(request, messages.SUCCESS, message=_("Successfully created post '%s'") % post.title)
         return redirect("blog_user_post_detail", username=request.user.username, slug=post.slug)
     return render_to_response(template_name, {"post_form": post_form, "u": u, "t": t}, context_instance=RequestContext(request))
@@ -105,6 +106,7 @@ def add(request, form_class=PostForm, template_name="blog/post_add.html"):
 @login_required
 def edit(request, id, form_class=PostForm, template_name="blog/post_edit.html"):
     post = get_object_or_404(Post, id=id)
+    # observers = User.objects.filter(is_staff=True)
     if post.author != request.user:
         request.user.message_set.create(message="You can't edit items that aren't yours")
         return redirect("desk")
@@ -113,6 +115,8 @@ def edit(request, id, form_class=PostForm, template_name="blog/post_edit.html"):
         post = post_form.save(commit=False)
         post.updated_at = datetime.now()
         post.save()
+        # post_form.save()
+        # post_form.save_m2m()
         # request.user.message_set.create(message=_("Successfully updated post '%s'") % post.title)
         # http://stackoverflow.com/a/11728475/412329
         messages.add_message(request, messages.SUCCESS, message=_("Successfully updated post '%s'") % post.title)
@@ -160,6 +164,7 @@ def get_profiles():
 # http://stackoverflow.com/questions/744424/django-models-how-to-filter-out-duplicate-values-by-pk-after-the-fact
 from itertools import chain
 # =search
+@login_required
 def search(request):
     """ search """    
     query = request.GET.get('q', '') # both /search/ and /search/?q=query work
@@ -241,6 +246,7 @@ def followers(request):
 #                 },
 #                 context_instance=RequestContext(request)) # http://stackoverflow.com/questions/8625601/yourlabs-subscription-error-caught-variabledoesnotexist-while-rendering
 
+@login_required
 def homepage(request): 
     """Show top items"""   
 
@@ -253,6 +259,7 @@ def homepage(request):
         extra_context= {'profile': get_profiles}
     )
 
+@login_required
 def new(request): 
     """Show new items"""
     return object_list(request, 
@@ -262,6 +269,7 @@ def new(request):
         extra_context= {"profile": get_profiles}
     )
 
+@login_required
 def user_post_list(request, *kargs, **kwargs):
     user = get_object_or_404(User, username = kwargs.pop('username', ''))
     kwargs['queryset'] = kwargs['queryset'].filter(author=user)
@@ -277,6 +285,7 @@ def user_post_list(request, *kargs, **kwargs):
     # return category
 
 # =todo: These should probably be a Categories model, but need to move on in the simplest possible way for now
+@login_required
 def feature(request): 
     """Features"""
     return object_list(request, 
@@ -288,6 +297,7 @@ def feature(request):
         extra_context= {"profile": get_profiles}
     )
     
+@login_required
 def bug(request): 
     """Bugs"""
     return object_list(request, 
@@ -299,6 +309,7 @@ def bug(request):
         extra_context= {"profile": get_profiles}
     )
     
+@login_required
 def done(request): 
     """Done - Stuff that's been finished"""
     return object_list(request, 
@@ -310,6 +321,7 @@ def done(request):
         extra_context= {"profile": get_profiles}
     )
 
+@login_required
 def inprogress(request): 
     """In Progress - Stuff that's in progress"""
     return object_list(request, 
@@ -321,6 +333,7 @@ def inprogress(request):
         extra_context= {"profile": get_profiles}
     )
 
+@login_required
 def kb(request): 
     """Show IT Knowledge Base items"""
     return object_list(request, 

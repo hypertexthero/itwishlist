@@ -126,12 +126,16 @@ class Post(models.Model):
     author = models.ForeignKey(User, related_name="added_posts")
     # creator_ip = models.CharField(_("IP Address of the Post Creator"), max_length=255, blank=True, null=True)
     kind = models.CharField(max_length=1, choices=KIND, default=1)
-    url = models.URLField(_("Bug URL"), blank=True, null=True, help_text="Not required, but helpful if relevant. With or without http://", default='')
+    url = models.URLField(_("Bug URL"), 
+        blank=True, 
+        null=True, 
+        help_text="Not required, but helpful if relevant. With or without http://", 
+        default='')
     content_markdown = models.TextField(_("Description"), blank=True, help_text="<a data-toggle='modal' href='#markdownhelp'>Markdown syntax</a>.")
     content_html = models.TextField(blank=True, null=True, editable=False)
     status = models.IntegerField(_("Status"), choices=STATUS_CHOICES, default=IS_PUBLIC)
-    # =todo: responsible = models.ForeignKey(User, verbose_name=_("Responsible"), related_name="assigned_tickets", blank=True, null=True)
-    # observer =todo: list of observers to be copied in email alert
+    # =todo: list of observers to be copied in email alert
+    # observers = models.ManyToManyField(User, verbose_name=_("Observers"), related_name='observers+',)
     allow_comments = models.BooleanField(_("Allow Comments?"), blank=False, default=1)
     publish = models.DateTimeField(_("Date Published"), default=datetime.now)
     created_at = models.DateTimeField(_("Date Created"), default=datetime.now)
@@ -200,12 +204,36 @@ class Post(models.Model):
 
 def create_notice_types(app, created_models, verbosity, **kwargs):
     notification.create_notice_type("new_comment", "Comment posted", "A comment has been posted")
-
+    # notification.create_notice_type("new_post", "New post created", "A new post has been created")
 signals.post_syncdb.connect(create_notice_types, sender=notification)
 
 
 # =todo: send email to responsible user if post kind is Action Request
+# =todo: NOT WORKING: and if observers are selected, add them to recipients, too
+# if isinstance(instance.content_object, models.get_model('blog', 'Post')):
+#     if instance.content_object.observers not in recipients:
+#         recipients.append(instance.content_object.observers)
 
+# def new_post(sender, instance, created, **kwargs):   
+# 
+#     context = {
+#         'post': instance,
+#         'site': Site.objects.get_current(),
+#     }
+#     
+#     # recipients = []
+#     recipients = instance.observers.all()
+#     pk=instance._get_pk_val()
+# 
+#     # for observer in instance.observers.all().distinct():
+#     #     if observer.user not in recipients:
+#     #         recipients.append(observer.user)
+# 
+#     notification.send(recipients, 'new_post', context)
+# # http://stackoverflow.com/a/1480174
+# signals.post_save.connect(new_post, sender=models.get_model('blog', 'Post'), dispatch_uid="pkobservers")
+
+        
 def new_comment(sender, instance, created, **kwargs):   
     # remove this if-block if you want notifications for comment edit too
     if not created:
@@ -220,41 +248,14 @@ def new_comment(sender, instance, created, **kwargs):
 
     # add all users who commented the same object to recipients
     for comment in instance.__class__.objects.for_model(instance.content_object):
-        # elif comment.user not in recipients and comment.user != instance.user:
         if comment.user not in recipients and comment.user != instance.user:
             recipients.append(comment.user)
-            # recipients.append(instance.content_object.author)
-
-    # if the commented object is a user then notify him as well
-    # if isinstance(instance.content_object, models.get_model('auth', 'User')):
-    #     # if he is the one who posts the comment then don't add him to recipients
-    #     if instance.content_object != instance.user and instance.content_object not in recipients:
-    #         recipients.append(instance.content_object)
 
     # if the commented object is a post then notify the post author as well
     if isinstance(instance.content_object, models.get_model('blog', 'Post')):
         if instance.content_object.author != instance.user and instance.content_object.author not in recipients:
             recipients.append(instance.content_object.author)
-    # and if a responsible user is selected, add him to recipients, too
-        # elif instance.content_object.responsible != instance.user and instance.content_object.responsible not in recipients:
-        #     recipients.append(instance.content_object.responsible)
-
-
 
     notification.send(recipients, 'new_comment', context)
-
 # http://stackoverflow.com/a/1480174
 signals.post_save.connect(new_comment, sender=models.get_model('comments', 'Comment'), dispatch_uid="pk")
-
-# http://djangodays.com/2008/10/02/django-10-mail-notification-of-new-comments/
-
-# from django.contrib.comments.models import Comment
-# from django.core.mail import send_mail
-# from django.db.models import signals
-# 
-# def mail_comment(instance, **kwargs):
-#     subject = 'subject of the mail'
-#     msg = 'Comment text:\n\n%s' % instance.comment
-#     send_mail(subject, msg, 'noreply@it.ippc.int', ['email@address.com'])
-# 
-# signals.post_save.connect(mail_comment, sender=Comment)
