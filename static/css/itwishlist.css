@@ -94,6 +94,7 @@ textarea {color:#000;}
 input#id_url {padding:2em; font-size:1.2em; font-weight:bold;}
 input#id_allow_comments, input#user_photo-clear_id {width:auto !important;}
 input#user_photo-clear_id {display:block;}
+select#id_observers {min-height:30em; min-width:30em;}
 div.post {margin-bottom:5em;}
 .post-title a {color:#000; text-decoration:none;}
 
