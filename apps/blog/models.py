@@ -135,7 +135,7 @@ class Post(models.Model):
     content_html = models.TextField(blank=True, null=True, editable=False)
     status = models.IntegerField(_("Status"), choices=STATUS_CHOICES, default=IS_PUBLIC)
     # =todo: list of observers to be copied in email alert
-    # observers = models.ManyToManyField(User, verbose_name=_("Observers"), related_name='observers+',)
+    observers = models.ManyToManyField(User, verbose_name=_("Observers"), related_name='observers+',)
     allow_comments = models.BooleanField(_("Allow Comments?"), blank=False, default=1)
     publish = models.DateTimeField(_("Date Published"), default=datetime.now)
     created_at = models.DateTimeField(_("Date Created"), default=datetime.now)
@@ -204,35 +204,26 @@ class Post(models.Model):
 
 def create_notice_types(app, created_models, verbosity, **kwargs):
     notification.create_notice_type("new_comment", "Comment posted", "A comment has been posted")
-    # notification.create_notice_type("new_post", "New post created", "A new post has been created")
+    notification.create_notice_type("new_post", "Post created or edited", "A post to which you are an observer has been created or edited")
 signals.post_syncdb.connect(create_notice_types, sender=notification)
 
 
-# =todo: send email to responsible user if post kind is Action Request
-# =todo: NOT WORKING: and if observers are selected, add them to recipients, too
-# if isinstance(instance.content_object, models.get_model('blog', 'Post')):
-#     if instance.content_object.observers not in recipients:
-#         recipients.append(instance.content_object.observers)
+# =todo: send email to observers
+# http://stackoverflow.com/a/17324155/412329
+def new_post(sender, instance, created, **kwargs):   
 
-# def new_post(sender, instance, created, **kwargs):   
-# 
-#     context = {
-#         'post': instance,
-#         'site': Site.objects.get_current(),
-#     }
-#     
-#     # recipients = []
-#     recipients = instance.observers.all()
-#     pk=instance._get_pk_val()
-# 
-#     # for observer in instance.observers.all().distinct():
-#     #     if observer.user not in recipients:
-#     #         recipients.append(observer.user)
-# 
-#     notification.send(recipients, 'new_post', context)
-# # http://stackoverflow.com/a/1480174
-# signals.post_save.connect(new_post, sender=models.get_model('blog', 'Post'), dispatch_uid="pkobservers")
+    context = {
+        'post': instance,
+        'site': Site.objects.get_current(),
+    }
+    
+    recipients = instance.observers.all()
+    pk=instance._get_pk_val()
 
+    notification.send(recipients, 'new_post', context)
+# http://stackoverflow.com/a/1480174
+signals.post_save.connect(new_post, sender=models.get_model('blog', 'Post'), dispatch_uid="pkobserverspost")
+        
         
 def new_comment(sender, instance, created, **kwargs):   
     # remove this if-block if you want notifications for comment edit too
@@ -242,6 +233,7 @@ def new_comment(sender, instance, created, **kwargs):
     context = {
         'comment': instance,
         'site': Site.objects.get_current(),
+        # 'observers': Post.get_observers(),
     }
     recipients = []
     pk=instance._get_pk_val()
@@ -255,6 +247,10 @@ def new_comment(sender, instance, created, **kwargs):
     if isinstance(instance.content_object, models.get_model('blog', 'Post')):
         if instance.content_object.author != instance.user and instance.content_object.author not in recipients:
             recipients.append(instance.content_object.author)
+        # observers also get notified when someone comments
+        # http://stackoverflow.com/questions/4319469/queryset-object-has-no-attribute-error-trying-to-get-related-data-on-manytoma#comment4692576_4319476
+        for user in instance.content_object.observers.all():
+            recipients.append(user)
 
     notification.send(recipients, 'new_comment', context)
 # http://stackoverflow.com/a/1480174

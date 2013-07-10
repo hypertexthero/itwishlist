@@ -1,0 +1,11 @@
+You are an observer for the IT Wishlist post titled **{{ post.title }}**, which has been created or edited:
+
+Post URL:
+http://{{ site.domain }}{{ post.get_absolute_url }}
+
+Post content:
+* * * * *
+
+{{ post.content_markdown }}
+
+* * * * *

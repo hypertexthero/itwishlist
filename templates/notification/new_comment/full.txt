@@ -1,4 +1,4 @@
-{{ comment.user }} commented on {{ comment.content_object }}
+{{ comment.user }} commented on '{{ comment.content_object }}'
 
 Comment:
 {{ comment.comment }}

@@ -85,9 +85,6 @@ def change_status(request, action, id):
         messages.add_message(request, messages.SUCCESS, message=_("Successfully changed status for post '%s'") % post.title)
     return redirect("blog_user_post_detail", username=request.user.username, slug=post.slug)
 
-# from django.db.models import signals
-# from notification import models as notification
-
 @login_required
 def add(request, form_class=PostForm, template_name="blog/post_add.html"):
     u = request.GET.get('u', '')
@@ -96,9 +93,11 @@ def add(request, form_class=PostForm, template_name="blog/post_add.html"):
     if request.method == "POST" and post_form.is_valid():
         post = post_form.save(commit=False)
         post.author = request.user
-        post.save()
-        # post_form.save()
-        # post_form.save_m2m()
+        post_form.save()
+        post.id = post.id
+        # need to call save again so notification gets sent to observers 
+        # https://docs.djangoproject.com/en/dev/ref/models/instances/#saving-objects
+        post_form.save()
         messages.add_message(request, messages.SUCCESS, message=_("Successfully created post '%s'") % post.title)
         return redirect("blog_user_post_detail", username=request.user.username, slug=post.slug)
     return render_to_response(template_name, {"post_form": post_form, "u": u, "t": t}, context_instance=RequestContext(request))
@@ -114,9 +113,7 @@ def edit(request, id, form_class=PostForm, template_name="blog/post_edit.html"):
     if request.method == "POST" and post_form.is_valid():
         post = post_form.save(commit=False)
         post.updated_at = datetime.now()
-        post.save()
-        # post_form.save()
-        # post_form.save_m2m()
+        post_form.save()
         # request.user.message_set.create(message=_("Successfully updated post '%s'") % post.title)
         # http://stackoverflow.com/a/11728475/412329
         messages.add_message(request, messages.SUCCESS, message=_("Successfully updated post '%s'") % post.title)
@@ -148,14 +145,6 @@ def backup(request):
         template_object_name='post',
         template_name = "blog/backup.txt"
     )
-    # response["Content-Disposition"] = "attachment; filename=MyitwishlistPosts.txt"
-    # return response
-# @login_required
-# def backup(request, *kargs, **kwargs):
-#     user = get_object_or_404(User, username = kwargs.pop('username', ''))
-#     kwargs['queryset'] = kwargs['queryset'].filter(author=user)
-#     kwargs['extra_context'] = {'current_user': user, 'author': user}
-#     return list_detail.object_list(request, *kargs, **kwargs)
 
 # https://docs.djangoproject.com/en/1.0/topics/generic-views/#adding-extra-context
 def get_profiles():
@@ -176,13 +165,6 @@ def search(request):
     user = request.user # http://stackoverflow.com/a/4338108/412329 - passing the user variable into the context
 
     if query:
-        # INSTEAD OF THIS:
-        # title_results = Post.objects.filter(title__icontains=query)
-        # results = Post.objects.filter(content_html__icontains=query)
-        # DO THIS avoid duplicate results when query word is both in title and content_html:
-        # http://stackoverflow.com/questions/744424/django-models-how-to-filter-out-duplicate-values-by-pk-after-the-fact
-        # results = Post.objects.filter(Q(title__icontains=query)|Q(content_html__icontains=query)).distinct()
-
         # https://groups.google.com/forum/?fromgroups=#!msg/django-users/JKhf05HOezg/klz7A-vs_U0J
         post_list = Post.objects.filter(Q(
             title__icontains=query)|Q(content_html__icontains=query)).distinct().filter(Q(
@@ -196,13 +178,11 @@ def search(request):
             # key=lambda instance: instance.pub_date)
     return render_to_response('search.html',
             {   'query': query, 
-                # 'result_list': result_list,
                 'user': user,
                 'post_results': post_list,
                 'file_results': file_list,
                 'profile_results': profile_list,
                 'comment_results': comment_list,
-                # 'profile': get_profiles
             },
             context_instance=RequestContext(request)) # http://stackoverflow.com/questions/8625601/yourlabs-subscription-error-caught-variabledoesnotexist-while-rendering
 
@@ -225,26 +205,6 @@ def followers(request):
         template_object_name='post',
         extra_context= {'author': request.user}
     )
-
-# http://stackoverflow.com/a/2807393/412329
-# def homepage(request):
-#     post_list = Post.objects.all().order_by('-popularity')[:300]
-#     # post_list = Post.objects.select_related().annotate(votes=Count('rank')).order_by('-created_at')[:300]
-#     # for post in post_list:
-#     #     delta_in_hours = (int(datetime.now().strftime("%s")) - int(post.created_at.strftime("%s"))) / 3600
-#     #     post.popularity = ((post.rank - 1) / (delta_in_hours + 2)**1.5)
-
-#     # post_list = sorted(post_list, key=lambda x: x.popularity, reverse=True)
-
-#     # posts = paginate(request, post_list, 5)
-
-#     return render_to_response('homepage.html',
-#                 {   'profile': get_profiles,
-#                     'post_list': post_list,
-#                     # 'post': post,
-#                     'user': request.user,
-#                 },
-#                 context_instance=RequestContext(request)) # http://stackoverflow.com/questions/8625601/yourlabs-subscription-error-caught-variabledoesnotexist-while-rendering
 
 @login_required
 def homepage(request): 
@@ -276,21 +236,10 @@ def user_post_list(request, *kargs, **kwargs):
     kwargs['extra_context'] = {'current_user': user, 'author': user, 'profile': get_profiles}
     return list_detail.object_list(request, *kargs, **kwargs)
 
-
-# def get_category():
-#     category = 
-#     return category
-    # except Post.DoesNotExist:
-    #     raise Http404
-    # return category
-
-# =todo: These should probably be a Categories model, but need to move on in the simplest possible way for now
 @login_required
 def feature(request): 
     """Features"""
     return object_list(request, 
-        # Display Eat OR Everything
-        # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
         queryset=Post.hot.most_loved().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS), kind='F').order_by('-created_at')[:300], 
         template_name='feature.html',
         template_object_name='post',
@@ -301,8 +250,6 @@ def feature(request):
 def bug(request): 
     """Bugs"""
     return object_list(request, 
-        # Display Eat OR Everything
-        # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
         queryset=Post.hot.most_loved().filter(Q(status=IS_PUBLIC)|Q(status=IN_PROGRESS), kind='B').order_by('-created_at')[:300], 
         template_name='bug.html',
         template_object_name='post',
@@ -313,8 +260,6 @@ def bug(request):
 def done(request): 
     """Done - Stuff that's been finished"""
     return object_list(request, 
-        # Display Eat OR Everything
-        # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
         queryset=Post.hot.most_loved().filter(status=DONE).order_by('-created_at')[:300], 
         template_name='done.html',
         template_object_name='post',
@@ -325,8 +270,6 @@ def done(request):
 def inprogress(request): 
     """In Progress - Stuff that's in progress"""
     return object_list(request, 
-        # Display Eat OR Everything
-        # queryset=Post.hot.most_loved().filter(Q(category=EAT)|Q(category=EVERYTHING))[:300], 
         queryset=Post.hot.most_loved().filter(status=IN_PROGRESS).order_by('-created_at')[:300], 
         template_name='inprogress.html',
         template_object_name='post',
@@ -342,24 +285,6 @@ def kb(request):
         template_object_name='post',
         extra_context= {"profile": get_profiles}
     )
-
-# def shop(request): 
-#     """shop category"""
-#     return object_list(request, 
-#         queryset=Post.hot.most_loved().filter(category=SHOP)[:300], 
-#         template_name='category-shop.html',
-#         template_object_name='post',
-#         extra_context= {"profile": get_profiles}
-#     )
-
-# def work(request): 
-#     """work category"""
-#     return object_list(request, 
-#         queryset=Post.hot.most_loved().filter(category=WORK)[:300], 
-#         template_name='category-work.html',
-#         template_object_name='post',
-#         extra_context= {"profile": get_profiles}
-#     )
 
 # http://stackoverflow.com/a/2167434/412329
 def comment_posted(request):
