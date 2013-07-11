@@ -50,7 +50,7 @@
                     {% endif %}
                     </span>
                     by 
-                    {% if post.author.get_profile.user_photo %}<a href="/profiles/{{ post.author.username }}/"><img src="{% thumbnail post.author.get_profile.user_photo 48x48 crop %}" /></a>{% endif %} 
+                    {# {% if post.author.get_profile.user_photo %}<a href="/profiles/{{ post.author.username }}/"><img src="{% thumbnail post.author.get_profile.user_photo 48x48 crop %}" /></a>{% endif %}  #}
                     <a href="/profiles/{{ post.author.username }}/">{% if post.author.get_profile.name %}{{ post.author.get_profile.name }}{% else %}{{post.author.username}}{% endif %}</a>
                     
                     
