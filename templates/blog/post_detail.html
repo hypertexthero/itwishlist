@@ -114,7 +114,6 @@
 
            </div> {# end .meta .well #}
             <div class="meta well">
-                
                 {% if user.is_staff %} 
                     <a class="btn" href="/admin/blog/post/{{ post.id }}">Edit as Admin</a><br>
                 {% endif %}
@@ -125,7 +124,6 @@
                     <br>
                     <br>
                     <span class="caps">Change status to:</span>
-
                     <ul class="nav nav-pills nav-stacked">
                     <li{% if post.status == 1 %} class="active"{% endif %}><a href="{% url blog_change_status 'draft' post.id %}">Draft</a></li>
                     <li{% if post.status == 2 %} class="active"{% endif %}><a href="{% url blog_change_status 'public' post.id %}">Pending</a></li>
@@ -133,27 +131,26 @@
                     <li{% if post.status == 4 %} class="active"{% endif %}><a href="{% url blog_change_status 'done' post.id %}">Done</a></li>
                     {# <li{% if post.status == 5 %} class="active"{% endif %}><a href="{% url blog_change_status 'kb' post.id %}">Knowledge Base</a></li> #}
                     </ul>
-
-
-                    <br>
-                    <br>
                 {% endifequal %}
 
                 {# =todo: display and allow users to change observers field #}
                 {# http://stackoverflow.com/a/4270839 #}
                 <br>
-                <span class="caps">Observers:</span>
-                    <ul class="unstyled">
-                    {% for observer in post.observers.all  %}
-                        <li>
-                            <a href="/profiles/{{ observer }}/">{% if observer.get_profile.user_photo %}<img style="vertical-align:middle;" src="{% thumbnail observer.get_profile.user_photo 48x48 crop %}" />{%else%}<span style="display:inline-block; width:24px; height:24px; background:#ccc; vertical-align:middle;"></span>{% endif %}</a>
-                            
-                            <a href="/profiles/{{ observer }}/">{% if observer.get_profile.name %}{{observer.get_profile.name}}{% else %}{{observer}}{% endif %}</a></li>
-                    {% endfor %}
-                    </ul>                
-                
+                {# {% if observers.all %} #}
+                    <span class="caps">Observers:</span>
+                {# {% endif %} #}
+                        <ul class="unstyled">
+                        {% for observer in post.observers.all  %}
+                            <li>
+                                <a href="/profiles/{{ observer }}/">{% if observer.get_profile.user_photo %}<img style="vertical-align:middle;" src="{% thumbnail observer.get_profile.user_photo 48x48 crop %}" />{%else%}<span style="display:inline-block; width:48px; height:48px; background:#ccc; vertical-align:middle;"></span>{% endif %}</a>
+                        
+                                <a href="/profiles/{{ observer }}/">{% if observer.get_profile.name %}{{observer.get_profile.name}}{% else %}{{observer}}{% endif %}</a></li>
+                        {% endfor %}
+                        </ul>                
+                    <br>
+
+                <span class="caps">Status:</span> <strong>{{post.get_status_display}}</strong> {# http://stackoverflow.com/a/1106201/412329 #}
                 <br>
-                <span class="caps">Status:</span> {{post.get_status_display}} {# http://stackoverflow.com/a/1106201/412329 #}
                 <br>
                 {% comment %}
                     =todo: responsible field
