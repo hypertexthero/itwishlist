@@ -70,6 +70,19 @@
 <label for="id_observers">Observers <span class="small quiet normal">(Ctrl/Cmd+click to add more than one. These users will be notified by email when your entry is created, and also whenever someone adds a comment to the entry)</label>
 
     {{ post_form.observers|tabindex:4 }}
+    
+    {# =todo: show real names when they are added by user #}
+    {# <select id="id_observers" tabindex="4" name="observers" multiple="multiple"> #}
+    {#     {% for id,user in post_form.observers.field.choices %} #}
+    {#         <option value="{{id}}"> #}
+    {#         {% if user.get_profiles.name %} #}
+    {#             {{ user.get_profiles.name }} #}
+    {#             {% else %} #}
+    {#             {{ user }} #}
+    {#         {% endif %} #}
+    {#         </option> #}
+    {#     {% endfor %} #}
+    {# </select> #}
 
     {% if post_form.observers.errors %}
      <div class="alert alert-error">
@@ -84,7 +97,7 @@
 <div class="status">
 <label for="id_status">{{ post_form.status.label }}</label>
 
-    {{ post_form.status|tabindex:4 }}
+    {{ post_form.status|tabindex:5 }}
 
     {% if post_form.status.errors %}
 	    <div class="alert alert-error">
@@ -97,7 +110,7 @@
 <br>
 <br>
 
-<label for="id_allow_comments">{{ post_form.allow_comments|tabindex:5 }} {{ post_form.allow_comments.label }}</label>
+<label for="id_allow_comments">{{ post_form.allow_comments|tabindex:6 }} {{ post_form.allow_comments.label }}</label>
     {% if post_form.allow_comments.errors %}
 	    <div class="alert alert-error">
 	    {% for error in post_form.allow_comments.errors %}

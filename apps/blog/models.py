@@ -135,7 +135,7 @@ class Post(models.Model):
     content_html = models.TextField(blank=True, null=True, editable=False)
     status = models.IntegerField(_("Status"), choices=STATUS_CHOICES, default=IS_PUBLIC)
     # =todo: list of observers to be copied in email alert
-    observers = models.ManyToManyField(User, verbose_name=_("Observers"), related_name='observers+',)
+    observers = models.ManyToManyField(User, verbose_name=_("Observers"), related_name='observers+', blank=True, null=True)
     allow_comments = models.BooleanField(_("Allow Comments?"), blank=False, default=1)
     publish = models.DateTimeField(_("Date Published"), default=datetime.now)
     created_at = models.DateTimeField(_("Date Created"), default=datetime.now)
