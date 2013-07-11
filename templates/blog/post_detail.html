@@ -142,7 +142,7 @@
                         <ul class="unstyled">
                         {% for observer in post.observers.all  %}
                             <li>
-                                <a href="/profiles/{{ observer }}/">{% if observer.get_profile.user_photo %}<img style="vertical-align:middle;" src="{% thumbnail observer.get_profile.user_photo 48x48 crop %}" />{%else%}<span style="display:inline-block; width:48px; height:48px; background:#ccc; vertical-align:middle;"></span>{% endif %}</a>
+                                {# <a href="/profiles/{{ observer }}/">{% if observer.get_profile.user_photo %}<img style="vertical-align:middle;" src="{% thumbnail observer.get_profile.user_photo 48x48 crop %}" />{%else%}<span style="display:inline-block; width:48px; height:48px; background:#ccc; vertical-align:middle;"></span>{% endif %}</a> #}
                         
                                 <a href="/profiles/{{ observer }}/">{% if observer.get_profile.name %}{{observer.get_profile.name}}{% else %}{{observer}}{% endif %}</a></li>
                         {% endfor %}
