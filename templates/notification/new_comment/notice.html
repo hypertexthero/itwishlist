@@ -1,3 +1,3 @@
 {# <a href="{{ comment.user.get_absolute_url }}">{{ comment.user }}</a> commented <a href="{{ comment.content_object.get_absolute_url }}">{{ comment.content_object }}</a> #}
 
-<a href="/profiles/{{ comment.user_name }}">{% if comment.user.get_profile.name %}{{ comment.user.get_profile.name }}{% else %}{{ comment.user.username }}{% endif %}</a> commented <a href="{{ comment.content_object.get_absolute_url }}">{{ comment.content_object }}</a>
+<a href="/profiles/{{ comment.user.username }}">{% if comment.user.get_profile.name %}{{ comment.user.get_profile.name }}{% else %}{{ comment.user.username }}{% endif %}</a> commented <a href="{{ comment.content_object.get_absolute_url }}">{{ comment.content_object }}</a>

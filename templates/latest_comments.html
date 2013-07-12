@@ -4,7 +4,7 @@
 {% get_latest comments.Comment 10 as latest_comments %}
 {% for comment in latest_comments %} 
 <p class="smaller">
-    <a style="font-weight:normal;" href="{{ comment.get_absolute_url }}" title="Permanent link to this comment.">{{comment.comment|truncatewords:20}}</a> by <a style="font-weight:normal;" href="/profiles/{{ comment.user_name }}">
+    <a style="font-weight:normal;" href="{{ comment.get_absolute_url }}" title="Permanent link to this comment.">{{comment.comment|truncatewords:20}}</a> by <a style="font-weight:normal;" href="/profiles/{{ comment.user.username }}">
         {% if comment.user.get_profile.name %}{{ comment.user.get_profile.name }}{% else %}{{ comment.user.username }}{% endif %}</a>
         <time class="timeago" datetime="{{ comment.submit_date|date:"c" }}">{{ comment.submit_date|date:"c" }}</time>
 </p>
