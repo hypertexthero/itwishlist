@@ -44,11 +44,11 @@ class LoginRequiredMixin(object):
 # class FileDetailView(FileMixin, DetailView):
 #     pass
 
-class FileDetailView(DetailView):
+class FileDetailView(LoginRequiredMixin, DetailView):
     model = File
     template_name = 'fileupload/file_detail.html'
 
-class FileListView(ListView):
+class FileListView(LoginRequiredMixin, ListView):
     model = File
     queryset = File.objects.all().order_by('-last_change')
     
@@ -96,7 +96,7 @@ class FileCreateView(LoginRequiredMixin, CreateView):
     #     raise PermissionDenied
 
 
-class FileDeleteView(DeleteView):
+class FileDeleteView(LoginRequiredMixin, DeleteView):
     model = File
 
     def delete(self, request, *args, **kwargs):
