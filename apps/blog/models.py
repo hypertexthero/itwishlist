@@ -211,7 +211,7 @@ signals.post_syncdb.connect(create_notice_types, sender=notification)
 # =todo: send email to observers
 # http://stackoverflow.com/a/17324155/412329
 def new_post(sender, instance, created, **kwargs):   
-
+    
     context = {
         'post': instance,
         'site': Site.objects.get_current(),
