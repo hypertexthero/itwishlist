@@ -4,3 +4,8 @@
 /usr/bin/sudo -u postgres /usr/bin/pg_dump -Fc itwishlist_postgresql_db > /opt/backups/postvac.gz
 SCHEMA_BACKUP="/opt/backups/$(date +%w).db.schema"
 sudo -u postgres /usr/bin/pg_dump -C -s itwishlist_postgresql_db > $SCHEMA_BACKUP
+
+or 
+
+su - postgres
+pg_dump itwishlist_postgresql_db | gzip > /opt/backups/itwishlist_postgresql_db_YYYY-MM-DD.gz

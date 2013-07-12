@@ -19,4 +19,4 @@ class PostForm(forms.ModelForm):
         self.fields['content_markdown'].widget.attrs['class'] = 'wmd-input'
         self.fields['content_markdown'].widget.attrs['id'] = 'wmd-input'
         # only active users should appear in observers field
-        self.fields['observers'].queryset = User.objects.filter(is_active=True)
+        self.fields['observers'].queryset = User.objects.filter(is_active=True).order_by('username')
