@@ -4,12 +4,6 @@
 
 <h4 id="writecomment">Your Comment <small>(<a data-toggle="modal" href="#markdownhelp" title="Click to see a cheatsheet of Markdown.">Markdown syntax</a> is supported)</small></h4>
 
-{% ifequal post.author request.user %}
-<div class="pull-right">
-{% if post.author.get_profile.user_photo %}<a href="/profiles/{{ post.author.username }}/"><img src="{% thumbnail post.author.get_profile.user_photo 24x24 crop %}" /></a>{% endif %} 
-</div>
-{% endifequal %}
-
    <form action="{% comment_form_target %}" method="post">{% csrf_token %}
         {# {% if next %}<input name="next" type="hidden" value="{{ next }}" />{% endif %} #}
         {% for field in form %}
@@ -36,11 +30,9 @@
                 <textarea id="wmd-input" class="wmd-input id_comment" name="comment" cols="40" rows="10">{{ field.value|default:'' }}</textarea>
             </div>
             <h5 class="normal quiet caps">Comment Preview</h5>
-            {% ifequal post.author request.user %}
             <div class="pull-right">
-            {% if post.author.get_profile.user_photo %}<a href="/profiles/{{ post.author.username }}/"><img src="{% thumbnail post.author.get_profile.user_photo 48x48 crop %}" /></a>{% endif %} 
+            {% if request.user.get_profile.user_photo %}<a href="/profiles/{{ request.user.username }}/"><img src="{% thumbnail request.user.get_profile.user_photo 24x24 crop %}" /></a>{% endif %} 
             </div>
-            {% endifequal %}
             <div id="wmd-preview"></div>
         {% endif %}
         {% endif %}
