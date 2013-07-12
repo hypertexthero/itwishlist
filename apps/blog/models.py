@@ -250,7 +250,10 @@ def new_comment(sender, instance, created, **kwargs):
         # observers also get notified when someone comments
         # http://stackoverflow.com/questions/4319469/queryset-object-has-no-attribute-error-trying-to-get-related-data-on-manytoma#comment4692576_4319476
         for user in instance.content_object.observers.all():
-            recipients.append(user)
+            # =todo: don't send duplicate emails to observers if they have also commented
+            # the line below should do this but it isn't doing it.
+            if user not in recipients:
+                recipients.append(user)
 
     notification.send(recipients, 'new_comment', context)
 # http://stackoverflow.com/a/1480174
