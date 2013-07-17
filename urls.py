@@ -40,7 +40,7 @@ urlpatterns = patterns("",
     url(r"^admin/invite_user/$", "pinax.apps.signup_codes.views.admin_invite_user", name="admin_invite_user"),
     url(r"^admin/", include(admin.site.urls)),
     # url(r"^about/", include("about.urls")),
-    url(r"^faq/$", direct_to_template, {"template": "faq.html"}, name="faq"),
+    # url(r"^faq/$", direct_to_template, {"template": "faq.html"}, name="faq"),
     url(r"^account/", include("pinax.apps.account.urls")),
     url(r"^openid/", include(PinaxConsumer().urls)),
     url(r"^profiles/", include("profiles.urls")), # NOTA BENE: that this is pointing to profiles/urls.py and not IDIOS app...
