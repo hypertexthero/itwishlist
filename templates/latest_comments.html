@@ -1,7 +1,7 @@
 <div class="well">
 {% load blog_tags %}
 <h3 class="normal">Latest Comments</h3>
-{% get_latest comments.Comment 10 as latest_comments %}
+{% get_latest_comments comments.Comment 10 as latest_comments %}
 {% for comment in latest_comments %} 
 <p class="smaller">
     <a style="font-weight:normal;" href="{{ comment.get_absolute_url }}" title="Permanent link to this comment.">{{comment.comment|truncatewords:20}}</a> by <a style="font-weight:normal;" href="/profiles/{{ comment.user.username }}">

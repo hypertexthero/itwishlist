@@ -1,0 +1,7 @@
+{% load blog_tags %}
+{% get_latest announcements.Announcement 1 as latest_announcement %}
+{% for announcement in latest_announcement %} 
+<p class="alert alert-block">
+    {{ announcement.content }}
+</p>
+{% endfor %}
