@@ -19,3 +19,5 @@ Naively-built website inspired by a well-known geek site to manage IT needs at w
 - User karma system - users with karma above a certain threshold get new abilities such as downvotes
 - Feeds & Content Export in Atom XML and JSON
 - Previous/Next entry by user
+
+[Some documentation is available](https://github.com/hypertexthero/itwishlist/tree/master/docs/documentation.md)
