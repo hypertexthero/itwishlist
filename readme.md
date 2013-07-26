@@ -5,6 +5,9 @@ Naively-built website inspired by a well-known geek site to manage IT needs at w
 ## Todo now
 
 - [Allow logins from users with details in existing separate user database](http://stackoverflow.com/questions/16482531/django-registration-custom-backend)
+    - <https://docs.djangoproject.com/en/1.3/howto/auth-remote-user/>
+    - <http://djangosnippets.org/snippets/2777/>
+    - <http://query7.com/django-authentication-backends>
 - Refactor ranking algorythm using [the function from Drum](http://blog.jupo.org/2013/04/30/building-social-apps-with-mezzanine-drum/)
 
 ## Todo in Future (upcoming features)
