@@ -24,7 +24,7 @@
             {# </div> #}
             
             <ul class="nav pull-right">
-                {% if user.is_staff %}
+                {% if user.is_superuser %}
                 <li><a href="{% url "admin:index" %}">{% trans "Admin" %}</a></li>
                 {% endif %}
                 <li><a href="{% url "acct_logout" %}">{{ user }}: {% trans "Log out" %}</a></li>
