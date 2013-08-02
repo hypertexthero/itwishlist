@@ -47,7 +47,7 @@ def blog_post_detail(request, *kargs, **kwargs):
         kwargs['queryset'] = kwargs['queryset'].filter(Q(status=IS_PUBLIC)|Q(status=DONE)|Q(status=IN_PROGRESS)|Q(status=KNOWLEDGE_BASE))
     return list_detail.object_detail(request, *kargs, **kwargs)
 
-@login_required
+# @login_required
 def blog_user_post_detail(request, *kargs, **kwargs):
     user = get_object_or_404(User, username=kwargs.pop('username', ''))
     # =todo: show vote on post detail page
