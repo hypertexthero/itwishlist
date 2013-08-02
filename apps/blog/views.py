@@ -36,7 +36,7 @@ from django.db.models import Q
 from django.views.generic.date_based import archive_index
 from django.views.generic.list_detail import object_list
 
-@login_required
+# @login_required
 def blog_post_detail(request, *kargs, **kwargs):
     blog = get_object_or_404(Blog, slug = kwargs.pop('blog', ''))
     kwargs['template_object_name'] = 'post'
