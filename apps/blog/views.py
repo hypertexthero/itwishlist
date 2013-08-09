@@ -260,7 +260,7 @@ def bug(request):
 def done(request): 
     """Done - Stuff that's been finished"""
     return object_list(request, 
-        queryset=Post.hot.most_loved().filter(status=DONE).order_by('-created_at')[:300], 
+        queryset=Post.hot.most_loved().filter(status=DONE).order_by('-updated_at')[:300], 
         template_name='done.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
@@ -270,7 +270,7 @@ def done(request):
 def inprogress(request): 
     """In Progress - Stuff that's in progress"""
     return object_list(request, 
-        queryset=Post.hot.most_loved().filter(status=IN_PROGRESS).order_by('-created_at')[:300], 
+        queryset=Post.hot.most_loved().filter(status=IN_PROGRESS).order_by('-updated_at')[:300], 
         template_name='inprogress.html',
         template_object_name='post',
         extra_context= {"profile": get_profiles}
