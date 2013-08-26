@@ -44,7 +44,8 @@ class LoginRequiredMixin(object):
 # class FileDetailView(FileMixin, DetailView):
 #     pass
 
-class FileDetailView(LoginRequiredMixin, DetailView):
+# class FileDetailView(LoginRequiredMixin, DetailView):
+class FileDetailView(DetailView):
     model = File
     template_name = 'fileupload/file_detail.html'
 
