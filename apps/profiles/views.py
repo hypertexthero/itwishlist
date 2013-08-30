@@ -90,3 +90,40 @@ class SquadXMLView(DetailView):
         )
 
         return ctx
+
+
+
+
+# =todo: authenticate against drupal users db
+# http://chirale.wordpress.com/2013/03/15/unified-login-in-django-and-drupal/
+# from django.contrib.auth.decorators import login_required
+# from django.conf import settings
+# import subprocess
+# 
+# @login_required
+# def sso(request):
+#    try:
+#        assert request.user.drupal_id > 0
+#        # user id to log in
+#        drupal_id = str(request.user.drupal_id)
+#        output = ""
+#        try:
+#            # DRUPAL_SITE_PATH is the absolute path to Drupal installation
+#            # DRUPAL_SITE_NAME is the Drupal site name, e.g. example.com
+#            output = check_output(["drush", "-r", settings.DRUPAL_SITE_PATH, "-l", settings.DRUPAL_SITE_NAME, "user-login", drupal_id])
+#        except CalledProcessError:
+#            # @todo add additional control statement?
+#            pass
+#        if output:
+#            # Declare DRUPAL_SITE_URL on settings.py and set it as 'www.example.com'
+#            #     your Drupal site name
+#            drupal_login_url = output.replace("http://ippcdrupal.dev/", "http://%s/" % settings.DRUPAL_SITE_URL).strip()
+#            # set Drupal login destination using DRUPAL_LOGIN_DESTINATION
+#            destination = "%s?destination=%s" % (drupal_login_url, settings.DRUPAL_LOGIN_DESTINATION)
+#            return redirect(destination)
+#        else:
+#            # no output from the drush command
+#            return HttpResponse('Wrong request')
+#    except AssertionError:
+#        # Drupal id is not assigned
+#        return HttpResponse('Not registered user')

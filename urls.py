@@ -41,6 +41,10 @@ urlpatterns = patterns("",
     url(r"^admin/", include(admin.site.urls)),
     # url(r"^about/", include("about.urls")),
     # url(r"^faq/$", direct_to_template, {"template": "faq.html"}, name="faq"),
+    
+    # =todo: authenticate against drupal users db
+    # url(r'^sso/$', 'django.contrib.auth.views.login'),
+    
     url(r"^account/", include("pinax.apps.account.urls")),
     url(r"^openid/", include(PinaxConsumer().urls)),
     url(r"^profiles/", include("profiles.urls")), # NOTA BENE: that this is pointing to profiles/urls.py and not IDIOS app...
@@ -57,6 +61,8 @@ urlpatterns = patterns("",
     url(r'^post/$', 'itwishlist.apps.blog.views.add', name='blog_add'),
     # url(r'^b/', include('blogs.short_urls')), # For short urls, if you want
     url(r'^feeds/posts/(?P<url>w+)/', 'django.contrib.syndication.views.feed', blogs_feed_dict),
+    # todo: upgrade to django 1.4
+    # url(r'^feeds/posts/(?P<url>w+)/', 'django.contrib.syndication.views.Feed', blogs_feed_dict),
     url(r'^search/$', 'itwishlist.apps.blog.views.search', name="search"),
     url(r'^files/', include('itwishlist.apps.fileupload.urls')),
     )

@@ -24,6 +24,9 @@ python-openid==2.2.5
 django-announcements==0.1.2
 django-pagination==1.0.7
 django-notification==0.2
+# =todo: upgrade to django 1.4
+# git+https://github.com/hypertexthero/django-notification#egg=django-notification
+https://github.com/yourcelf/django-notification
 idios==0.2a1
 metron==0.1
 

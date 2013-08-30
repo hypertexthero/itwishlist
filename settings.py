@@ -75,6 +75,9 @@ CACHES = {
 TEMPLATE_LOADERS = [
     "django.template.loaders.filesystem.load_template_source",
     "django.template.loaders.app_directories.load_template_source",
+    # =todo: upgrade to django 1.4
+    # "django.template.loaders.filesystem.Loader",
+    # "django.template.loaders.app_directories.Loader",
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -166,6 +169,8 @@ INSTALLED_APPS = [
     "fileupload",
     
     "gunicorn",
+    # =todo: authenticate against drupal users db
+    # "ippcdrupal",
     # http://docs.gunicorn.org/en/latest/run.html
     # START:
     # gunicorn --daemon wsgi:application
@@ -195,10 +200,24 @@ AUTH_PROFILE_MODULE = "profiles.Profile"
 NOTIFICATION_LANGUAGE_MODULE = "account.Account"
 
 AUTHENTICATION_BACKENDS = [
+    # =todo: authenticate against drupal users db
+    # 'ippcdrupal.auth_backends.DrupalUserAuthBackend',
     "pinax.apps.account.auth_backends.AuthenticationBackend",
 ]
 
+# =todo: authenticate against drupal users db
+# DRUPAL_SITE_PATH is the absolute path to Drupal installation
+# DRUPAL_SITE_PATH = "/path/to/drupalsitename/"
+# DRUPAL_SITE_NAME is the Drupal site name, e.g. example.com
+# DRUPAL_SITE_NAME = "drupalsitename.tld"
+
 LOGIN_URL = "/account/login/" # @@@ any way this can be a url name?
+
+# =todo: authenticate against drupal users db
+# LOGIN_URL = '/sso/'
+# =todo: authenticate against drupal users db
+# LOGIN_REDIRECT_URLNAME = 'profiles.views.sso'
+
 LOGIN_REDIRECT_URLNAME = "desk"
 LOGOUT_REDIRECT_URLNAME = "home"
 
